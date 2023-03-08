@@ -1,0 +1,36 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --primary__color: #2ca01c;
+  --primary__color-hover: #35bf22;
+  --primary__color-active: #248b15;
+  --while__color: #ffffff;
+  --background__color: #eceef1;
+  --menu__color: #393a3d;
+  --menu__color-active: #58595d;
+  --text__while-color: #ffffff;
+  --black__color: #000000;
+  --border-icon__color: #babec5;
+  --border-icon__color-hover: #6b6c72;
+  --text__color: #111111;
+  --height__header: 48px;
+  --primary__button-height: 34px;
+  --input__height: 32px;
+  --border__input: #babec5;
+  --url__icon: url("./image/Sprites.64af8f61.svg");
+  --url__icon2: url("./image/Sprites.d78db031.svg");
+  --url__loader: url("./image/loading.svg");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "notosans-regular";
+  overflow: hidden;
+}

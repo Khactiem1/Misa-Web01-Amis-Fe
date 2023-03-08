@@ -1,0 +1,38 @@
+.btn{
+    border: 1px solid transparent;
+    color: var(--text__color);
+    font-family: "notosans-bold";  
+    border: solid 1px #8d9096;;
+    padding: 0 19px;
+    cursor: pointer;
+    outline: none;
+    min-width: 80px;
+    border-radius: 3px;
+    height: var(--primary__button-height);
+    background-color: var(--while__color);
+}
+.btn-radius{
+  border-radius: 30px;
+}
+.btn:focus{
+    box-shadow: 0 0 0 4px #e0e0e0;
+}
+.btn:hover{
+    background-color: #d2d3d6;
+}
+.btn:active{
+    background-color: #bbbcbc;
+}
+.btn.btn-success{
+    border: solid 1px var(--primary__color);
+    color: var(--while__color);
+    background-color: var(--primary__color);
+}
+.btn.btn-success:hover{
+    background-color: var(--primary__color-hover);
+    border: solid 1px var(--primary__color-hover);
+}
+.btn.btn-success:active{
+    background-color: var(--primary__color-active);
+    border: solid 1px var(--primary__color-active);
+}

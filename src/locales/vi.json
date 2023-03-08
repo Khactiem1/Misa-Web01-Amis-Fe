@@ -1,0 +1,56 @@
+{
+  "page": {
+    "default": "Xin chào",
+    "home": "Trang chủ",
+    "not_found": "Trang không tồn tại",
+    "login": "Đăng nhập",
+    "cash_main": "Tiền mặt",
+    "employee": "Nhân viên",
+    "inventory_main": "Kho",
+    "inventory_item": "Hàng hoá dịch vụ"
+  },
+  "gender": {
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác"
+  },
+  "common": {
+    "language": "Ngôn ngữ",
+    "gender" : "Giới tính",
+    "status" : "Trạng thái",
+    "stopUsing": "Ngừng sử dụng",
+    "using": "đang sử dụng",
+    "search": "Tìm kiếm",
+    "add": "Thêm",
+    "edit": "Sửa",
+    "delete": "Xoá",
+    "use": "Sử dụng",
+    "replication": "Nhân bản",
+    "phoneNumber" : "Số điện thoại",
+    "address" : "Địa chỉ",
+    "dateOfBirth" : "Ngày sinh",
+    "all": "Tất cả",
+    "have": "Có",
+    "no": "Không"
+  },
+  "module": {
+    "cash": {
+      "employee": "Nhân viên",
+      "employeeCode" : "Mã nhân viên",
+      "employeeName" : "Tên nhân viên",
+      "branchBank" : "Chi nhánh ngân hàng",
+      "identityCard" : "Số chứng minh",
+      "employeeTitle" : "Chức danh",
+      "branchName" : "Tên đơn vị",
+      "bankAccount" : "Số tài khoản",
+      "nameBank" : "Tên ngân hàng",
+      "dayForIdentity" : "Ngày cấp chứng minh",
+      "grantAddressIdentity" : "Nơi cấp chứng minh",
+      "landlinePhone" : "Điện thoại cố định",
+      "employeeEmail" : "Địa chỉ email",
+      "isActive" : "Trạng thái",
+      "isCustomer": "Là khách hàng",
+      "isVendor": "Là nhà cung cấp"
+    }
+  }
+}
