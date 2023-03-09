@@ -86,7 +86,7 @@ export default class BaseStore {
          * Khắc Tiềm - 08.03.2023
          */
         setToggleShowColumnTableMutation(state: any, payload: any) {
-          state.columns[payload].isShow = !state.columns[payload].isShow;
+          state.columns[payload].IsShow = !state.columns[payload].IsShow;
         },
 
         /**

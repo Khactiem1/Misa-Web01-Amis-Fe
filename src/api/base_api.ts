@@ -15,7 +15,7 @@ export default class BaseApi{
    */
   public getRecordList(filter: Filter){
     return axiosAPI.post(`/${this.Module}/fitter`, filter);
-  };
+  }
 
   /**
    * API thêm bản ghi
@@ -24,7 +24,7 @@ export default class BaseApi{
    */
   public createRecordApi(record: any){
     return axiosAPI.post(`/${this.Module}`, record)
-  };
+  }
 
   /**
    * API lấy chi tiết bản ghi theo id
@@ -33,7 +33,7 @@ export default class BaseApi{
    */
   public getRecordApi(id: string){
     return axiosAPI.get(`/${this.Module}/${id}`);
-  };
+  }
 
   /**
    * API Sửa bản ghi
@@ -42,7 +42,7 @@ export default class BaseApi{
    */
   public editRecordApi(record: any){
     return axiosAPI.put(`/${this.Module}/${record[`${this.Module}ID`]}`, record);
-  };
+  }
 
   /**
    * API xoá bản ghi
@@ -51,7 +51,7 @@ export default class BaseApi{
    */
   public deleteRecordApi(id: string){
     return axiosAPI.delete(`/${this.Module}/${id}`)
-  };
+  }
 
   /**
    * API lấy mã bản ghi mới
@@ -60,7 +60,7 @@ export default class BaseApi{
    */
   public nextValue(){
     return axiosAPI.get(`/${this.Module}/next_value`);
-  };
+  }
 
   /**
    * API xoá nhiều bản ghi
@@ -68,7 +68,7 @@ export default class BaseApi{
    */
   public deleteMultipleApi(listID: string []){
     return axiosAPI.post(`/${this.Module}/bulk_delete`, listID);
-  };
+  }
 
   /**
    * API export data 
@@ -77,7 +77,7 @@ export default class BaseApi{
    */
   public exportDataApi(){
     return axiosAPI.get(`/${this.Module}/export_data`);
-  };
+  }
 
   /**
    * API Active toggle sử dụng
@@ -85,5 +85,5 @@ export default class BaseApi{
    */
   public toggleActiveApi(id: string){
     return axiosAPI.get(`/${this.Module}/ToggleActive/${id}`);
-  };
+  }
 }

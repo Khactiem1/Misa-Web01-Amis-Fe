@@ -31,7 +31,8 @@
     "dateOfBirth" : "Ngày sinh",
     "all": "Tất cả",
     "yes": "Có",
-    "no": "Không"
+    "no": "Không",
+    "cancel": "Huỷ bỏ"
   },
   "module": {
     "cash": {
@@ -51,6 +52,12 @@
       "isCustomer": "Là khách hàng",
       "isVendor": "Là nhà cung cấp"
     }
+  },
+  "calendar": {
+    "year": "Năm",
+    "month": "Tháng",
+    "day": "Ngày",
+    "today": "Hôm nay"
   },
   "notification": {
     "no": "Không",

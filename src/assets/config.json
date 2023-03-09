@@ -1,8 +1,10 @@
 {
-  "CURRENT_USER": "CURRENT_USER",
+  "CURRENT_USER": "current_user",
   "LANG": "lang",
   "CURRENT_LANG": "en",
   "LOCAL_LANG": "vi",
   "LOCAL": "local",
-  "EN": "en"
+  "EN": "en",
+  "PAGE_SIZE": "page_size",
+  "CURRENT_PAGE": "20"
 }

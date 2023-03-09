@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
-import employee from './module/employee';
 import config from './module/config';
+import employee from './module/employee';
 
 const store = createStore({
   modules: {

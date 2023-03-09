@@ -1,10 +1,17 @@
 import { EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
+import { useStore } from "vuex";
 
 /**
  * Chứa các hàm base đã xây dựng
  * Khắc Tiềm - 08.03.2023
  */
 export class Utils{
+  /** Module đang hoạt động kế thừa lớp */
+  public Module: string;
+
+  /** Store vuex */
+  public store = useStore();
+
   /** Số lượng bản ghi trên 1 trang */
   public PageSize: number;
   /**
@@ -28,7 +35,9 @@ export class Utils{
   /**
    * Hàm khởi tạo lấy ra page size
    */
-  constructor(){
+  constructor(module: string = ''){
+    this.Module = module;
+
     /** Kiểm tra xem PageSize được lưu trong local strore hay chưa, nếu chưa lưu thì tiến hành lưu lại với giá trị mặc định */
     try {
       if(!StorageService.getItemWithSystemConstants(EntitySystem.PageSize)){
@@ -144,19 +153,19 @@ export class Utils{
   */
   public formatDateDDMMYYYY(date: any) {
     if (!date) {
-      return null;
+      return '';
     } 
     else {
       const d = new Date(date);
-      let getMonth = d.getMonth() + 1 + "";
+      let getMonth = d.getMonth() + 1 + '';
       if (getMonth.length === 1) {
         getMonth = `0${getMonth}`;
       }
-      let getDate = d.getDate() + "";
+      let getDate = d.getDate() + '';
       if (getDate.length === 1) {
         getDate = `0${getDate}`;
       }
-      return [getDate, getMonth, d.getFullYear()].join("/");
+      return [getDate, getMonth, d.getFullYear()].join('/');
     }
   }
 
@@ -168,7 +177,7 @@ export class Utils{
    */
   public formatDateYYYYMMDD(date: any){
     if (!date) {
-      return null;
+      return '';
     } else {
       const d = new Date(date);
       let getMonth = d.getMonth() + 1 + "";
@@ -246,7 +255,7 @@ export class Utils{
    * Khắc Tiềm - 15.09.2022
    */
   public validateEmail(email: any){
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //eslint-disable-line
     return regex.test(email);
   }
 
@@ -257,7 +266,7 @@ export class Utils{
    * Khắc Tiềm - 15.09.2022
    */
   public validatePhone(sdt: any){
-    const regex = /(03|02|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+    const regex = /(03|02|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/; //eslint-disable-line
     return regex.test(sdt);
   }
 }

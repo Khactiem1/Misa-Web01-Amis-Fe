@@ -31,12 +31,13 @@
     "dateOfBirth" : "Date of birth",
     "all": "All",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "cancel": "Cancel"
   },
   "module": {
     "cash": {
       "employee": "Employee",
-      "employeeCode" : "Employee codde",
+      "employeeCode" : "Employee code",
       "employeeName" : "Employee name",
       "branchBank" : "Branch bank",
       "identityCard" : "Identity card",
@@ -51,6 +52,12 @@
       "isCustomer": "Is customer",
       "isVendor": "Is vendor"
     }
+  },
+  "calendar": {
+    "year": "Year",
+    "month": "Month",
+    "day": "Day",
+    "today": "Today"
   },
   "notification": {
     "no": "No",

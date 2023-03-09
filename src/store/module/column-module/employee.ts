@@ -1,4 +1,4 @@
-import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, TypeFormat } from "@/core/public_api";
+import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType } from "@/core/public_api";
 import i18n from '@/locales/i18n';
 
 /**
@@ -151,6 +151,14 @@ columns.forEach((item: Header, index)=> {
   }
   if(item.Field === 'isActive'){
     columns[index].TypeFormat.IsActive = true;
+  }
+  if(item.Field === 'isVendor'){
+    columns[index].TypeFormat.CheckBox = true;
+    columns[index].TypeFormat.LockCheckBox = true;
+  }
+  if(item.Field === 'isCustomer'){
+    columns[index].TypeFormat.CheckBox = true;
+    columns[index].TypeFormat.LockCheckBox = true;
   }
 })
 

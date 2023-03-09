@@ -4,13 +4,13 @@
  */
 export enum Gender{
   /** Nam */
-  Male = 1,
+  Male = 0,
 
   /** Nữ */
-  Female = 2,
+  Female = 1,
   
   /** Khác */
-  Other = 0,
+  Other = 2,
 }
 
 /**
