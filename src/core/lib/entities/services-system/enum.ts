@@ -2,52 +2,67 @@
  * Giới tính
  * Khắc Tiềm - 08.03.2023
  */
-export class Gender{
+export enum Gender{
   /** Nam */
-  public static Male: number = 1;
+  Male = 1,
 
   /** Nữ */
-  public static Female: number = 2;
+  Female = 2,
   
   /** Khác */
-  public static Other: number = 0;
+  Other = 0,
+}
+
+/**
+ * Lưu các trạng thái thông báo 
+ * Khắc Tiềm - 08.03.2023
+ */
+export enum ENotificationType {
+  /** Thành công */
+  Success = 1,
+
+  /** Thất bại */
+  Error = 2,
+
+  /** Cảnh báo */
+  Wanning = 3,
 }
 
 /**
  * Mã phím
  * Khắc Tiềm - 08.03.2023
  */
-export class KeyCode {
+export enum KeyCode {
   /** Phím ESC */
-  public static Esc: number = 27;
+  Esc = 27,
 
   /** Phím CTRL */
-  public static Ctrl: number = 17;
+  Ctrl = 17,
 
   /** Phím ALT */
-  public static Alt: number = 18;
+  Alt = 18,
 
   /** Phím A */
-  public static A: number = 65;
+  A = 65,
 
   /** Phím SHIFT */
-  public static Shift: number = 16;
+  Shift = 16,
 
   /** Phím S */
-  public static S: number = 83;
+  S = 83,
 
   /** Phím UP */
-  public static Up: number = 38;
+  Up = 38,
 
   /** Phím DOWN */
-  public static Down: number = 40;
+  Down = 40,
 
   /** Phím BACK */
-  public static Back: number = 8;
+  Back = 8,
 
   /** Phím ENTER */
-  public static Enter: number = 13;
+  Enter = 13,
 
   /** Phím TAB */
-  public static Tab: number = 9;
+  Tab = 9,
 }

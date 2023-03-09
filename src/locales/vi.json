@@ -30,7 +30,7 @@
     "address" : "Địa chỉ",
     "dateOfBirth" : "Ngày sinh",
     "all": "Tất cả",
-    "have": "Có",
+    "yes": "Có",
     "no": "Không"
   },
   "module": {
@@ -48,9 +48,20 @@
       "grantAddressIdentity" : "Nơi cấp chứng minh",
       "landlinePhone" : "Điện thoại cố định",
       "employeeEmail" : "Địa chỉ email",
-      "isActive" : "Trạng thái",
       "isCustomer": "Là khách hàng",
       "isVendor": "Là nhà cung cấp"
+    }
+  },
+  "notification": {
+    "no": "Không",
+    "yes": "Có",
+    "close": "Đóng",
+    "destroy": "Huỷ"
+  },
+  "message": {
+    "api": {
+      "error_internet": "Đã xảy ra lỗi mạng.",
+      "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa."
     }
   }
 }

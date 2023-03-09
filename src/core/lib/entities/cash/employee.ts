@@ -1,4 +1,4 @@
-import type { Gender } from "@/core/public_api";
+import { Gender } from "@/core/public_api";
 
 /**
  * Nhân viên
@@ -11,7 +11,7 @@ export class Employee {
   public employeeName: string;
 
   /** Giới tính */
-  public gender: Gender;
+  public gender: Gender = Gender.Male;
 
   /** Ngày sinh */
   public dateOfBirth: Date;

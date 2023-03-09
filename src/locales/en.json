@@ -16,41 +16,52 @@
   },
   "common": {
     "language": "Language",
-    "gender" : "Giới tính",
-    "status" : "Trạng thái",
-    "stopUsing": "Ngừng sử dụng",
-    "using": "đang sử dụng",
-    "search": "Tìm kiếm",
-    "add": "Thêm",
-    "edit": "Sửa",
-    "delete": "Xoá",
-    "use": "Sử dụng",
-    "replication": "Nhân bản",
-    "phoneNumber" : "Số điện thoại",
-    "address" : "Địa chỉ",
-    "dateOfBirth" : "Ngày sinh",
-    "all": "Tất cả",
-    "have": "Có",
-    "no": "Không"
+    "gender" : "Gender",
+    "status" : "Status",
+    "stopUsing": "Stop Using",
+    "using": "Using",
+    "search": "Search",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "use": "Use",
+    "replication": "Replication",
+    "phoneNumber" : "Phone Number",
+    "address" : "Address",
+    "dateOfBirth" : "Date of birth",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No"
   },
   "module": {
     "cash": {
-      "employee": "Nhân viên",
-      "employeeCode" : "Mã nhân viên",
-      "employeeName" : "Tên nhân viên",
-      "branchBank" : "Chi nhánh ngân hàng",
-      "identityCard" : "Số chứng minh",
-      "employeeTitle" : "Chức danh",
-      "branchName" : "Tên đơn vị",
-      "bankAccount" : "Số tài khoản",
-      "nameBank" : "Tên ngân hàng",
-      "dayForIdentity" : "Ngày cấp chứng minh",
-      "grantAddressIdentity" : "Nơi cấp chứng minh",
-      "landlinePhone" : "Điện thoại cố định",
-      "employeeEmail" : "Địa chỉ email",
-      "isActive" : "Trạng thái",
-      "isCustomer": "Là khách hàng",
-      "isVendor": "Là nhà cung cấp"
+      "employee": "Employee",
+      "employeeCode" : "Employee codde",
+      "employeeName" : "Employee name",
+      "branchBank" : "Branch bank",
+      "identityCard" : "Identity card",
+      "employeeTitle" : "Title",
+      "branchName" : "Branch name",
+      "bankAccount" : "Bank account",
+      "nameBank" : "Name bank",
+      "dayForIdentity" : "Day for identity",
+      "grantAddressIdentity" : "Grant address identity",
+      "landlinePhone" : "Landline phone",
+      "employeeEmail" : "Email address",
+      "isCustomer": "Is customer",
+      "isVendor": "Is vendor"
+    }
+  },
+  "notification": {
+    "no": "No",
+    "yes": "Yes",
+    "close": "Close",
+    "destroy": "Destroy"
+  },
+  "message": {
+    "api": {
+      "error_internet": "A network error has occurred.",
+      "exception": "Something went wrong, please contact Misa."
     }
   }
 }

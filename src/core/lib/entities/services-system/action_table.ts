@@ -146,44 +146,57 @@ export class ComparisonType {
  * Khắc Tiềm - 08.03.2023
  */
 export class Header {
+  constructor(field: string = '', header: string = '', width: string = '100px', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
+    this.Field = field;
+    this.IsShow = isShow;
+    this.Header = header;
+    this.Filter = filter;
+    this.Width = width;
+    this.TypeFormat = typeFormat;
+  }
   /** Tên field */
-  public field: string = '';
+  public Field;
 
   /** Có hiển thị hay không */
-  public isShow: boolean = true;
+  public IsShow;
 
   /** Tên hiển thị lên header table */
-  public header: string = '';
+  public Header;
 
   /** Config dữ liệu lọc theo header đầu vào */
-  public filter: FilterHeaderIn = new FilterHeaderIn();
-
-  /** Có là trường hoạt động, không hoạt động */
-  public isActive?: boolean = false;
+  public Filter: FilterHeaderIn;
 
   /** Chiều rộng */
-  public width: string = '';
+  public Width;
+
+  /** kiểu dữ liệu so format lên table */
+  public TypeFormat: TypeFormat;
+}
+
+export class TypeFormat {
+  /** Có là trường hoạt động, không hoạt động */
+  public IsActive?: boolean = false;
 
   /** Căn chữ */
-  public textAlign?: string = '';
+  public TextAlign?: string = '';
 
   /** Format ngày tháng năm */
-  public formatDate?: boolean = false;
+  public FormatDate?: boolean = false;
 
   /** Format kiểu số */
-  public fractionSize?: boolean = false;
+  public FractionSize?: boolean = false;
 
   /** Kiểu dịch vụ */
-  public isNature?: boolean = false;
+  public IsNature?: boolean = false;
 
   /** Là giới tính ? */
-  public isGender?: boolean = false;
+  public IsGender?: boolean = false;
 
   /** Là check box */
-  public checkBox?: boolean = false;
+  public CheckBox?: boolean = false;
 
   /** Lock Checkbox */
-  public lockCheckBox?: boolean = false;
+  public LockCheckBox?: boolean = false;
 }
 
 /**

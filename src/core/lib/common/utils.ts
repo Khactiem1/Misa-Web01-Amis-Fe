@@ -29,15 +29,16 @@ export class Utils{
    * Hàm khởi tạo lấy ra page size
    */
   constructor(){
+    /** Kiểm tra xem PageSize được lưu trong local strore hay chưa, nếu chưa lưu thì tiến hành lưu lại với giá trị mặc định */
     try {
-      if(!StorageService.getItem(SystemConstants.get(EntitySystem.PageSize))){
-        StorageService.setItem(SystemConstants.get(EntitySystem.PageSize), SystemConstants.get(EntitySystem.CurrentPage))
+      if(!StorageService.getItemWithSystemConstants(EntitySystem.PageSize)){
+        StorageService.setItemWithSystemConstants(EntitySystem.PageSize, SystemConstants.get(EntitySystem.CurrentPage))
       }
-      this.PageSize = Number(StorageService.getItem(SystemConstants.get(EntitySystem.PageSize)));
+      this.PageSize = Number(StorageService.getItemWithSystemConstants(EntitySystem.PageSize));
     } catch (e) {
       console.log(e);
-      StorageService.setItem(SystemConstants.get(EntitySystem.PageSize), SystemConstants.get(EntitySystem.CurrentPage))
-      this.PageSize = Number(StorageService.getItem(SystemConstants.get(EntitySystem.PageSize)));
+      StorageService.setItemWithSystemConstants(EntitySystem.PageSize, SystemConstants.get(EntitySystem.CurrentPage))
+      this.PageSize = Number(StorageService.getItemWithSystemConstants(EntitySystem.PageSize));
     }
   }
   /**
@@ -236,5 +237,27 @@ export class Utils{
       }
     });
     return data;
+  }
+
+  /**
+   * Hàm xử lý kiểm tra định dạng email
+   * @param {Email cần validate} email 
+   * @returns Trả về true là định dạng đúng và false là định dạng sai
+   * Khắc Tiềm - 15.09.2022
+   */
+  public validateEmail(email: any){
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(email);
+  }
+
+  /**
+   * Hàm xử lý kiểm tra định dạng sdt
+   * @param {sdt cần validate} sdt 
+   * @returns Trả về true là định dạng đúng và false là định dạng sai
+   * Khắc Tiềm - 15.09.2022
+   */
+  public validatePhone(sdt: any){
+    const regex = /(03|02|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+    return regex.test(sdt);
   }
 }

@@ -8,8 +8,13 @@ import viMessage from './vi.json';
  * nếu chưa lưu thì tiến hành lưu lại ngôn ngữ mặc định được cấu hình trong file config.prod.json
  * Khắc Tiềm - 08.03.2023
  */
-if(!StorageService.getItem(SystemConstants.get(EntitySystem.Lang))){
-  StorageService.setItem(SystemConstants.get(EntitySystem.Lang), SystemConstants.get(EntitySystem.LocalLang))
+try {
+  if(!StorageService.getItemWithSystemConstants(EntitySystem.Lang)){
+    StorageService.setItemWithSystemConstants(EntitySystem.Lang, SystemConstants.get(EntitySystem.LocalLang))
+  }
+} catch (e) {
+  StorageService.setItemWithSystemConstants(EntitySystem.Lang, SystemConstants.get(EntitySystem.LocalLang))
+  console.log(e);
 }
 
 /**
@@ -18,12 +23,12 @@ if(!StorageService.getItem(SystemConstants.get(EntitySystem.Lang))){
  */
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
-  locale: StorageService.getItem(SystemConstants.get(EntitySystem.Lang)) || SystemConstants.get(EntitySystem.LocalLang),
+  locale: StorageService.getItemWithSystemConstants(EntitySystem.Lang) || SystemConstants.get(EntitySystem.LocalLang),
   messages: {
     vi: viMessage,
     en: enMessage
   },
-  fallbackLocale: StorageService.getItem(SystemConstants.get(EntitySystem.Lang)) || SystemConstants.get(EntitySystem.LocalLang)
+  fallbackLocale: StorageService.getItemWithSystemConstants(EntitySystem.Lang) || SystemConstants.get(EntitySystem.LocalLang)
 })
 
 export default i18n;

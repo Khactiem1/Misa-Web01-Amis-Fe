@@ -9,7 +9,7 @@ import { defineComponent, reactive } from 'vue';
 export default defineComponent({
 	setup(){
 		const Base = reactive(new Grid(ModuleName.Employee));
-		
+		console.log(Base.columns);
 	}
 })
 </script>

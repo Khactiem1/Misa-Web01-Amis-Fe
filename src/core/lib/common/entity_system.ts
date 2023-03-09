@@ -11,5 +11,4 @@ export class EntitySystem {
     public static En: string = 'EN';
     public static PageSize: string = 'PAGE_SIZE';
     public static CurrentPage: string = 'CURRENT_PAGE';
-
 }
