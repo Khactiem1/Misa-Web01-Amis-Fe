@@ -18,22 +18,23 @@
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-export default {
+
+export default defineComponent({
   setup() {
     /**
      * Biến store vuex
      * Khắc Tiềm - 15.09.2022
      */
-    const store = useStore();
+    const store: any = useStore();
 
     /**
      * Lấy ra trạng thái show sidebar
      * Khắc Tiềm - 15.09.2022
      */
-    const showSidebar = computed(() => store.state.config.showSidebar);
+    const showSidebar: any = computed(() => store.state.config.showSidebar);
     
     /**
      * Hàm sử lý sự kiện toggle sidebar
@@ -47,7 +48,7 @@ export default {
       handleToggleSidebar,
     };
   },
-};
+});
 </script>
 
 <style scoped>

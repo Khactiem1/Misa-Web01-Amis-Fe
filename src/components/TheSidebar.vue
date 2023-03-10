@@ -4,7 +4,7 @@
       <a v-if="showSidebar" class="logo-sidebar_home"></a>
       <a v-if="showSidebar" class="logo-sidebar_menu">
         <img
-          src="../../public/asset/logo/logo_event_trungthu.090d014b.svg" alt=""
+          src="../../public/assets/logo_event_trungthu.090d014b.svg" alt=""
         />
       </a>
       <div v-if="!showSidebar" @click="handleToggleSidebar" class="logo-sidebar_active"></div>
@@ -15,49 +15,49 @@
           style="background-position: -30px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Tổng quan</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.dashboard') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Tổng quan
+          {{ $t('page.dashboard') }}
         </div>
       </router-link>
-      <router-link to="/nhanvien" class="menu-sidebar_item nhanvien-page">
+      <router-link to="/cash" class="menu-sidebar_item nhanvien-page">
         <div
           style="background-position: -73px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Tiền mặt</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.cash_main') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Tiền mặt
+          {{ $t('page.cash_main') }}
         </div>
       </router-link>
-      <router-link to="/warehouse" class="menu-sidebar_item warehouse-page">
+      <router-link to="/inventory" class="menu-sidebar_item warehouse-page">
         <div
           style="background-position: -291px -1628px;"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Kho</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.inventory_main') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Kho
+          {{ $t('page.inventory_main') }}
         </div>
       </router-link>
-      <a class="menu-sidebar_item">
+      <router-link to="/test404ssssss" class="menu-sidebar_item">
         <div
           style="background-position: -117px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Tiền gửi</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.deposits') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Tiền gửi
+          {{ $t('page.deposits') }}
         </div>
-      </a>
+      </router-link>
       <a class="menu-sidebar_item">
         <div
           style="background-position: -161px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Mua hàng</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.purchase') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Mua hàng
+          {{ $t('page.purchase') }}
         </div>
       </a>
       <a class="menu-sidebar_item">
@@ -65,59 +65,9 @@
           style="background-position: -204px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Bán hàng</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.sell') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Bán hàng
-        </div>
-      </a>
-      <router-link to="/test404ssssss" class="menu-sidebar_item dashboard-page">
-        <div
-          style="background-position: -30px -1628px"
-          class="menu-sidebar_icon"
-        ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Quản lý hoá đơn</div>
-        <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Quản lý hoá đơn
-        </div>
-      </router-link>
-      <a class="menu-sidebar_item nhanvien-page">
-        <div
-          style="background-position: -73px -1628px"
-          class="menu-sidebar_icon"
-        ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Công cụ dụng cụ</div>
-        <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Công cụ dụng cụ
-        </div>
-      </a>
-      <a class="menu-sidebar_item">
-        <div
-          style="background-position: -117px -1628px"
-          class="menu-sidebar_icon"
-        ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Tài sản cố định</div>
-        <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Tài sản cố định
-        </div>
-      </a>
-      <a class="menu-sidebar_item">
-        <div
-          style="background-position: -161px -1628px"
-          class="menu-sidebar_icon"
-        ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Tiền lương</div>
-        <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Tiền lương
-        </div>
-      </a>
-      <a class="menu-sidebar_item">
-        <div
-          style="background-position: -204px -1628px"
-          class="menu-sidebar_icon"
-        ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Thuế</div>
-        <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Thuế
+          {{ $t('page.sell') }}
         </div>
       </a>
       <a class="menu-sidebar_item dashboard-page">
@@ -125,31 +75,82 @@
           style="background-position: -30px -1628px"
           class="menu-sidebar_icon"
         ></div>
-        <div v-if="showSidebar" class="menu-sidebar_text">Giá thành</div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.manage_invoices') }}</div>
         <div v-if="!showSidebar" class="menu-sidebar_item-info">
-          Giá thành
+          {{ $t('page.manage_invoices') }}
+        </div>
+      </a>
+      <a class="menu-sidebar_item nhanvien-page">
+        <div
+          style="background-position: -73px -1628px"
+          class="menu-sidebar_icon"
+        ></div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.tools') }}</div>
+        <div v-if="!showSidebar" class="menu-sidebar_item-info">
+          {{ $t('page.tools') }}
+        </div>
+      </a>
+      <a class="menu-sidebar_item">
+        <div
+          style="background-position: -117px -1628px"
+          class="menu-sidebar_icon"
+        ></div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.fixed_assets') }}</div>
+        <div v-if="!showSidebar" class="menu-sidebar_item-info">
+          {{ $t('page.fixed_assets') }}
+        </div>
+      </a>
+      <a class="menu-sidebar_item">
+        <div
+          style="background-position: -161px -1628px"
+          class="menu-sidebar_icon"
+        ></div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.salary') }}</div>
+        <div v-if="!showSidebar" class="menu-sidebar_item-info">
+          {{ $t('page.salary') }}
+        </div>
+      </a>
+      <a class="menu-sidebar_item">
+        <div
+          style="background-position: -204px -1628px"
+          class="menu-sidebar_icon"
+        ></div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.tax') }}</div>
+        <div v-if="!showSidebar" class="menu-sidebar_item-info">
+          {{ $t('page.tax') }}
+        </div>
+      </a>
+      <a class="menu-sidebar_item dashboard-page">
+        <div
+          style="background-position: -30px -1628px"
+          class="menu-sidebar_icon"
+        ></div>
+        <div v-if="showSidebar" class="menu-sidebar_text">{{ $t('page.price') }}</div>
+        <div v-if="!showSidebar" class="menu-sidebar_item-info">
+          {{ $t('page.price') }}
         </div>
       </a>
     </div>
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-export default {
+
+export default defineComponent({
   setup(){
     /**
      * Biến store vuex
      * Khắc Tiềm - 15.09.2022
      */
-    const store = useStore();
+    const store: any = useStore();
 
     /**
      * Lấy ra trạng thái show sidebar
      * Khắc Tiềm - 15.09.2022
      */
-    let showSidebar = computed(() => store.state.config.showSidebar);
+    let showSidebar: any = computed(() => store.state.config.showSidebar);
     
     /**
      * Hàm sử lý sự kiện toggle sidebar
@@ -164,7 +165,7 @@ export default {
     }
   }
 
-};
+});
 </script>
 
 <style scoped>

@@ -8,11 +8,12 @@
   </div>
 </template>
 
-<script>
-import TheTopMessage from "./TheTopMessage.vue";
+<script lang="ts">
 import { useStore } from "vuex";
-import { computed } from "vue";
-export default {
+import { computed, defineComponent, defineAsyncComponent } from "vue";
+const TheTopMessage = defineAsyncComponent(() => import('./TheTopMessage.vue'))
+
+export default defineComponent({
   components: {
     TheTopMessage,
   },
@@ -27,12 +28,12 @@ export default {
      * Chứa các thông báo
      * Khắc Tiềm - 15.09.2022
      */
-    const notifications = computed(() => store.state.config.notifications);
+    const notifications: any = computed(() => store.state.config.notifications);
     return {
       notifications,
     }
   }
-};
+});
 </script>
 
 <style>

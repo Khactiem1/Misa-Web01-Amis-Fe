@@ -7,7 +7,17 @@
     "cash_main": "Tiền mặt",
     "employee": "Nhân viên",
     "inventory_main": "Kho",
-    "inventory_item": "Hàng hoá dịch vụ"
+    "inventory_item": "Hàng hoá dịch vụ",
+    "dashboard": "Tổng quan",
+    "deposits": "Tiền gửi",
+    "purchase": "Mua hàng",
+    "sell": "Bán hàng",
+    "manage_invoices": "Quản lý hoá đơn",
+    "tools": "Công cụ dụng cụ",
+    "fixed_assets": "Tài sản cố định",
+    "salary": "Tiền lương",
+    "tax": "Thuế",
+    "price": "Giá thành"
   },
   "gender": {
     "male": "Nam",

@@ -1,12 +1,26 @@
 <template>
-  <h1>Đây là main</h1>
-  <RouterView />
+  <the-sidebar></the-sidebar>
+  <div class="content">
+    <the-header></the-header>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { TheSidebar, TheHeader } from '@/components/public_component'
+
 export default defineComponent({
-  
+  components: {
+    TheSidebar,
+    TheHeader,
+  },
+  setup(){
+
+    return {
+
+    }
+  }
 })
 </script>
 

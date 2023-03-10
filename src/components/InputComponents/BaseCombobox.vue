@@ -73,7 +73,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRefs, onMounted, onUnmounted, onBeforeMount, watch } from "vue";
-import { Utils, KeyCode } from "@/core/public_api";
+import { UtilsComponents, KeyCode } from "@/core/public_api";
 
 export default defineComponent({
   props: {
@@ -205,7 +205,7 @@ export default defineComponent({
      */
     const { options, header, modelValue, defaultValue, value, noAnimation, required, headerCode, selectMultiple, autoPosition }: any = toRefs(props);
 
-    const Base:Utils = new Utils(); 
+    const Base:UtilsComponents = new UtilsComponents(); 
 
     /**
      * Giá trị mảng binding lên giao diện

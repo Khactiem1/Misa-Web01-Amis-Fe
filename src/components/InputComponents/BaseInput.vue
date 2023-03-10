@@ -1,5 +1,5 @@
 <template>
-  <div class="data-input" :class="{ 'is-valid': isValid | isValidEmailPhone }">
+  <div class="data-input" :class="{ 'is-valid': isValid || isValidEmailPhone }">
     <label :class="{ required: required }">{{ label }}</label>
     <span v-if="toolTip" class="tool-tip">
       {{ toolTip }}
@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, toRefs, watch, onBeforeMount } from "vue";
-import validate from "../../utils/validate.js";
+import { ref, onMounted, toRefs, watch, onBeforeMount, defineComponent } from "vue";
+import { UtilsComponents } from "@/core/public_api";
 
-export default {
+export default defineComponent({
   props: [
     "modelValue", // Giá trị v-model
     "maxLength", // Max độ dài
@@ -45,12 +45,14 @@ export default {
   ],
   emits: ["update:modelValue"],
   setup(props, context) {
+    const Base: UtilsComponents = new UtilsComponents();
+
     // <!-- @keypress="isInputNumber($event)" -->
     /**
      * Element thẻ input
      * Khắc Tiềm - 15.09.2022
      */
-    const tagInput = ref(null);
+    const tagInput:any = ref(null);
 
     /**
      * focus: có focus khi mounted
@@ -62,33 +64,27 @@ export default {
      * isNumber: là số hay k
      * Khắc Tiềm - 15.09.2022
      */
-    const { focus, required, isEmail, isPhone, maxLength, modelValue, isNumber, maxValue } = toRefs(props);
+    const { focus, required, isEmail, isPhone, maxLength, modelValue, isNumber, maxValue }:any = toRefs(props);
 
     /**
      * Trạng thái hiển thị validate
      * Khắc Tiềm - 15.09.2022
      */
-    const isValid = ref(false);
+    const isValid:any = ref(false);
 
     /**
      * trạng thái hiển thị validate email, phone
      * Khắc Tiềm - 15.09.2022
      */
-    const isValidEmailPhone = ref(false);
-
-    /**
-     * Lấy ra hàm validate email và phone
-     * Khắc Tiềm - 15.09.2022
-     */
-    const { validateEmail, validatePhone } = validate;
+    const isValidEmailPhone:any = ref(false);
 
     /**
      * Kiểm tra sự thay đổi của giá trị input và binding lên thẻ input
      */
-    const valueHeader = ref('');
+    const valueHeader:any = ref('');
     watch(modelValue, (newValue)=>{
       if(isNumber.value){
-        valueHeader.value = Comma(newValue);
+        valueHeader.value = Base.Comma(newValue);
       }
       else{
         valueHeader.value = newValue;
@@ -99,7 +95,7 @@ export default {
      */
     onBeforeMount(()=>{
       if(isNumber.value){
-        valueHeader.value = Comma(modelValue.value);
+        valueHeader.value = Base.Comma(modelValue.value);
       }
       else{
         valueHeader.value = modelValue.value;
@@ -122,7 +118,7 @@ export default {
      * hàm xử lý nhập input và validate
      * Khắc Tiềm - 15.09.2022
      */
-    function handleInput(event) {
+    function handleInput(event:any) {
       if (maxLength.value && !isNumber.value) {
         if (event.target.value.length <= maxLength.value) {
           updateValue(event.target.value);
@@ -143,15 +139,15 @@ export default {
         const number = CommaToNumber(event.target.value);
         if(checkNumber(number) || number === ''){
           if((event.data === '.' || event.data === ',')){
-            valueHeader.value = Comma(modelValue.value) + ',';
+            valueHeader.value = Base.Comma(modelValue.value) + ',';
           }
           else{
-            valueHeader.value = Comma(modelValue.value);
+            valueHeader.value = Base.Comma(modelValue.value);
             updateValue(number);
           }
         }
         else{
-          valueHeader.value = Comma(modelValue.value);
+          valueHeader.value = Base.Comma(modelValue.value);
         }
       }
       else {
@@ -172,13 +168,13 @@ export default {
      * @param {H} value 
      * Khắc Tiềm - 15.09.2022
      */
-    function updateValue(value){
+    function updateValue(value:any){
       if(maxValue.value){
         if(Number(value) <= maxValue.value){
           context.emit("update:modelValue", value);
         }
         else{
-          valueHeader.value = Comma(modelValue.value);
+          valueHeader.value = Base.Comma(modelValue.value);
         }
       }
       else{
@@ -186,34 +182,7 @@ export default {
       }
     }
 
-    /**
-     * Hàm xử lý table với những cột cần thêm dấu phẩy vào đơn vị tiền tệ
-     * @param {Số cần format} number 
-     * Khắc Tiềm - 15.09.2022
-     */
-    function Comma(number) {
-      if(number){
-        let intPart = Math.trunc(number); 
-        const floatPart = Number((number - intPart).toFixed(2));
-        intPart = "" + intPart;
-        if (intPart.length > 3) {
-          var mod = intPart.length % 3;
-          var output = mod > 0 ? intPart.substring(0, mod) : "";
-          for (let i = 0; i < Math.floor(intPart.length / 3); i++) {
-            if (mod == 0 && i == 0)
-              output += intPart.substring(mod + 3 * i, mod + 3 * i + 3);
-            else output += "." + intPart.substring(mod + 3 * i, mod + 3 * i + 3);
-          }
-          return floatPart !== 0 ? output + ',' + (floatPart + '').slice( 2 ) : output;
-        } else return floatPart !== 0 ? intPart + ',' + (floatPart + '').slice( 2 ) : intPart;
-      }
-      else if(number === 0 || number === '0'){
-        return 0;
-      }
-      else return '';
-    }
-
-    function CommaToNumber(number){
+    function CommaToNumber(number:any){
       const ToNumber = number.replace(/\./g,'').replace(/,/g, '.');
       return ToNumber ? ToNumber : '';
     }
@@ -221,16 +190,16 @@ export default {
      * hàm xử lý validate điện thoại và email
      * Khắc Tiềm - 15.09.2022
      */
-    function handleCheckEmailPhone(event) {
+    function handleCheckEmailPhone(event:any) {
       if (event.target.value != "") {
         if (isEmail.value) {
-          if (validateEmail(event.target.value) === false) {
+          if (Base.validateEmail(event.target.value) === false) {
             isValidEmailPhone.value = true;
           } else {
             isValidEmailPhone.value = false;
           }
         } else if (isPhone.value) {
-          if (validatePhone(event.target.value) === false) {
+          if (Base.validatePhone(event.target.value) === false) {
             isValidEmailPhone.value = true;
           } else {
             isValidEmailPhone.value = false;
@@ -254,7 +223,7 @@ export default {
     //     }
     //   }
     // }
-    function checkNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+    function checkNumber(n:any) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
     return {
       tagInput,
       isValid,
@@ -264,7 +233,7 @@ export default {
       handleInput,
     };
   },
-};
+});
 </script>
 
 <style>

@@ -142,7 +142,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRefs, computed, watch, onUnmounted, onBeforeMount } from "vue";
-import { Utils } from "@/core/public_api";
+import { UtilsComponents } from "@/core/public_api";
 
 export default defineComponent({
   props: {
@@ -159,7 +159,7 @@ export default defineComponent({
      * Lấy ra hàm format date dạng dd/MM/YYYY và YYYY/MM/dd
      * Khắc Tiềm - 15.09.2022
      */
-    const Base:Utils = new Utils(); 
+    const Base:UtilsComponents = new UtilsComponents(); 
 
     /**
      * Element calendar chọn ngày, tháng, năm

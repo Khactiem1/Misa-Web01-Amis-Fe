@@ -35,27 +35,40 @@
   </div>
 </template>
 
-<script>
-import { onMounted, onUnmounted, ref } from "vue";
-export default {
+<script lang="ts">
+import { onMounted, onUnmounted, ref, defineComponent } from "vue";
+
+export default defineComponent({
   props: {
     /**
      * Các xử lý khi bấm huỷ
      */
     cancelAction: {
       type: Object,
+      default: {
+        display: '',
+        action: () => {}
+      }
     },
     /**
      * Các xử lý khi bấm chấp nhận
      */
     agreeAction: {
       type: Object,
+      default: {
+        display: '',
+        action: () => {}
+      }
     },
     /**
      * Các xử lý hiển thị message
      */
     messageAction: {
       type: Object,
+      default: {
+        display: '',
+        action: () => {}
+      }
     },
   },
   setup() {
@@ -63,7 +76,7 @@ export default {
      * Biến chứa element nút bấm 
      * Khắc Tiềm - 15.09.2022
      */
-    const elmAgree = ref(null);
+    const elmAgree: any = ref(null);
 
     /**
      * Khi mounted thì sẽ focus vào một nút chỉ định
@@ -77,8 +90,8 @@ export default {
      * Element chứa vị trí tab đến sẽ quay lại tab ban đầu tạo thành vòng lặp
      * NK Tiềm 28/10/2022
      */
-     const focusLoop = ref(null); 
-     const elmTabNext = ref(null);
+     const focusLoop: any = ref(null); 
+     const elmTabNext: any = ref(null);
 
     /**
      * Hàm xử lý lặp khi tab focus
@@ -102,7 +115,7 @@ export default {
       elmTabNext,
     };
   },
-};
+});
 </script>
 
 <style></style>

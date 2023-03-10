@@ -21,15 +21,19 @@
   </div>
 </template>
 
-<script>
-import { onBeforeMount, onMounted, onUnmounted, ref, toRefs } from "vue";
-export default {
+<script lang="ts">
+import { onBeforeMount, onMounted, onUnmounted, ref, toRefs, defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     /**
      * Các xử lý khi bấm chấp nhận
      */
     agreeAction: {
-      type: Object,
+      default: {
+        display: '',
+        action: () => {}
+      }
     },
     /**
      * Các xử lý hiển thị message
@@ -42,12 +46,12 @@ export default {
     /**
      * Lấy ra thông báo
      */
-    const { messageAction } = toRefs(props);
+    const { messageAction }: any = toRefs(props);
 
     /**
      * Thông báo hiển thị
      */
-    const displayMessage = ref('');
+    const displayMessage: any = ref('');
     /**
      * Kiểm tra thông báo nếu là mảng thì hiển thị theo danh sách
      */
@@ -57,7 +61,7 @@ export default {
           displayMessage.value = messageAction.value.display[0];
         }
         else{
-          displayMessage.value = messageAction.value.display.reduce((acc, cur) => {
+          displayMessage.value = messageAction.value.display.reduce((acc: any, cur: any) => {
             // Nối lại thành chuỗi HTML
             return (acc += cur ? "- " + cur + "<br>" : "");
           }, "");
@@ -71,7 +75,7 @@ export default {
      * Biến chứa element nút bấm 
      * Khắc Tiềm - 15.09.2022
      */
-    const elmAgree = ref(null);
+    const elmAgree: any = ref(null);
 
     /**
      * Khi mounted thì sẽ focus vào một nút chỉ định
@@ -85,7 +89,7 @@ export default {
      * Element chứa vị trí tab đến sẽ quay lại tab ban đầu tạo thành vòng lặp
      * NK Tiềm 28/10/2022
      */
-     const focusLoop = ref(null); 
+     const focusLoop: any = ref(null); 
 
     /**
      * Hàm xử lý lặp khi tab focus
@@ -102,7 +106,7 @@ export default {
       focusLoop,
     };
   },
-};
+});
 </script>
 
 <style scoped>

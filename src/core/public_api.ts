@@ -12,6 +12,7 @@ export * from './lib/common/grid';
 export * from './lib/common/guid';
 export * from './lib/common/system.constants';
 export * from './lib/common/utils';
+export * from './lib/common/utils_components';
 
 /**
  * Entities

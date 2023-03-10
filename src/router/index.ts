@@ -31,7 +31,8 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       redirect: '/not-found'
     },
-  ]
+  ],
+  linkActiveClass: "active",
 })
 
 /**

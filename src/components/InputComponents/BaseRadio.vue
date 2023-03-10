@@ -4,7 +4,7 @@
       type="radio"
       :checked="isChecked"
       :value="value"
-      :tabindex="tab"
+      :tabindex:="tab"
       @change="$emit('update:modelValue', $event.target.value)"
     />
     <span class="info">{{ label }}</span>
@@ -12,8 +12,10 @@
   </label>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     /**
      * Label hiển thị
@@ -38,7 +40,7 @@ export default {
       return this.modelValue == this.value;
     },
   },
-};
+});
 </script>
 
 <style scoped>

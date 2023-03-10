@@ -16,42 +16,42 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { useStore } from "vuex";
-import { computed, onMounted, onBeforeMount, onBeforeUnmount, ref, toRefs } from 'vue';
+import { computed, onMounted, onBeforeMount, onBeforeUnmount, ref, toRefs, defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   props: ["notification"],
   setup(props){
     /**
      * Sử dụng store của vuex
      * Khắc Tiềm - 15.09.2022
      */
-    const store = useStore();
+    const store: any = useStore();
 
     /**
      * Thông báo truyền từ props
      * Khắc Tiềm - 15.09.2022
      */
-    const { notification } = toRefs(props);
+    const { notification }: any = toRefs(props);
 
     /**
      * Set timeout tự động tắt thông báo
      * Khắc Tiềm - 15.09.2022
      */
-    const timeout = ref (null);
+    const timeout: any = ref (null);
 
     /**
      * set hiệu ứng animation
      * Khắc Tiềm - 15.09.2022
      */
-    const animation = ref(false);
+    const animation: any = ref(false);
 
     /**
      * set class loại thông báo
      * Khắc Tiềm - 15.09.2022
      */
-    const typeClass = computed(()=>{
+    const typeClass: any = computed(()=>{
       return `alert-${notification.value.type}`;
     });
 
@@ -66,7 +66,7 @@ export default {
         }
         else{
           let displayMessage = '';
-          displayMessage = notification.value.message.reduce((acc, cur) => {
+          displayMessage = notification.value.message.reduce((acc: any, cur: any) => {
             // Nối lại thành chuỗi HTML
             return (acc += cur ? "- " + cur + "<br>" : "");
           }, "");
@@ -122,7 +122,7 @@ export default {
       handleCloseNotification,
     }
   },
-};
+});
 </script>
 <style scoped>
 .alert{

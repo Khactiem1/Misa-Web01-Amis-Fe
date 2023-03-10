@@ -7,7 +7,17 @@
     "cash_main": "Cash",
     "employee": "Employee",
     "inventory_main": "Inventory",
-    "inventory_item": "Inventory Item"
+    "inventory_item": "Inventory Item",
+    "dashboard": "Dashboard",
+    "deposits": "Deposits",
+    "purchase": "Purchase",
+    "sell": "Sell",
+    "manage_invoices": "Manage Invoices",
+    "tools": "Tools",
+    "fixed_assets": "Fixed Assets",
+    "salary": "Salary",
+    "tax": "Tax",
+    "price": "Price"
   },
   "gender": {
     "male": "Male",
