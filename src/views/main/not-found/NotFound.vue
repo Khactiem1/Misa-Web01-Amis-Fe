@@ -2,11 +2,8 @@
   <h1>{{ $t('page.not_found') }}</h1>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
+<script setup lang="ts">
 
-})
 </script>
 
 <style scoped>

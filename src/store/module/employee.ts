@@ -1,4 +1,4 @@
-import { ActionTable, ModuleName } from '@/core/public_api';
+import { ActionTable, InfoTable, ModuleName } from '@/core/public_api';
 import BaseStore from '../base_store';
 import columns from './column-module/employee'
 
@@ -22,7 +22,7 @@ let actions: any = {
  * Các action thao tác với table
  * Khắc Tiềm - 08.03.2023
  */
-let actionTable: any = {
+const actionTable: InfoTable = {
   actionDefault: ActionTable.Edit,
 	actionList: [ActionTable.Replication, ActionTable.Delete, ActionTable.StopUsing],
 	fieldId: "employeeID",
@@ -40,9 +40,8 @@ const employees: BaseStore = new BaseStore(ModuleName.Employee, columns, mutatio
  * Giải phóng bộ nhớ
  */
 setTimeout(() => {
-    mutations = null;
-    actions = null;
-    actionTable = null;
+  mutations = null;
+  actions = null;
 }, 0);
 
 export default employees.store;

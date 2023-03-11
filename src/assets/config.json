@@ -5,6 +5,9 @@
   "LOCAL_LANG": "vi",
   "LOCAL": "local",
   "EN": "en",
+  "VI": "vi",
   "PAGE_SIZE": "page_size",
-  "CURRENT_PAGE": "20"
+  "CURRENT_PAGE": "20",
+  "IDB_DATA": "idb_data",
+  "DATA_TABLE": "data_table"
 }

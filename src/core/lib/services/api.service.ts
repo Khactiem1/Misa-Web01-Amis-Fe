@@ -8,20 +8,17 @@ import { ENotificationType, type ServiceResponse } from "@/core/public_api";
 
 export class ApiService {
   /** Store vuex */
-  public Store: any;
-
-  constructor(){
-    this.Store = useStore();
-  }
-  public async callApi(Api: Function, data: any, thenApi: Function, catchApi: Function, noLoaderAnimation: boolean = true, store: any = undefined) {
-    store = this.Store;
+  public Store: any = useStore();
+  
+  /** Hàm gọi api */
+  public async callApi(Api: Function, data: any, thenApi: Function, catchApi: Function, noLoaderAnimation: boolean = true) {
     if(!noLoaderAnimation){
-      store.dispatch("config/setToggleShowLoaderAction");
+      this.Store.dispatch("config/setToggleShowLoaderAction");
     }
     await Api(data)
-      .then(function(response: ServiceResponse){
+      .then((response: ServiceResponse) => {
         if(!noLoaderAnimation){
-          store.dispatch("config/setToggleShowLoaderAction");
+          this.Store.dispatch("config/setToggleShowLoaderAction");
         }
         if(response.success){
           if(thenApi){
@@ -33,25 +30,25 @@ export class ApiService {
             catchApi(response);
           }
           else{
-            store.dispatch("config/addNotification", {
+            this.Store.dispatch("config/addNotification", {
               type: ENotificationType.Error,
               message: i18n.global.t(`${response.data.userMsg}`)
             });
           }
         }
       })
-      .catch(function (response: ServiceResponse) {
+      .catch((response: ServiceResponse) => {
         if(catchApi){
           catchApi(response);
         }
         else{
-          store.dispatch("config/addNotification", {
+          this.Store.dispatch("config/addNotification", {
             type: ENotificationType.Error,
             message: i18n.global.t('message.api.error_internet')
           });
         }
         if(!noLoaderAnimation){
-          store.dispatch("config/setToggleShowLoaderAction");
+          this.Store.dispatch("config/setToggleShowLoaderAction");
         }
       });
   }

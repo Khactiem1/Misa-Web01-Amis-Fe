@@ -25,6 +25,8 @@
     "other": "Khác"
   },
   "common": {
+    "vi": "Tiếng việt",
+    "en": "Tiếng anh",
     "language": "Ngôn ngữ",
     "gender" : "Giới tính",
     "status" : "Trạng thái",
@@ -42,7 +44,24 @@
     "all": "Tất cả",
     "yes": "Có",
     "no": "Không",
-    "cancel": "Huỷ bỏ"
+    "cancel": "Huỷ bỏ",
+    "data_empty": "Không có dữ liệu",
+    "remove_search": "Xoá điều kiện lọc",
+    "prev": "Trước",
+    "next": "Sau",
+    "setting_table": "Tuỳ chỉnh giao diện",
+    "done": "Xong",
+    "name_column": "Tên cột dữ liệu",
+    "close": "Đóng",
+    "function": "Chức năng",
+    "sum": "Tổng",
+    "fixed_column": "Cố định cột này",
+    "filter": "Lọc",
+    "un_filter": "Bỏ lọc",
+    "enter_filter": "Nhập giá trị lọc",
+    "option": "Tùy chọn",
+    "all_report": "Tất cả báo cáo",
+    "report": "Báo cáo"
   },
   "module": {
     "cash": {
@@ -60,7 +79,22 @@
       "landlinePhone" : "Điện thoại cố định",
       "employeeEmail" : "Địa chỉ email",
       "isCustomer": "Là khách hàng",
-      "isVendor": "Là nhà cung cấp"
+      "isVendor": "Là nhà cung cấp",
+      "cash_business": "Nghiệp vụ tiền mặt",
+      "customer": "Khách hàng",
+      "vendor": "Nhà cung cấp",
+      "detailed_book_goods": "Sổ chi tiết vật tư hàng hóa",
+      "aggregate_inventory": "Tổng hợp tồn kho",
+      "report_reconciliation_warehouse": "Báo cáo đối chiếu kho và sổ cái",
+      "production_progress_report": "Báo cáo tiến độ sản xuất",
+      "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho"
+    },
+    "inventory": {
+      "goods": "Hàng hoá",
+      "service": "Dịch vụ",
+      "materials": "Nguyên vật liệu",
+      "finished_product": "Thành phẩm",
+      "tool_tools": "Dụng cụ công cụ"
     }
   },
   "calendar": {

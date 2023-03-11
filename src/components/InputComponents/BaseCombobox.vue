@@ -43,7 +43,7 @@
           </div>
         </div>
         <div v-if="optionValue.length === 0" class="combobox-combobox_item">
-          Danh sách trống
+          {{ $t('common.data_empty') }}
         </div>
         <div ref="listSelect" class="combobox-combobox_select-content" :class="{'select-multiple' : selectMultiple}">
           <div
@@ -85,7 +85,7 @@ export default defineComponent({
      * giá trị v-model
      */
     modelValue: {
-      
+      default: (): any => ''
     },
     /**
      * Giá trị được chọn trong form select
@@ -133,8 +133,7 @@ export default defineComponent({
      * dữ liệu select và hiển thị
      */
     options: {
-      type: Array,
-      default: () => [],
+      default: (): any [] => []
     },
     /**
      * placeholder ô input
@@ -186,7 +185,9 @@ export default defineComponent({
     /**
      * Giá trị hiển thị khi select nhiều 
      */
-    headerSelectMultiple:{},
+    headerSelectMultiple:{
+      default: ():any => ''
+    },
     /**
      * Có auto set vị trí hay không
      */

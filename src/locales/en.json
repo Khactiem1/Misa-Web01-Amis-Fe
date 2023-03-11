@@ -25,6 +25,8 @@
     "other": "Other"
   },
   "common": {
+    "vi": "Vietnamese",
+    "en": "English",
     "language": "Language",
     "gender" : "Gender",
     "status" : "Status",
@@ -42,7 +44,24 @@
     "all": "All",
     "yes": "Yes",
     "no": "No",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "data_empty": "Data empty",
+    "remove_search": "Remove search",
+    "prev": "Prev",
+    "next": "Next",
+    "setting_table": "Setting Table",
+    "done": "Done",
+    "name_column": "Name Column",
+    "close": "Close",
+    "function": "Function",
+    "sum": "Sum",
+    "fixed_column": "Fixed column",
+    "filter": "Filter",
+    "un_filter": "Un filter",
+    "enter_filter": "Enter filter",
+    "option": "Option",
+    "all_report": "All report",
+    "report": "Report"
   },
   "module": {
     "cash": {
@@ -60,7 +79,22 @@
       "landlinePhone" : "Landline phone",
       "employeeEmail" : "Email address",
       "isCustomer": "Is customer",
-      "isVendor": "Is vendor"
+      "isVendor": "Is vendor",
+      "cash_business": "Cash business",
+      "customer": "Customer",
+      "vendor": "Vendor",
+      "detailed_book_goods": "Detailed book of goods and materials",
+      "aggregate_inventory": "Aggregate inventory",
+      "report_reconciliation_warehouse": "Report on reconciliation of warehouse and ledger",
+      "production_progress_report": "Production progress report",
+      "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred"
+    },
+    "inventory": {
+      "goods": "Goods",
+      "service": "Service",
+      "materials": "Materials",
+      "finished_product": "Finished Product",
+      "tool_tools": "Tool Tools"
     }
   },
   "calendar": {

@@ -28,67 +28,43 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { useStore } from "vuex";
-import { TheLoader, TheTopMessageList, NotificationModal, NotificationQuestion, NotificationError, NotificationWanning } from '@/components/public_component'
+import { TheLoader, TheTopMessageList, NotificationModal, NotificationQuestion, NotificationError, NotificationWanning } from '@/core/public_component';
 
-export default defineComponent({
-  components: {
-    TheLoader,
-    TheTopMessageList,
-    NotificationModal,
-    NotificationQuestion,
-    NotificationError,
-    NotificationWanning,
-  },
-  setup() {
-    /**
-     * Biến store trong vuex
-     * Khắc Tiềm - 15.09.2022
-     */
-     const store: any = useStore();
+  /**
+  * Biến store trong vuex
+  * Khắc Tiềm - 15.09.2022
+  */
+  const store: any = useStore();
 
-    /**
-     * Biến lưu trạng thái loader 
-     * Khắc Tiềm - 15.09.2022
-     */
-    const isShowLoader: any = computed(() => store.state.config.isShowLoader);
+  /**
+   * Biến lưu trạng thái loader 
+   * Khắc Tiềm - 15.09.2022
+   */
+  const isShowLoader: any = computed(() => store.state.config.isShowLoader);
 
-    /**
-     * Biến lưu trạng thái thông báo 
-     * Khắc Tiềm - 15.09.2022
-     */
-    const isShowNotificationWanning: any = computed(() => store.state.config.isShowNotificationWanning);
+  /**
+   * Biến lưu trạng thái thông báo 
+   * Khắc Tiềm - 15.09.2022
+   */
+  const isShowNotificationWanning: any = computed(() => store.state.config.isShowNotificationWanning);
+  const configNotificationWanning: any = computed(() => store.state.config.configNotificationWanning);
 
-    const configNotificationWanning: any = computed(() => store.state.config.configNotificationWanning);
+  /**
+   * Biến lưu trạng thái thông báo  
+   * Khắc Tiềm - 15.09.2022
+   */
+  const isShowNotificationError: any = computed(() => store.state.config.isShowNotificationError);
+  const configNotificationError: any = computed(() => store.state.config.configNotificationError);
 
-    /**
-     * Biến lưu trạng thái thông báo  
-     * Khắc Tiềm - 15.09.2022
-     */
-    const isShowNotificationError: any = computed(() => store.state.config.isShowNotificationError);
-
-    const configNotificationError: any = computed(() => store.state.config.configNotificationError);
-
-    /**
-     * Biến lưu trạng thái thông báo  
-     * Khắc Tiềm - 15.09.2022
-     */
-    const isShowNotificationQuestion: any = computed(() => store.state.config.isShowNotificationQuestion);
-
-    const configNotificationQuestion: any = computed(() => store.state.config.configNotificationQuestion);
-    return {
-      isShowLoader,
-      isShowNotificationWanning,
-      configNotificationWanning,
-      isShowNotificationError,
-      configNotificationError,
-      isShowNotificationQuestion,
-      configNotificationQuestion,
-    };
-  }
-})
+  /**
+   * Biến lưu trạng thái thông báo  
+   * Khắc Tiềm - 15.09.2022
+   */
+  const isShowNotificationQuestion: any = computed(() => store.state.config.isShowNotificationQuestion);
+  const configNotificationQuestion: any = computed(() => store.state.config.configNotificationQuestion);
 </script>
 
 <style scoped>

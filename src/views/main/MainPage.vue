@@ -6,22 +6,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { TheSidebar, TheHeader } from '@/components/public_component'
+<script setup lang="ts">
+import { TheSidebar, TheHeader } from '@/core/public_component';
 
-export default defineComponent({
-  components: {
-    TheSidebar,
-    TheHeader,
-  },
-  setup(){
-
-    return {
-
-    }
-  }
-})
 </script>
 
 <style scoped>

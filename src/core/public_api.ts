@@ -13,6 +13,7 @@ export * from './lib/common/guid';
 export * from './lib/common/system.constants';
 export * from './lib/common/utils';
 export * from './lib/common/utils_components';
+export * from './lib/common/idb_data_table';
 
 /**
  * Entities

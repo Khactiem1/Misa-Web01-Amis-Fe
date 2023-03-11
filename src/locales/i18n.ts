@@ -25,10 +25,9 @@ const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
   locale: StorageService.getItemWithSystemConstants(EntitySystem.Lang) || SystemConstants.get(EntitySystem.LocalLang),
   messages: {
-    vi: viMessage,
-    en: enMessage
+    [SystemConstants.get(EntitySystem.Vi)]: viMessage,
+    [SystemConstants.get(EntitySystem.En)]: enMessage
   },
   fallbackLocale: StorageService.getItemWithSystemConstants(EntitySystem.Lang) || SystemConstants.get(EntitySystem.LocalLang)
 })
-
 export default i18n;

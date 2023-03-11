@@ -21,57 +21,66 @@
         );
       "
     >
-      {{ actionItem === actionList.STOP_USING && row[actionTable.fieldActive] === false ? actionList.USING : actionItem}} 
+      {{ $t(`common.${actionItem === ActionTable.StopUsing && row[actionTable.fieldActive] === false ? ActionTable.use : actionItem}`)}} 
     </div>
   </div>
 </template>
 
-<script>
-import { onUnmounted, ref } from "vue";
-import actionList from "../../utils/actionTable";
-export default {
+<script lang="ts">
+import { onUnmounted, ref, defineComponent } from "vue";
+import { ActionTable, InfoTable } from "@/core/public_api";
+export default defineComponent({
   props: {
     /**
      * Các hành đồng của table
      */
     actionTable: {
-      type: Object,
+      type: InfoTable,
+      default: new InfoTable(),
     },
     /**
      * Row kèm data được chọn
      */
-    row: {},
+    row: {
+      required: true,
+      default: ():any => {}
+    },
     /**
      * Hàm xử lý click vào từng hành động của action table
      */
     handleClickActionColumTable: {
       type: Function,
+      default: ()=> {}
     },
     /**
      * Hàm đóng action
      */
     handleCloseAction: {
       type: Function,
+      default: ()=> {}
     },
     /**
      * Set vị trí của actable hiển thị
      */
     positionAction: {
-      type: Object,
+      default: {
+        top: 0,
+        right: 0,
+      }
     },
   },
-  setup(props) {
+  setup(props: any) {
     /**
      * biến bắt lấy thẻ to nhất của component
      * Khắc Tiềm - 15.09.2022
      */
-    const template = ref(null);
+    const template: any = ref(null);
 
     /**
      *  khi không click trúng component thì sẽ unmount component
      * khắc Tiềm - 15.09.2022
      */
-    const handleClickTemplate = function () {
+    const handleClickTemplate = function (event: any) {
       try {
         const isClick = template.value.contains(event.target);
         if (!isClick) {
@@ -98,10 +107,10 @@ export default {
 
     return {
       template,
-      actionList,
+      ActionTable,
     };
   },
-};
+});
 </script>
 
 <style scoped>

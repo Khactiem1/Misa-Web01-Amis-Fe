@@ -4,7 +4,7 @@
       <a v-if="showSidebar" class="logo-sidebar_home"></a>
       <a v-if="showSidebar" class="logo-sidebar_menu">
         <img
-          src="../../public/assets/logo_event_trungthu.090d014b.svg" alt=""
+          src="../assets/css/image/logo_event_trungthu.090d014b.svg" alt=""
         />
       </a>
       <div v-if="!showSidebar" @click="handleToggleSidebar" class="logo-sidebar_active"></div>
@@ -131,41 +131,34 @@
         </div>
       </a>
     </div>
+    <the-change-language></the-change-language>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import { useStore } from "vuex";
+import { TheChangeLanguage } from '@/core/public_component'
 
-export default defineComponent({
-  setup(){
-    /**
-     * Biến store vuex
-     * Khắc Tiềm - 15.09.2022
-     */
-    const store: any = useStore();
+/**
+ * Biến store vuex
+ * Khắc Tiềm - 15.09.2022
+ */
+const store: any = useStore();
 
-    /**
-     * Lấy ra trạng thái show sidebar
-     * Khắc Tiềm - 15.09.2022
-     */
-    let showSidebar: any = computed(() => store.state.config.showSidebar);
-    
-    /**
-     * Hàm sử lý sự kiện toggle sidebar
-     * Khắc Tiềm - 15.09.2022
-     */
-    function handleToggleSidebar(){
-      store.dispatch("config/setToggleShowSidebarAction");
-    }
-    return{
-      showSidebar,
-      handleToggleSidebar,
-    }
-  }
+/**
+ * Lấy ra trạng thái show sidebar
+ * Khắc Tiềm - 15.09.2022
+ */
+let showSidebar: any = computed(() => store.state.config.showSidebar);
 
-});
+/**
+ * Hàm sử lý sự kiện toggle sidebar
+ * Khắc Tiềm - 15.09.2022
+ */
+function handleToggleSidebar(){
+  store.dispatch("config/setToggleShowSidebarAction");
+}
 </script>
 
 <style scoped>

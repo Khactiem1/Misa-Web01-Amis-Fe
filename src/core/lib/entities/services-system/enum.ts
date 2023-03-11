@@ -19,13 +19,13 @@ export enum Gender{
  */
 export enum ENotificationType {
   /** Thành công */
-  Success = 1,
+  Success = 'success',
 
   /** Thất bại */
-  Error = 2,
+  Error = 'error',
 
   /** Cảnh báo */
-  Wanning = 3,
+  Wanning = 'wanning',
 }
 
 /**

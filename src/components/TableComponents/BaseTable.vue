@@ -4,41 +4,41 @@
       <tr>
         <th v-if="checkShowActionSeries">
           <!-- :checkbox="checkAllRecord" -->
-          <input-checkbox
+          <base-checkbox
             :checked="isShowCheckAllRecord"
             @custom-handle-click-checkbox="handleClickCheckbox(true, listID)"
-          ></input-checkbox>
+          ></base-checkbox>
         </th>
         <th
           v-for="(item, index) in columns"
+          class="item.TypeFormat.TextAlign"
           :style="{
-            'text-align': item.textAlign,
-            'min-width': item.width,
-            width: item.width,
+            'min-width': `${item.Width}px`,
+            width: `${item.Width}px`,
           }"
           :key="index"
         >
-          <span :style="{
-            'text-align': item.textAlign,
-          }" @click="handleSetSortColumn(item.field)">
-            {{ item.header }} 
-            <div v-if="item.field.charAt(0).toUpperCase() + item.field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
+          <span 
+          :class="item.TypeFormat.TextAlign"
+          @click="handleSetSortColumn(item.Field)">
+            {{ item.Header }} 
+            <div v-if="item.Field.charAt(0).toUpperCase() + item.Field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
           </span>
-          <div v-if="item.filter" @click="handleShowFilter($event, item.filter)" class="mi-header-option"></div>
+          <div v-if="item.Filter" @click="handleShowFilter($event, item.Filter)" class="mi-header-option"></div>
         </th>
         <th style="width: 120px; min-width: 120px" class="text-center">
-          Chức năng
+          {{ $t('common.function') }}
         </th>
       </tr>
     </thead>
-    <table-loader
+    <base-table-loader
       v-if="isShowLoaderTable"
       :columns="columns"
       :lengthList="tableList.length"
-    ></table-loader>
-    <table-empty
+    ></base-table-loader>
+    <base-table-empty
       v-if="!isShowLoaderTable && tableList.length === 0"
-    ></table-empty>
+    ></base-table-empty>
     <tbody v-if="!isShowLoaderTable">
       <!-- Vòng lặp các user -->
       <tr
@@ -48,15 +48,15 @@
       >
         <td v-if="checkShowActionSeries" class="column-sticky">
           <!-- :checkbox="row.Check" -->
-          <input-checkbox
+          <base-checkbox
             :checked="checkShowActionSeries ? checkShowActionSeries.includes(row[actionTable.fieldId]) : false"
             @custom-handle-click-checkbox="handleClickCheckbox(row[actionTable.fieldId])"
-          ></input-checkbox>
+          ></base-checkbox>
         </td>
         <!-- Vòng lặp các columns sao cho đúng với các vị trí của header -->
         <td
           v-for="(col, index) in columns"
-          :style="{ 'text-align': col.textAlign }"
+          :class="col.TypeFormat.TextAlign"
           :key="index"
           @dblclick="
             handleClickActionColumTable(
@@ -66,24 +66,24 @@
           "
         >
           <!-- khi render các trường kiểm tra xem có yêu cầu cần thêm dấu phẩy thì sẽ thêm  -->
-          <span v-if="row[actionTable.fieldCode] === row[col.field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
+          <span v-if="row[actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
           {{
-            col.fractionSize === true
-              ? Comma(row[col.field])
-              : col.formatDate === true
-              ? formatDateDDMMYYYY(row[col.field])
-              : col.isGender === true
-              ? formatGender(row[col.field])
-              : col.isActive === true
-              ? formatIsActive(row[col.field])
-              : col.isNature === true
-              ? formatNature(row[col.field])
-              : col.isImage === true
+            col.TypeFormat.FractionSize === true
+              ? Base.Comma(row[col.Field])
+              : col.TypeFormat.FormatDate === true
+              ? Base.formatDateDDMMYYYY(row[col.Field])
+              : col.TypeFormat.IsGender === true
+              ? formatGender(row[col.Field])
+              : col.TypeFormat.IsActive === true
+              ? formatIsActive(row[col.Field])
+              : col.TypeFormat.IsNature === true
+              ? formatNature(row[col.Field])
+              : col.TypeFormat.IsImage === true
               ? ""
-              :row[col.field]
+              :row[col.Field]
           }}
-          <div v-if="col.isImage === true" class="image-table">
-            <img v-bind:src="row[col.field] ? row[col.field].includes('/Assets/Images/') ? baseUrl.baseUrlImage + row[col.field] : '' + row[col.field] : ''" alt="">
+          <div v-if="col.TypeFormat.IsImage === true" class="image-table">
+            <img v-bind:src="row[col.Field] ? row[col.Field].includes('/Assets/Images/') ? environment.IMAGE_API + row[col.Field] : '' + row[col.Field] : ''" alt="">
           </div>
         </td>
         <td class="text-center">
@@ -118,130 +118,136 @@
     <thead v-if="showTotalColumn && tableList.length !== 0" class="thead-light table-footer">
       <tr>
         <th style="text-transform: none;" v-if="checkShowActionSeries">
-          Tổng
+          {{ $t('common.sum') }}
         </th>
         <th
           v-for="(item, index) in columns"
+          :class="item.TypeFormat.TextAlign"
           :style="{
-            'text-align': item.textAlign,
-            'min-width': item.width,
-            width: item.width,
+            'min-width': `${item.Width}px`,
+            width: `${item.Width}px`,
           }"
           :key="index"
         >
-          {{ item.data ?  Comma(item.data) : "" }}
+          {{ item.Data ?  Base.Comma(item.Data) : "" }}
         </th>
         <th style="width: 120px; min-width: 120px" class="text-center">
         </th>
       </tr>
     </thead>
     <teleport to="#app">
-      <table-list-action
+      <base-table-list-action
         :actionTable="actionTable"
         :positionAction="positionAction"
         :row="rowColumn"
         :handleCloseAction="handleCloseAction"
         :handleClickActionColumTable="handleClickActionColumTable"
-      ></table-list-action>
+      ></base-table-list-action>
       <base-table-filter :oldSearch="oldSearch" :handleShowFilter="handleShowFilter" :dataFilter="dataFilter" @handle-filter-data="handleFilterData" :setPositionFilter="setPositionFilter" v-if="isShowFilter">
       </base-table-filter>
     </teleport>
   </table>
 </template>
 
-<script>
-import InputCheckbox from "../InputComponents/BaseCheckbox.vue";
-import TableLoader from "../TableComponents/BaseTableLoader.vue";
-import TableEmpty from "../TableComponents/BaseTableEmpty.vue";
-import BaseTableFilter from '../../components/TableComponents/BaseTableFilter.vue';
-import TableListAction from "../TableComponents/BaseTableListAction.vue";
-import eNum from "../../utils/eNum";
-import baseUrl from '../../configs/index';
-import utilEnum from "../../utils/index";
-import { ref, toRefs, computed, Teleport } from "vue";
+<script lang="ts">
+import { BaseCheckbox, BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction } from "@/core/public_component";
+import { UtilsComponents, Gender, InfoTable, Header } from "@/core/public_api";
+import { environment } from '@/environments/environment.prod';
+import { ref, toRefs, computed, defineComponent, type PropType } from "vue";
 import { useStore } from "vuex";
-export default {
+import { useI18n } from 'vue-i18n'
+export default defineComponent({
   components: {
-    InputCheckbox,
-    TableLoader,
-    TableEmpty,
-    TableListAction,
+    BaseCheckbox,
+    BaseTableEmpty,
+    BaseTableLoader,
+    BaseTableListAction,
     BaseTableFilter,
-    Teleport
-},
+  },
   props: {
     /**
      * Danh sách hiển thị
      */
     tableList: {
-      type: Array,
+      required: true,
+      type: Array as PropType<any[]>,
+      default: ():any [] => []
     },
     /**
      * header của table
      */
     columns: {
-      type: Array,
+      type: Array as PropType<Header[]>,
+      required: true,
+      default: ():Header[] => [],
     },
     /**
      * Hành động table
      */
     actionTable: {
-      type: Object,
+      type: InfoTable,
+      default: new InfoTable(),
     },
     /**
      * sự kiện click vào các ô check box
      */
     handleClickCheckbox: {
       type: Function,
+      default: ()=> {}
     },
     /**
      * sự kiện click các action table
      */
     handleClickActionColumTable: {
       type: Function,
+      default: ()=> {}
     },
     /**
      * Biến show trạng thái load của table
      */
     isShowLoaderTable: {
-      type: Boolean,
+
     },
     /**
      * Biến show hạnh động thực hiện hàng loạt của table
      */
     checkShowActionSeries: {
-      type: Array,
+      default: (): any => {}
     },
     showTotalColumn: {},
-    loadData: {Function},
-    module: {String},
+    loadData: {type: Function,
+      default: ()=> {}
+    },
+    module: {type:String, default: ''},
     listTree: {},
   },
   setup(props) {
-    const store = useStore();
+    const Base: UtilsComponents = new UtilsComponents();
+    const { t } = useI18n();
+    const store: any = useStore();
     /**
      * Trạng thái hiển thị ô lọc
      */
-    const isShowFilter = ref(false);
+    const isShowFilter: any = ref(false);
     /**
      * Set vị trị của form filter
      */
-    const setPositionFilter = ref({ top: 0, left: 0});
+    const setPositionFilter: any = ref({ top: 0, left: 0});
     /**
      * Dữ liệu tìm kiếm sẽ được gửi đi
      */
-    const dataFilter = ref(null);
+    const dataFilter: any = ref(null);
 
   /**
    * Dữ liệu tìm kiếm trước đó khi click vo column table filter
    */
-    const oldSearch = ref(null);
+    const oldSearch: any = ref(null);
     /**
      * 
      * Hàm đóng mở form tìm kiếm
      */
-    async function handleShowFilter(event, data){
-      // try {
+    async function handleShowFilter(event: any, data: any){
+      try {
         if(event){
           dataFilter.value = data;
           const rect = event.srcElement.getBoundingClientRect()
@@ -249,7 +255,7 @@ export default {
           setPositionFilter.value.left = rect.left - (346 - rect.width);
         }
         if(!isShowFilter.value){
-          const valueSearch = await store.state[module.value].filter.customSearch.find(item => item.columnSearch === data.columnSearch);
+          const valueSearch = await store.state[module.value].filter.customSearch.find((item: any) => item.columnSearch === data.columnSearch);
             if(valueSearch){
               oldSearch.value = valueSearch;
             }
@@ -258,16 +264,16 @@ export default {
             }
         }
         isShowFilter.value = !isShowFilter.value;
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     /**
      * Hàm xử lý tìm kiếm
      * @param {data tìm kiếm} filter 
      */
-    function handleFilterData(filter){
+    function handleFilterData(filter: any){
       try {
         loadData.value(filter);
       } catch (e) {
@@ -282,9 +288,9 @@ export default {
     /**
      * Hàm xử lý sắp xếp
      */
-    async function handleSetSortColumn (field){
+    async function handleSetSortColumn (field: any){
       try {
-        await store.dispatch(`${module.value}/setFilterCustomSearchSortAction`, field.charAt(0).toUpperCase() + field.slice(1)).then((res)=> {
+        await store.dispatch(`${module.value}/setFilterCustomSearchSortAction`, field.charAt(0).toUpperCase() + field.slice(1)).then((res: any)=> {
           if(res){
             sortBy.value = res;
           }
@@ -299,14 +305,14 @@ export default {
      * Bóc tách props ra từ props chuyển vào
      * Khắc Tiềm - 15.09.2022
      */
-    const { tableList, checkShowActionSeries, actionTable, loadData, module} = toRefs(props);
+    const { tableList, checkShowActionSeries, actionTable, loadData, module}: any = toRefs(props);
 
     /**
      * Danh sách chứa các id
      * Khắc Tiềm - 15.09.2022
      */
     const listID = computed(()=> {
-      return tableList.value.reduce((acc, cur)=> {
+      return tableList.value.reduce((acc: any, cur: any)=> {
         return [...acc, cur[actionTable.value.fieldId]];
       },[]); 
     });
@@ -317,7 +323,7 @@ export default {
     const isShowCheckAllRecord = computed(()=> {
       if(checkShowActionSeries.value){
         let count = 0;
-        checkShowActionSeries.value.forEach((item) => {
+        checkShowActionSeries.value.forEach((item: any) => {
           if(listID.value.includes(item)){
             count++;
           }
@@ -342,46 +348,40 @@ export default {
     const positionAction = ref({ top: 0, right: 0 });
 
     /**
-     * Lấy ra hàm format date dd/MM/YYYY
-     * Khắc Tiềm - 15.09.2022
-     */
-    const { formatDateDDMMYYYY, Comma } = utilEnum;
-
-    /**
      * hàm xử lý hiển thị giới tính dựa trên enum
      * @param {Giới tính} gender 
      * Khắc Tiềm - 15.09.2022
      */
-    function formatGender(gender) {
-      if (eNum.MALE == gender) {
-        return "Nam";
-      } else if (eNum.FEMALE == gender) {
-        return "Nữ";
-      } else if (eNum.OTHER == gender) {
-        return "Khác";
+    function formatGender(gender: any) {
+      if (Gender.Male == gender) {
+        return t('gender.male');
+      } else if (Gender.Female == gender) {
+        return t('gender.female');
+      } else if (Gender.Other == gender) {
+        return t('gender.other');
       }
     }
 
-    function formatNature(nature){
+    function formatNature(nature: any){
       if (nature == 1) {
-        return "Hàng hoá";
+        return t('module.inventory.goods');
       } else if (nature == 2) {
-        return "Dịch vụ";
+        return t('module.inventory.service');
       } else if (nature == 3) {
-        return "Nguyên vật liệu";
+        return t('module.inventory.materials');
       }else if (nature == 4) {
-        return "Thành phẩm";
+        return t('module.inventory.finished_product');
       }else if (nature == 5) {
-        return "Dụng cụ công cụ";
+        return t('module.inventory.tool_tools');
       }
     }
 
-    function formatIsActive(isActive){
+    function formatIsActive(isActive: any){
       if(isActive === true){
-        return "Đang sử dụng";
+        return t('common.using');
       }
       else{
-        return "Ngừng sử dụng";
+        return t('common.stopUsing');
       }
     }
 
@@ -390,7 +390,7 @@ export default {
      * @param {Thông tin đỐi tượng được click} row 
      * Khắc Tiềm - 15.09.2022
      */
-    function handleShowAction(event, row) {
+    function handleShowAction(event: any, row: any) {
       try {
         if (JSON.stringify(rowColumn.value) === JSON.stringify(row)) {
           rowColumn.value = null;
@@ -419,7 +419,7 @@ export default {
      * Hàm xử lý vị trí ẩn hiện các action
      * Khắc Tiềm - 15.09.2022
      */
-    function setPositionActionTable(event) {
+    function setPositionActionTable(event: any) {
       // console.log(event);
       // event.srcElement.offsetParent.forEach((item) => {
       //   try {
@@ -443,18 +443,16 @@ export default {
     }
     return {
       rowColumn,
-      formatDateDDMMYYYY,
       formatGender,
       positionAction,
       isShowCheckAllRecord,
       listID,
       isShowFilter,
-      baseUrl,
+      environment,
       oldSearch,
       dataFilter,
       sortBy,
       handleFilterData,
-      Comma,
       setPositionFilter,
       formatIsActive,
       handleSetSortColumn,
@@ -462,9 +460,10 @@ export default {
       handleShowFilter,
       handleShowAction,
       handleCloseAction,
+      Base,
     };
   },
-};
+});
 </script>
 
 <style scoped>
@@ -678,5 +677,14 @@ tbody tr.active,
   bottom: 56px !important;
   padding-right: 10px !important;
   border-color: #E5E8EC !important;
+}
+.center{
+  text-align: center !important;
+}
+.right{
+  text-align: right !important;
+}
+.left{
+  text-align: left !important;
 }
 </style>

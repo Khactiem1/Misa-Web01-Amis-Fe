@@ -1,27 +1,27 @@
-import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType } from "@/core/public_api";
+import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable } from "@/core/public_api";
 import i18n from '@/locales/i18n';
 
 /**
  * Chứa các column nhân viên
  * Khắc Tiềm - 08.03.2023
  */
-const columns: Header [] = [
+let columns: Header [] = [
   new Header(
     "employeeCode",
     i18n.global.t('module.cash.employeeCode'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeCode" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.employeeCode')}
   ),
   new Header(
     "employeeName",
     i18n.global.t('module.cash.employeeName'),
-    "200px",
+    "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.employeeName')},
   ),
   new Header(
     "gender",
     i18n.global.t('common.gender'),
-    "120px",
+    "120",
     { typeSearch: TypeSearch.Number, columnSearch: "Gender" , typeFilter: TypeFilter.Combobox, module: ModuleName.Employee, headerSearch: i18n.global.t('common.gender'), data: [
       { value: '', header: i18n.global.t('common.gender') },
       { value: Gender.Male, header: i18n.global.t('gender.male') },
@@ -32,85 +32,85 @@ const columns: Header [] = [
   new Header(
     "dateOfBirth",
     i18n.global.t('common.dateOfBirth'),
-    "130px",
+    "130",
     { typeSearch: TypeSearch.Date, columnSearch: "DateOfBirth" , typeFilter: TypeFilter.Date, module: ModuleName.Employee, headerSearch: i18n.global.t('common.dateOfBirth')},
   ),
   new Header(
     "branchBank",
     i18n.global.t('module.cash.branchBank'),
-    "230px",
+    "230",
     { typeSearch: TypeSearch.Text, columnSearch: "BranchBank" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.branchBank')},
   ),
   new Header(
     "identityCard",
     i18n.global.t('module.cash.identityCard'),
-    "200px",
+    "200",
     { typeSearch: TypeSearch.Text, columnSearch: "IdentityCard" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.identityCard')},
   ),
   new Header(
     "employeeTitle",
     i18n.global.t('module.cash.employeeTitle'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeTitle" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.employeeTitle')},
   ),
   new Header(
     "branchName",
     i18n.global.t('module.cash.branchName'),
-    "200px",
+    "200",
     { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.branchName')},
   ),
   new Header(
     "bankAccount",
     i18n.global.t('module.cash.bankAccount'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Text, columnSearch: "BankAccount" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.bankAccount')},
   ),
   new Header(
     "nameBank",
     i18n.global.t('module.cash.nameBank'),
-    "180px",
+    "180",
     { typeSearch: TypeSearch.Text, columnSearch: "NameBank" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.nameBank')},
   ),
   new Header(
     "dayForIdentity",
     i18n.global.t('module.cash.dayForIdentity'),
-    "220px",
+    "220",
     { typeSearch: TypeSearch.Date, columnSearch: "DayForIdentity" , typeFilter: TypeFilter.Date, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.dayForIdentity')},
   ),
   new Header(
     "grantAddressIdentity",
     i18n.global.t('module.cash.grantAddressIdentity'),
-    "230px",
+    "230",
     { typeSearch: TypeSearch.Text, columnSearch: "GrantAddressIdentity" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.grantAddressIdentity')},
   ),
   new Header(
     "phoneNumber",
     i18n.global.t('common.phoneNumber'),
-    "230px",
+    "230",
     { typeSearch: TypeSearch.Text, columnSearch: "PhoneNumber" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('common.phoneNumber')},
   ),
   new Header(
     "landlinePhone",
     i18n.global.t('module.cash.landlinePhone'),
-    "230px",
+    "230",
     { typeSearch: TypeSearch.Text, columnSearch: "LandlinePhone" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.landlinePhone')},
   ),
   new Header(
     "employeeEmail",
     i18n.global.t('module.cash.employeeEmail'),
-    "230px",
+    "230",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeEmail" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('module.cash.employeeEmail')},
   ),
   new Header(
     "employeeAddress",
     i18n.global.t('common.address'),
-    "200px",
+    "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeAddress" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: i18n.global.t('common.address')},
   ),
   new Header(
     "isCustomer",
     i18n.global.t('module.cash.isCustomer'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
       { value: 'true', header: i18n.global.t('common.yes') },
       { value: 'false', header: i18n.global.t('common.no') },
@@ -119,7 +119,7 @@ const columns: Header [] = [
   new Header(
     "isVendor",
     i18n.global.t('module.cash.isVendor'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
       { value: 'true', header: i18n.global.t('common.yes') },
       { value: 'false', header: i18n.global.t('common.no') },
@@ -128,7 +128,7 @@ const columns: Header [] = [
   new Header(
     "isActive",
     i18n.global.t('common.status'),
-    "150px",
+    "150",
     { typeSearch: TypeSearch.Number, columnSearch: "IsActive" , typeFilter: TypeFilter.Combobox, data: [
       { value: '', header: i18n.global.t('common.all') },
       { value: 'true', header: i18n.global.t('common.using') },
@@ -160,6 +160,27 @@ columns.forEach((item: Header, index)=> {
     columns[index].TypeFormat.CheckBox = true;
     columns[index].TypeFormat.LockCheckBox = true;
   }
+})
+
+/** Kiểm tra dữ liệu column đã được lưu ở indexedDB trước đó chưa */
+const dataTable: IdbDataTable = new IdbDataTable(ModuleName.Employee);
+await dataTable.get().then((data: Header []) => {
+  if(data){
+    /** Nếu lưu rồi nhưng có sự thay đổi giữa client và server thì tiến hành lưu lại */
+    if(data.length !== columns.length){
+      dataTable.set(columns);
+    }
+    /** Nếu ko có sự thay đổi thì các columns sẽ được lấy từ indexedDB */
+    else{
+      columns = data;
+    }
+  }
+  /** Nếu chưa lưu thì tiến hành lưu */
+  else{
+    dataTable.set(columns);
+  }
+}).catch((e: any) => {
+  console.log(e);
 })
 
 export default columns;

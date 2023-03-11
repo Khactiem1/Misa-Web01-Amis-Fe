@@ -7,7 +7,7 @@
     <div class="modal-body modal-setting_container">
       <div class="modal-setting_content">
         <div class="setting-header">
-          <h1>Tuỳ chỉnh giao diện</h1>
+          <h1>{{ $t('common.setting_table') }}</h1>
           <div
             class="setting-header_icon"
             @click="handleShowSettingTable()"
@@ -15,7 +15,7 @@
         </div>
         <div class="setting-content">
           <div class="setting-name setting-header_name">
-            <div class="info-setting">Tên cột dữ liệu</div>
+            <div class="info-setting">{{ $t('common.name_column') }}</div>
           </div>
           <!-- thêm vào đây để đổi màu background active -->
           <div
@@ -23,17 +23,17 @@
             v-for="(item, index) in columns"
             :key="index"
           >
-            <input-checkbox
+            <base-checkbox
               @custom-handle-click-checkbox="handleClickCheckbox(index)"
-              :checked="item.isShow"
-            ></input-checkbox>
-            <div class="info-setting">{{ item.header }}</div>
+              :checked="item.IsShow"
+            ></base-checkbox>
+            <div class="info-setting">{{ item.Header }}</div>
           </div>
         </div>
         <div class="setting-footer">
-          <button @click="handleShowSettingTable()" class="btn">Đóng</button>
+          <button @click="handleShowSettingTable()" class="btn">{{ $t('common.close') }}</button>
           <button @click="handleShowSettingTable()" class="btn btn-success">
-            Xong
+            {{ $t('common.done') }}
           </button>
         </div>
       </div>
@@ -41,40 +41,45 @@
   </div>
 </template>
 
-<script>
-import InputCheckbox from "../InputComponents/BaseCheckbox.vue";
-import eNum from "../../utils/eNum";
-import { onMounted, onUnmounted, toRefs, ref } from "vue";
-export default {
+<script lang="ts">
+import { BaseCheckbox } from "@/core/public_component";
+import { Header, KeyCode } from "@/core/public_api";
+
+import { onMounted, onUnmounted, toRefs, ref, defineComponent, type PropType } from "vue";
+export default defineComponent({
   props: {
     /**
      * Cột hiển thị
      */
     columns: {
-      type: Array,
+      type: Array as PropType<Header[]>,
+      required: true,
+      default: ():Header[] => [],
     },
     /**
      * Hàm đóng mở form 
      */
     handleShowSettingTable: {
       type: Function,
+      default: () => {}
     },
     /**
      * Hàm xử lý khi click check box hiển thị column
      */
     handleClickCheckbox: {
       type: Function,
+      default: () => {}
     },
   },
   components: {
-    InputCheckbox,
+    BaseCheckbox,
   },
   setup(props) {
     /**
      * Hàm xử lý ẩn hiện setting table
      * Khắc Tiềm - 15.09.2022
      */
-    const { handleShowSettingTable } = toRefs(props);
+    const { handleShowSettingTable }: any = toRefs(props);
 
     /**
      * Biến chứa trạng thái ẩn hiện setting table
@@ -83,17 +88,11 @@ export default {
     const isShowSettingTableAnimation = ref(false);
 
     /**
-     * Phím ESC
-     * Khắc Tiềm - 15.09.2022
-     */
-    const { ESC } = eNum;
-
-    /**
      * Hàm xử lý đóng mở cài đặt table
      * Khắc Tiềm 19.09.2022
      */
-    const handleEventKey = function (event) {
-      if (event.keyCode === ESC) {
+    const handleEventKey = function (event: any) {
+      if (event.keyCode === KeyCode.Esc) {
         handleShowSettingTable;
         handleShowSettingTable.value();
       }
@@ -121,7 +120,7 @@ export default {
       isShowSettingTableAnimation,
     };
   },
-};
+});
 </script>
 
 <style scoped>

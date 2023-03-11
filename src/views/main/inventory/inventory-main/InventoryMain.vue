@@ -2,11 +2,8 @@
 	<h1>Đây là inventory item main</h1>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-	
-})
+<script setup lang="ts">
+
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@
   <div class="show-paging">
     <div class="show-paging_item" 
       @click="handlePrevPage()"
-      :class="{ disabled : currentPage === 1 }">Trước</div>
+      :class="{ disabled : currentPage === 1 }">{{ $t('common.prev') }}</div>
     <div 
       v-for="(item, index) in displayPaging" 
       :key="index"
@@ -16,14 +16,15 @@
       @click="handleNextPage()"
       :class="{ disabled : currentPage === Math.ceil(totalCount / countRecordPageRecord) }"
     >
-      Sau
+    {{ $t('common.next') }}
     </div>
   </div>
 </template>
 
-<script>
-import { toRefs, ref, computed, watch } from "vue";
-export default {
+<script lang="ts">
+import { toRefs, ref, computed, watch, defineComponent } from "vue";
+
+export default defineComponent({
   props: ["modelValue", "totalCount", "countRecordPageRecord"],
   emits: ["update:modelValue"],
   setup(props, context) {
@@ -98,7 +99,7 @@ export default {
      * NK Tiềm 7/10/2022
      * @param {Biến nhận vào là trang muốn lấy} page 
      */
-    async function handleChangePage(page){
+    async function handleChangePage(page: any){
       try {
         if(page === "..."){
           if(currentPage.value === Math.ceil(totalCount.value / countRecordPageRecord.value) - 1 || currentPage.value === Math.ceil(totalCount.value / countRecordPageRecord.value)){
@@ -168,7 +169,7 @@ export default {
       handleNextPage,
     };
   },
-};
+});
 </script>
 
 <style scoped>

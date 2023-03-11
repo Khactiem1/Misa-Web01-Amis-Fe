@@ -1,16 +1,16 @@
 <template>
   <div class="table-empty sticky">
     <img
-      src="../../../public/asset/logo/bg_report_nodata.76e50bd8.svg"
+      src="../../assets/css/image/bg_report_nodata.76e50bd8.svg"
       class="table-empty_icon"
       alt=""
     />
-    <span>Không có dữ liệu</span>
+    <span>{{ $t('common.data_empty') }}</span>
   </div>
 </template>
 
-<script>
-export default {};
+<script setup lang="ts">
+
 </script>
 
 <style scoped>

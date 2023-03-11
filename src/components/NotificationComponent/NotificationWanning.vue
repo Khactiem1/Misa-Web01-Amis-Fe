@@ -38,7 +38,6 @@ export default defineComponent({
      * Các xử lý khi bấm huỷ
      */
     cancelAction: {
-      type: Object,
       default: {
         display: '',
         action: () => {}
@@ -48,19 +47,18 @@ export default defineComponent({
      * Các xử lý khi bấm chấp nhận
      */
     agreeAction: {
-      type: Object,
       default: {
         display: '',
-        action: () => {}
+        action: (id: any = '') => { console.log(id); }
       }
     },
     /**
      * Các xử lý hiển thị message
      */
     messageAction: {
-      type: Object,
       default: {
         display: '',
+        id: '',
         action: () => {}
       }
     },

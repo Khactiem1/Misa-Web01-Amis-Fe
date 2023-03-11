@@ -20,8 +20,10 @@
   </tbody>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   props: {
     /**
      * column cần hiển thị
@@ -34,7 +36,7 @@ export default {
      */
     lengthList: {},
   },
-};
+});
 </script>
 
 <style scoped>

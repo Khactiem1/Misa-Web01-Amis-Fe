@@ -10,7 +10,7 @@ export class Grid extends Utils{
   constructor(module: string = ''){
     super(module);
   }
-
+  
   /** Danh sách Data bản ghi */
   public recordList:any = computed(() => this.store.state[`${this.Module}`].recordList);
 

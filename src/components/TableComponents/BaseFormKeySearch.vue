@@ -5,7 +5,7 @@
       v-for="(item, index) in dataBindFilter"
       :key="index"
     >
-      <span> {{ item.labelSearch }}: {{ item.typeSearch === "date" ? utilEnum.formatDateDDMMYYYY(item.headerSearch) : item.headerSearch }}</span>
+      <span> {{ item.labelSearch }}: {{ item.typeSearch === "date" ? Base.formatDateDDMMYYYY(item.headerSearch) : item.headerSearch }}</span>
       <div
         @click="handleDeleteFilterItem(item.columnSearch)"
         class="delete-filter-icon"
@@ -16,26 +16,28 @@
       class="filter-item delete-filter-item"
       v-if="dataBindFilter.length > 0"
     >
-      <span>Xoá điều kiện lọc</span>
+      <span>{{ $t('common.remove_search') }}</span>
     </div>
   </div>
 </template>
 
-<script>
-import { computed, toRefs } from "vue";
+<script lang="ts">
+import { computed, toRefs, defineComponent } from "vue";
 import { useStore } from "vuex";
-import utilEnum from "../../utils/index";
-export default {
+import { UtilsComponents } from "@/core/public_api";
+
+export default defineComponent({
   props: {
     moduleFilter: {
-      String,
+      type: String,
     },
     loadData: {
-      Function,
+      type: Function,
     },
   },
   setup(props){
-    const { loadData, moduleFilter } = toRefs(props);
+    const Base = new UtilsComponents();
+    const { loadData, moduleFilter }: any = toRefs(props);
     /**
      * Sử dụng store của vuex
      * Khắc Tiềm - 15.09.2022
@@ -45,7 +47,7 @@ export default {
     * Dữ liệu đang được tìm kiếm
     */
     const dataBindFilter = computed(()=> {
-      return store.state[moduleFilter.value].filter.customSearch.filter(item => item.valueSearch || item.valueSearch === 0 || item.comparisonType === "!=Null" || item.comparisonType === "=Null");
+      return store.state[moduleFilter.value].filter.customSearch.filter((item: any) => item.valueSearch || item.valueSearch === 0 || item.comparisonType === "!=Null" || item.comparisonType === "=Null");
     });
 
     /**
@@ -53,7 +55,7 @@ export default {
     * @param {Cột cần xoá k filetr} column 
     * Khắc Tiềm - 15.09.2022
     */
-    function handleDeleteFilterItem(column){
+    function handleDeleteFilterItem(column: any = undefined){
       try {
         if(!column){
           store.dispatch(`${moduleFilter.value}/setFilterCustomSearchEmptyAction`);
@@ -68,12 +70,12 @@ export default {
       }
     }
     return{
-      utilEnum,
+      Base,
       dataBindFilter,
       handleDeleteFilterItem,
     }
   },
-};
+});
 </script>
 
 <style scoped>

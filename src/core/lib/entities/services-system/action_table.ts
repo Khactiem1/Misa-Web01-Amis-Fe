@@ -24,6 +24,27 @@ export class ActionTable {
   public static use: string = 'use';
 }
 
+/** 
+ * Thông tin cơ bản table 
+ * Khắc Tiềm - 08.03.2023
+*/
+export class InfoTable {
+  /** Hành động mặc định */
+  public actionDefault: any;
+
+  /** Danh sách hành động */
+  public actionList: any [];
+
+  /** Cột id */
+  public fieldId: any;
+
+  /** Cột mã */
+  public fieldCode: any;
+
+  /** Cột hoạt động */
+  public fieldActive: any;
+}
+
 /**
  * Tìm kiếm và lọc phân trang
  * Khắc Tiềm - 08.03.2023
@@ -171,6 +192,8 @@ export class Header {
 
   /** kiểu dữ liệu so format lên table */
   public TypeFormat: TypeFormat;
+
+  public Data?: any;
 }
 
 export class TypeFormat {
@@ -197,6 +220,9 @@ export class TypeFormat {
 
   /** Lock Checkbox */
   public LockCheckBox?: boolean = false;
+
+  /** Hình ảnh */
+  public IsImage?: boolean = false;
 }
 
 /**

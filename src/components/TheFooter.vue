@@ -16,10 +16,10 @@ export default defineComponent({
 
 <style scoped>
 .footer{
-    padding: 20px 12px;
-    text-align: center;
-    background-color: var(--while__color);
-    margin: 0 16px;
-    font-family: 'notosans-semibold';
+  padding: 20px 12px;
+  text-align: center;
+  background-color: var(--while__color);
+  margin: 0 16px;
+  font-family: 'notosans-semibold';
 }
 </style>

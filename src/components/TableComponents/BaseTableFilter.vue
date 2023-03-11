@@ -4,12 +4,12 @@
       left: setPositionFilter.left + 'px',
     }" class="condition-container">
     <div class="lock">
-        Cố định cột này
+        {{ $t('common.fixed_column') }}
     </div>
     <div class="filter-container">
         <div class="view-fitler-text">
             <div class="column-filter">
-                Lọc {{ dataFilter.headerSearch }}
+              {{ $t('common.filter') }} {{ dataFilter.headerSearch }}
             </div>
             <div v-if="dataFilter.typeFilter !== 'combobox'" class="filter-op-dropdown">
               <div ref="elmDropDown" @click="isShowDropDown = !isShowDropDown;" class="drop-icon">
@@ -23,11 +23,11 @@
             </div>
         </div>
         <div class="filter-value">
-          <base-input v-if="dataFilter.typeFilter === 'number' || dataFilter.typeFilter === 'text'" :disabled="isDisableInput" :placeholder="'Nhập giá trị lọc'" v-model="valueSearch" :isNumber="dataFilter.typeFilter === 'number'" ></base-input>
+          <base-input v-if="dataFilter.typeFilter === 'number' || dataFilter.typeFilter === 'text'" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === 'number'" ></base-input>
           <base-calendar v-if="dataFilter.typeFilter === 'date'" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
           <base-combobox 
             v-if="dataFilter.typeFilter === 'combobox'" 
-            :placeholder="'Nhập giá trị lọc'"
+            :placeholder="$t('common.enter_filter')"
             :value="'value'"
             :header="'header'"
             :options="dataFilter.data"
@@ -38,33 +38,43 @@
         </div>
     </div>
     <div class="filter-footer">
-      <button class="btn" @click="handleDeleteFilterItem()">Bỏ lọc</button>
-      <button class="btn btn-success" @click="handleSearchData">Lọc</button>
+      <button class="btn" @click="handleDeleteFilterItem()">{{ $t('common.un_filter') }}</button>
+      <button class="btn btn-success" @click="handleSearchData">{{ $t('common.filter') }}</button>
     </div>
   </div>
 </template>
 
-<script>
-import BaseInput from '../../components/InputComponents/BaseInput.vue';
-import BaseCombobox from '../../components/InputComponents/BaseCombobox.vue';
-import BaseCalendar from '../../components/InputComponents/BaseCalendar.vue';
-import { ref, onUnmounted, toRefs, onBeforeMount } from 'vue';
+<script lang="ts">
+import { BaseInput, BaseCombobox, BaseCalendar } from "@/core/public_component";
+import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent } from 'vue';
 import { useStore } from "vuex";
-import eNum from '@/utils/eNum';
-export default {
+import { FilterHeaderIn, KeyCode } from '@/core/public_api';
+export default defineComponent({
   props: {
     /**
      * Hàm xử lý đóng mở form filter
      */
-    handleShowFilter: {Function},
+    handleShowFilter: {
+      type: Function,
+      default: ()=> {}
+    },
     /**
      * set vị trí hiển thị form
      */
-    setPositionFilter: {Object},
+    setPositionFilter: {
+      default: {
+        top: 0,
+        left: 1,
+      },
+    },
     /**
      * Dữ liệu đi kèm form để binding và tìm kiếm
      */
-    dataFilter: {Object},
+    dataFilter: {
+      type: FilterHeaderIn,
+      required: true,
+      default: ():FilterHeaderIn => new FilterHeaderIn(),
+    },
 
     /**
      * Dữ liệu tìm kiếm trước đó
@@ -81,7 +91,7 @@ export default {
     /**
      * Lấy ra props
      */
-    const { handleShowFilter, dataFilter, oldSearch } = toRefs(props);
+    const { handleShowFilter, dataFilter, oldSearch }: any = toRefs(props);
     /**
      * Biến lưu trạng thái show dropdown chọn cách lọc
      */
@@ -89,11 +99,11 @@ export default {
     /**
      * element dropdown
      */
-    const elmDropDown = ref(null);
+    const elmDropDown:any = ref(null);
     /**
      *element chứa toàn bộ component
      */
-    const elmMain = ref(null);
+    const elmMain:any = ref(null);
     /**
      * option select kiểu truy vấn cho kiểu text
      */
@@ -156,7 +166,7 @@ export default {
     /**
      * Hàm xử lý lưu thông tin và tìm kiếm
      */
-    function handleSelectComparisonType(index){
+    function handleSelectComparisonType(index: any){
       /// 0 và 1 là vị trí mảng của trống và không trống khi chọn cái này thì ô input sẽ bị disable
       if(index === 0 || index === 1){
         valueSearch.value = '';
@@ -196,7 +206,7 @@ export default {
      *  khi không click trúng component thì sẽ unmount component
      * khắc Tiềm - 15.09.2022
      */
-     const handleClickTemplate = function (event) {
+     const handleClickTemplate = function (event: any) {
       try {
         const isClickElmMain = elmMain.value.contains(event.target);
         if(dataFilter.value.typeFilter === 'combobox'){
@@ -220,8 +230,8 @@ export default {
     /**
      * Hàm xử lý sự kiện khi nhấn enter
      */
-    const keyEnter = function(event){
-      if(event.keyCode === eNum.ENTER){
+    const keyEnter = function(event: any){
+      if(event.keyCode === KeyCode.Enter){
         handleSearchData();
       }
     }
@@ -254,7 +264,7 @@ export default {
     }
   },
   emits: ["handle-filter-data"],
-}
+});
 </script>
 
 <style scoped>

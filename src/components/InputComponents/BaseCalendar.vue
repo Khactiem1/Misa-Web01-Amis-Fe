@@ -143,96 +143,81 @@
 <script lang="ts">
 import { defineComponent, ref, toRefs, computed, watch, onUnmounted, onBeforeMount } from "vue";
 import { UtilsComponents } from "@/core/public_api";
-
 export default defineComponent({
   props: {
-    modelValue: { default: null },
+    modelValue: { default: (): any => '' },
     tabindex: {},
     label: {},
     messageValid: {},
     maxDate: {},
     disabled: {},
   },
-
   setup(props, context) {
     /**
      * Lấy ra hàm format date dạng dd/MM/YYYY và YYYY/MM/dd
      * Khắc Tiềm - 15.09.2022
      */
     const Base:UtilsComponents = new UtilsComponents(); 
-
     /**
      * Element calendar chọn ngày, tháng, năm
      * Khắc Tiềm - 15.09.2022
      */
     const elementCalendar:any = ref(null);
-
     /**
      * Element icon toggle ẩn hiện calendar
      * Khắc Tiềm - 15.09.2022
      */
     const elementIcon: any = ref(null);
-
     /**
      * Element chọn tháng
      * Khắc Tiềm - 15.09.2022
      */
     const elementSelectMonth:any = ref(null);
-
     /**
      * Element chọn năm
      * Khắc Tiềm - 15.09.2022
      */
     const elementSelectYear: any = ref(null);
-
     /**
      * Element thẻ input
      * Khắc Tiềm - 15.09.2022
      */
     const elementInput:any = ref(null);
-
     /**
      * Trạng thái show calendar
      * Khắc Tiềm - 15.09.2022
      */
     const showCalendar = ref(false);
-
     /**
      * Trạng thái show năm
      * Khắc Tiềm - 15.09.2022
      */
     const showSelectYear = ref(false);
-
     /**
      * Trạng thái show tháng
      * Khắc Tiềm - 15.09.2022
      */
     const showSelectMonth = ref(false);
-
     /**
      * Biến lưu ngày hiện tại
      * Khắc Tiềm - 15.09.2022
      */
     const dateNow = ref(new Date());
-
     /**
      * Model value truyền từ props
      * Khắc Tiềm - 15.09.2022
      */
-    const { modelValue, disabled } = toRefs(props);
-
+    const { modelValue, disabled }: any = toRefs(props);
     /**
      * Dữ liệu hiển thị lên ui
      * Khắc Tiềm - 15.09.2022
      */
     const displayData = ref("");
-
     /**
      * Dữ liệu hiển thị lên ui khi đang nhập
      * Khắc Tiềm - 15.09.2022
      */
     const dataInput = ref("__/__/____");
-
     /**
      * Biến lưu ngày được chọn
      * Khắc Tiềm - 15.09.2022
@@ -240,7 +225,6 @@ export default defineComponent({
     const currentDate = computed(() =>
       modelValue.value ? new Date(modelValue.value).getDate() : null
     );
-
     /**
      * Biến lưu tháng được chọn
      * Khắc Tiềm - 15.09.2022
@@ -250,7 +234,6 @@ export default defineComponent({
         ? new Date(modelValue.value).getMonth()
         : new Date().getMonth()
     );
-
     /**
      * Biến lưu năm được chọn
      * Khắc Tiềm - 15.09.2022
@@ -260,18 +243,16 @@ export default defineComponent({
         ? new Date(modelValue.value).getFullYear()
         : new Date().getFullYear()
     );
-
     onBeforeMount(()=> {
       if(modelValue.value){
         displayData.value = Base.formatDateDDMMYYYY(new Date(modelValue.value));
       }
     });
-
     /**
      * Kiểm tra nếu có sự thay đổi của model value thì render lại giao diện
      * Khắc Tiềm - 15.09.2022
      */
-    watch(modelValue, (newValue) => {
+    watch(modelValue, (newValue: any) => {
       currentMonth.value = newValue
         ? new Date(newValue).getMonth()
         : new Date().getMonth();
@@ -292,7 +273,6 @@ export default defineComponent({
         ? Base.formatDateDDMMYYYY(new Date(modelValue.value))
         : "";
     });
-
     /**
      * Tháng bắt đầu render
      * Khắc Tiềm - 15.09.2022
@@ -300,7 +280,6 @@ export default defineComponent({
     const daysInMonth = computed(() =>
       new Date(currentYear.value, currentMonth.value + 1, 0).getDate()
     );
-
     /**
      * Ngày bắt đầu render
      * Khắc Tiềm - 15.09.2022
@@ -308,7 +287,6 @@ export default defineComponent({
     const startDay = computed(() =>
       new Date(currentYear.value, currentMonth.value, 0).getDay()
     );
-
     /**
      * Hàm xử lý quay lại tháng
      * Khắc Tiềm - 15.09.2022
@@ -321,7 +299,6 @@ export default defineComponent({
         currentMonth.value--;
       }
     }
-
     /**
      * Hàm xử lý next tháng
      * Khắc Tiềm - 15.09.2022
@@ -334,7 +311,6 @@ export default defineComponent({
         currentMonth.value++;
       }
     }
-
     /**
      * Hàm xử lý chọn năm
      * Khắc Tiềm - 15.09.2022
@@ -344,7 +320,6 @@ export default defineComponent({
       showSelectYear.value = false;
       showSelectMonth.value = true;
     }
-
     /**
      * Hàm xử lý chọn tháng
      * Khắc Tiềm - 15.09.2022
@@ -353,7 +328,6 @@ export default defineComponent({
       currentMonth.value = month - 1;
       showSelectMonth.value = false;
     }
-
     /**
      * Hàm xử lý chọn ngày
      * Khắc Tiềm - 15.09.2022
@@ -368,7 +342,6 @@ export default defineComponent({
       context.emit("update:modelValue", Base.formatDateYYYYMMDD(d));
       handleShowCalendar();
     }
-
     /**
      * Hàm xử lý ẩn calendar khi click ra ngoài calendar
      * Khắc Tiềm - 15.09.2022
@@ -383,7 +356,6 @@ export default defineComponent({
         handleShowCalendar();
       }
     };
-
     /**
      * Khi Unmounted thì sẽ xoá bỏ sự kiện xử lý ẩn calendar khi click ra ngoài calendar
      * Khắc Tiềm - 15.09.2022
@@ -391,7 +363,6 @@ export default defineComponent({
     onUnmounted(()=> {
       window.removeEventListener("click", handleClickTemplate);
     });
-
     /**
      * Hàm xử lý ẩn hiện calendar
      * Khắc Tiềm - 15.09.2022
@@ -408,19 +379,16 @@ export default defineComponent({
         showCalendar.value = !showCalendar.value;
       }
     }
-
     /**
      * Biến chứa thông tin ngày đã nhập
      * Khắc Tiềm - 15.09.2022
      */
     const enteredValue: any = ref("");
-
     /**
      * Biến chứa trạng thái nhập ngày, tháng, năm
      * Khắc Tiềm - 15.09.2022
      */
     const doneValue = ref(0);
-
     /**
      * Hàm xử lý sự kiện khi nhập vào ô input ngày
      * Khắc Tiềm - 15.09.2022
@@ -457,7 +425,6 @@ export default defineComponent({
         displayData.value = enteredValue.value;
       }
     }
-
     /**
      * Hàm xử lý lưu dữ liệu khi nhập tay
      * Khắc Tiềm - 15.09.2022
@@ -480,7 +447,6 @@ export default defineComponent({
         doneValue.value = 2;
       }
     }
-
     /**
      * Hàm xử lý chỉ cho phép nhập số
      * Khắc Tiềm - 15.09.2022
@@ -670,7 +636,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
 }
-
 .calendar-item.calendar-date {
   border: 1px solid #ccc;
   padding: 0 12px;
@@ -687,14 +652,12 @@ export default defineComponent({
   border-radius: 4px;
   background-color: #fff;
 }
-
 .info {
   display: flex;
   justify-content: space-between;
   padding: 12px 20px 8px 20px;
   align-items: center;
 }
-
 .info span {
   cursor: pointer;
 }
@@ -703,14 +666,12 @@ export default defineComponent({
   padding-bottom: 12px;
   color: var(--primary__color);
 }
-
 .date {
   display: flex;
   border-bottom: solid 1px #ccc;
   flex-wrap: wrap;
   padding: 4px 0 8px 0;
 }
-
 .day,
 .day-name {
   width: calc(100% / 7 - 2px);
@@ -737,14 +698,12 @@ export default defineComponent({
 .day.day-value {
   cursor: pointer;
 }
-
 .calendar-next::before {
   content: "\2192";
 }
 .calendar-prev::before {
   content: "\2190";
 }
-
 .day.active {
   background-color: #d5ecd2;
   color: var(--primary__color);

@@ -5,7 +5,7 @@
       :checked="isChecked"
       :value="value"
       :tabindex:="tab"
-      @change="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
     />
     <span class="info">{{ label }}</span>
     <span class="input-radio_focus"></span>
@@ -28,7 +28,7 @@ export default defineComponent({
     /**
      * Giá trị mặc định
      */
-    value: { default: undefined },
+    value: {},
     tab: {},
   },
   computed: {
