@@ -164,23 +164,6 @@ columns.forEach((item: Header, index)=> {
 
 /** Kiểm tra dữ liệu column đã được lưu ở indexedDB trước đó chưa */
 const dataTable: IdbDataTable = new IdbDataTable(ModuleName.Employee);
-await dataTable.get().then((data: Header []) => {
-  if(data){
-    /** Nếu lưu rồi nhưng có sự thay đổi giữa client và server thì tiến hành lưu lại */
-    if(data.length !== columns.length){
-      dataTable.set(columns);
-    }
-    /** Nếu ko có sự thay đổi thì các columns sẽ được lấy từ indexedDB */
-    else{
-      columns = data;
-    }
-  }
-  /** Nếu chưa lưu thì tiến hành lưu */
-  else{
-    dataTable.set(columns);
-  }
-}).catch((e: any) => {
-  console.log(e);
-})
+await dataTable.checkAndSetColumns(columns).then((data: Header[]) => { columns = data });
 
 export default columns;

@@ -167,7 +167,7 @@ export class ComparisonType {
  * Khắc Tiềm - 08.03.2023
  */
 export class Header {
-  constructor(field: string = '', header: string = '', width: string = '100px', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
+  constructor(field: string = '', header: string = '', width: string = '100', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
     this.Field = field;
     this.IsShow = isShow;
     this.Header = header;

@@ -13,7 +13,7 @@ import EmployeeApi from '@/api/module/employee';
 
 const Base: Grid = reactive(new Grid(ModuleName.Employee));
 const api:EmployeeApi = new EmployeeApi();
-
+console.log(Base.columns);
 
 </script>
 

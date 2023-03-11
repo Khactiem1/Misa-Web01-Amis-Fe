@@ -1,4 +1,4 @@
-import { Filter } from "@/core/public_api";
+import { Filter, Header, IdbDataTable } from "@/core/public_api";
 
 /**
  * Base Store với action, mutation được xây dựng sẵn
@@ -20,7 +20,7 @@ export default class BaseStore {
   /** Các hành động của table */
   public ActionTable: any = {};
 
-  constructor(module: string = '', columns: any [] = [], mutations: object = {}, actions: object = {}, actionTable: object = {}){
+  constructor(module: string = '', columns: Header [] = [], mutations: object = {}, actions: object = {}, actionTable: object = {}){
     this.Module = module;
     this.Columns = columns;
     this.Mutations = mutations;

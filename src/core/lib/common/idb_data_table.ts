@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import type { Header } from '../entities/services-system/action_table';
 import { EntitySystem } from './entity_system';
 import { SystemConstants } from './system.constants';
 
@@ -52,5 +53,28 @@ export class IdbDataTable {
   /** Lấy ra tên table */
   public async keys(){
     return (await this.dbPromise).getAllKeys(this.StoreName);
+  }
+
+  /** Kiểm tra dữ liệu column đã được lưu ở indexedDB trước đó chưa */
+  public checkAndSetColumns = async (columns: Header []): Promise<Header []> => {
+    await this.get().then((data: Header []) => {
+      if(data){
+        /** Nếu lưu rồi nhưng có sự thay đổi giữa client và server thì tiến hành lưu lại */
+        if(data.length !== columns.length){
+          this.set(columns);
+        }
+        /** Nếu ko có sự thay đổi thì các columns sẽ được lấy từ indexedDB */
+        else{
+          columns = data;
+        }
+      }
+      /** Nếu chưa lưu thì tiến hành lưu */
+      else{
+        this.set(columns);
+      }
+    }).catch((e: any) => {
+      console.log(e);
+    })
+    return columns;
   }
 }
