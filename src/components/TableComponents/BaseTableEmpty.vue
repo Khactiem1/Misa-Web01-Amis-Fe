@@ -27,7 +27,6 @@
   margin: 50px 0 30px 0;
 }
 .table-empty span {
-  left: 45%;
   padding-left: 13px;
 }
 </style>

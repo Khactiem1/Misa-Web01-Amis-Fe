@@ -1,5 +1,4 @@
 import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable } from "@/core/public_api";
-import i18n from '@/locales/i18n';
 
 /**
  * Chứa các column nhân viên
@@ -32,7 +31,7 @@ let columns: Header [] = [
   new Header(
     "dateOfBirth",
     'common.dateOfBirth',
-    "130",
+    "150",
     { typeSearch: TypeSearch.Date, columnSearch: "DateOfBirth" , typeFilter: TypeFilter.Date, module: ModuleName.Employee, headerSearch: 'common.dateOfBirth'},
   ),
   new Header(

@@ -18,23 +18,23 @@
 		<div class="table-content">
 			<div class="table-function sticky">
 				<div class="form-fix">
-          <div ref="templateActionAll" class="table-function_series">
+          <div ref="templateActionAll" @click="handleToggleActionAll" class="table-function_series">
             <span>{{ $t('common.batch_execution') }}</span>
             <div class="table-function_series-icon"></div>
-            <div v-show="false" class="table-list_action">
-              <div class="list_action-item">{{ $t('common.delete') }}</div>
+            <div v-show="Base.showActionAll && Base.checkShowActionSeries.length > 0" class="table-list_action">
+              <div class="list_action-item" @click="handleDeleteAll()">{{ $t('common.delete') }}</div>
             </div>
           </div>
           <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
         </div>
 				<div style="min-width: 350px;" class="table-function_search">
           <div class="search-table">
-            <input class="input input-table_search" type="text" :placeholder="$t('module.cash.search_employee_code_name')"/>
+            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.cash.search_employee_code_name')"/>
             <div class="icon-search"></div>
           </div>
-          <div @click="Base.loadData()" class="action-render_table reload-table"></div>
-          <a target="_blank" class="action-render_table export-data"></a>
-          <div class="action-render_table setting-table"></div>
+          <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
+          <a target="_blank" class="action-render_table export-data" :content="$t('common.export_excel')"></a>
+          <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
         </div>
 			</div>
 			<!-- Table -->
@@ -45,12 +45,25 @@
 			</base-table>
 			<!-- End Table -->
 		</div>
+		<teleport to="#app">
+      <base-modal-form v-if="Base.isShowModal">
+        <form-employee
+					
+        ></form-employee>
+      </base-modal-form>
+      <base-setting
+        v-if="Base.isShowSettingTable"
+        :columns="Base.columnSetting"
+        :handleShowSettingTable="Base.handleShowSettingTable"
+      ></base-setting>
+    </teleport>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Grid, ModuleName, ENotificationType, ActionTable } from '@/core/public_api';
-import { BaseTable, BasePaging, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseCombobox } from '@/core/public_component';
+import { BaseTable, BasePaging, BaseSetting, BaseFormKeySearch, BaseModalForm } from '@/core/public_component';
+import FormEmployee from './FormEmployee.vue';
 import { reactive ,computed, ref, watch, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { environment } from '@/environments/environment.prod';
 import { useI18n } from 'vue-i18n'
@@ -67,12 +80,22 @@ const api:EmployeeApi = new EmployeeApi();
 const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
 
 /**
+ * Biến chứa template thực hiện hành động hàng loạt
+ * Khắc Tiềm - 3-03-2023
+ */
+const templateActionAll: any = ref(null);
+
+/**
  * Trước khi mounted sẽ load dữ liệu 1 lần
  * Khắc Tiềm - 08.03.2023
  */
 onBeforeMount(() => {
 	Base.loadData({ v_Offset: Base.recordSelectPaging, v_Limit: Base.PageSize, v_Where: Base.keyword });
 });
+
+async function handleDeleteAll() {
+	console.log('delete all');
+}
 
 /**
  * Hàm xử lý khi click vào các hành động của từng cột dữ liệu table
@@ -93,6 +116,36 @@ async function handleClickActionColumTable(action: any, recordId: any, recordCod
 		console.log(e);
 	}
 }
+
+/**
+ * Hàm xử lý sự kiện click không trúng templateActionAll thì sẽ ẩn hành động hàng loạt
+ * Khắc Tiềm - 15.09.2022
+ */
+const handleClickActionAll = (event: any) => {
+	const isClick = templateActionAll.value.contains(event.target);
+	if (!isClick) {
+		handleToggleActionAll();
+	}
+};
+
+/**
+ * Hàm xử lý ẩn hành động thực hiện hàng loạt
+ * Khắc Tiềm - 15.09.2022
+ */
+function handleToggleActionAll() {
+	try {
+		if (!Base.showActionAll && Base.checkShowActionSeries.length > 0) {
+			Base.showActionAll = true;
+			window.addEventListener("click", handleClickActionAll);
+		} else {
+			window.removeEventListener("click", handleClickActionAll);
+			Base.showActionAll = false;
+		}
+	}catch (e) {
+		console.log(e);
+	}
+}
+
 </script>
 
 <style scoped>
@@ -127,7 +180,7 @@ async function handleClickActionColumTable(action: any, recordId: any, recordCod
 .container-table_header {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0 16px 0px;
+  padding: 14px 0 10px 0px;
 }
 /* Phần table */
 .table-content {
@@ -260,17 +313,17 @@ async function handleClickActionColumTable(action: any, recordId: any, recordCod
   background-position: -704px -200px;
 }
 .setting-table::before {
-  content: "Tuỳ chỉnh giao diện";
+  content: attr(content);
   width: 130px;
   left: -96px;
 }
 .reload-table::before {
-  content: "Lấy lại dữ liệu";
+  content: attr(content);
   width: 100px;
   left: -40px;
 }
 .export-data::before {
-  content: "Xuất ra Excel";
+  content: attr(content);
   width: 110px;
   left: -50px;
 }

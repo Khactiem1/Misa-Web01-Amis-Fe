@@ -15,24 +15,43 @@
         </div>
         <div class="setting-content">
           <div class="setting-name setting-header_name">
-            <div class="info-setting">{{ $t('common.name_column') }}</div>
+            <div style="padding-left: 26px;">
+              <base-checkbox
+                :checked="showAll"
+                @custom-handle-click-checkbox="handleClickCheckAll"
+              ></base-checkbox>
+            </div>
+            <div style="padding-left: 19px;" class="info-setting">{{ $t('common.name_column') }}</div>
+            <div style="padding-left: 30px;" class="info-setting">{{ $t('common.name_column_custom') }}</div>
+            <div style="padding-left: 105px;" class="info-setting">{{ $t('common.width') }}</div>
           </div>
-          <!-- thêm vào đây để đổi màu background active -->
-          <div
-            class="setting-name"
-            v-for="(item, index) in columns"
-            :key="item.Field"
+          <draggable
+            :list="columnCustom"
+            :disabled="!true"
+            item-key="Field"
+            class="list-group"
+            ghost-class="ghost"
+            @start="dragging = true"
+            @end="dragging = false"
           >
-            <base-checkbox
-              @custom-handle-click-checkbox="handleClickCheckbox(index)"
-              :checked="item.IsShow"
-            ></base-checkbox>
-            <div class="info-setting">{{ item.Header }}</div>
-          </div>
+            <template #item="{ element }">
+              <div class="list-group-item setting-name" :class="{ 'not-draggable': !true }">
+                <div :title="$t('common.drag')" class="icon-drag-grid"></div>
+                <base-checkbox
+                  v-model="element.IsShow"
+                  :trueValue="true"
+                  :falseValue="false"
+                ></base-checkbox>
+                <div class="info-setting">{{ $t(element.Header) }}</div>
+                <input v-model="element.HeaderCustom" class="input input-setting" type="text" />
+                <input @keypress="isInputNumber($event, element.Width)" v-model="element.Width" class="input input-setting_width" type="text" />
+              </div>
+            </template>
+          </draggable>
         </div>
         <div class="setting-footer">
           <button @click="handleShowSettingTable()" class="btn">{{ $t('common.close') }}</button>
-          <button @click="handleShowSettingTable()" class="btn btn-success">
+          <button @click="closeDone()" class="btn btn-success">
             {{ $t('common.done') }}
           </button>
         </div>
@@ -44,8 +63,9 @@
 <script lang="ts">
 import { BaseCheckbox } from "@/core/public_component";
 import { Header, KeyCode } from "@/core/public_api";
+import draggable from "vuedraggable";
 
-import { onMounted, onUnmounted, toRefs, ref, defineComponent, type PropType } from "vue";
+import { onMounted, onUnmounted, toRefs, ref, defineComponent, type PropType, reactive, watch, computed } from "vue";
 export default defineComponent({
   props: {
     /**
@@ -63,15 +83,9 @@ export default defineComponent({
       type: Function,
       default: () => {}
     },
-    /**
-     * Hàm xử lý khi click check box hiển thị column
-     */
-    handleClickCheckbox: {
-      type: Function,
-      default: () => {}
-    },
   },
   components: {
+    draggable,
     BaseCheckbox,
   },
   setup(props) {
@@ -79,7 +93,36 @@ export default defineComponent({
      * Hàm xử lý ẩn hiện setting table
      * Khắc Tiềm - 15.09.2022
      */
-    const { handleShowSettingTable }: any = toRefs(props);
+    const { handleShowSettingTable, columns }: any = toRefs(props);
+
+    /** Các column */
+    const columnCustom: Header[] = reactive(JSON.parse(JSON.stringify(columns.value)));
+
+    const dragging = ref(false);
+
+    /** Có show all hay không */
+    const showAll = computed(() => {
+      if(columnCustom.find((item: Header) => !item.IsShow)){
+        return false;
+      }
+      else{
+        return true;
+      }
+    });
+
+    /** Hàm xử lý toggle all các checkbox */
+    function handleClickCheckAll(){
+      if(showAll.value){
+        columnCustom.forEach((item: Header, index) => {
+          columnCustom[index].IsShow = false;
+        })
+      }
+      else{
+        columnCustom.forEach((item: Header, index) => {
+          columnCustom[index].IsShow = true;
+        })
+      }
+    }
 
     /**
      * Biến chứa trạng thái ẩn hiện setting table
@@ -87,16 +130,32 @@ export default defineComponent({
      */
     const isShowSettingTableAnimation = ref(false);
 
+    /** Hàm đóng và lưu dữ liệu 
+     * Khắc Tiềm - 15.09.2022
+    */
+    function closeDone(){
+      handleShowSettingTable.value(columnCustom);
+    }
+
     /**
      * Hàm xử lý đóng mở cài đặt table
      * Khắc Tiềm 19.09.2022
      */
     const handleEventKey = function (event: any) {
       if (event.keyCode === KeyCode.Esc) {
-        handleShowSettingTable;
         handleShowSettingTable.value();
       }
     };
+
+    function isInputNumber(evt: any, width: any) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57 || width > 999)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    }
 
     /**
      * Khi mounted thì sẽ lắng nghe sự kiện nhấn phím
@@ -118,6 +177,12 @@ export default defineComponent({
     });
     return {
       isShowSettingTableAnimation,
+      columnCustom,
+      dragging,
+      showAll,
+      closeDone,
+      isInputNumber,
+      handleClickCheckAll,
     };
   },
 });
@@ -125,6 +190,25 @@ export default defineComponent({
 
 <style scoped>
 /* Modal setting */
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  direction: rtl;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #b0b0b0;
+}
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 0;
+  background: #808080;
+}
+::-webkit-scrollbar {
+  height: 10px; /* height of horizontal scrollbar ← You're missing this */
+  width: 8px;
+	background-color: var(--while__color);
+}
 .modal {
   top: 0;
 }
@@ -175,7 +259,7 @@ export default defineComponent({
 .setting-name {
   display: flex;
   align-items: center;
-  padding: 13px 13px;
+  padding: 6px 12px;
   border-bottom: 1px solid #c7c7c7;
 }
 .setting-name:hover {
@@ -194,6 +278,7 @@ export default defineComponent({
 }
 .info-setting {
   padding-left: 20px;
+  width: 260px;
 }
 .setting-header_name .info-setting {
   padding-left: 0;
@@ -205,5 +290,33 @@ export default defineComponent({
   height: 56px;
   justify-content: space-between;
   border-top: 4px solid #f4f5f8;
+}
+.input-setting{
+  width: 250px;
+  height: 26px;
+}
+.input-setting_width{
+  height: 26px;
+  width: 100px;
+  margin-left: 55px;
+}
+.icon-drag-grid{
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  background: var(--url__icon) no-repeat;
+  cursor: pointer;
+  background-position: -416px -360px;
+  margin-right: 10px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>

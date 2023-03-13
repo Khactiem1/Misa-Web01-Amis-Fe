@@ -43,16 +43,6 @@ export default class BaseStore {
       state: () => {
         return {
           /**
-           * biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0
-           * Khắc Tiềm - 08.03.2023
-           */
-          recordSelectPaging: 0,
-          /**
-           * Trạng thái load table
-           * Khắc Tiềm - 08.03.2023
-           */
-          isShowLoaderTable: false,
-          /**
            * Các hành động của table
            * Khắc Tiềm - 08.03.2023
            */
@@ -87,9 +77,37 @@ export default class BaseStore {
            * Khắc Tiềm - 08.03.2023
            */
           filter: new Filter(),
+          /**
+          * Biến chứa trạng thái ẩn hiện setting table
+          */
+          isShowSettingTable: false,
+          /**
+            * biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0
+            * Khắc Tiềm - 08.03.2023
+            */
+          recordSelectPaging: 0,
+          /**
+            * Trạng thái load table
+            * Khắc Tiềm - 08.03.2023
+            */
+          isShowLoaderTable: false,
         };
       },
       mutations: {
+        /**
+         * Set ShowSettingTable
+         * Khắc Tiềm - 08.03.2023
+         */
+        setShowSettingTableMutation(state: any){
+          state.isShowSettingTable = !state.isShowSettingTable;
+        },
+        /**
+         * Set Column
+         * Khắc Tiềm - 08.03.2023
+         */
+        setColumnMutation(state: any, payload: any){
+          state.columns = payload;
+        },
         /**
          * Set RecordSelectPaging
          * Khắc Tiềm - 08.03.2023
@@ -103,14 +121,6 @@ export default class BaseStore {
          */
         setIsShowLoaderTableMutation(state: any, payload: any){
           state.isShowLoaderTable = payload;
-        },
-        /**
-         * Xét toggle các trường được hiển thị lên giao diện table
-         * @param {index được toggle} payload 
-         * Khắc Tiềm - 08.03.2023
-         */
-        setToggleShowColumnTableMutation(state: any, payload: any) {
-          state.columns[payload].IsShow = !state.columns[payload].IsShow;
         },
 
         /**
@@ -269,6 +279,20 @@ export default class BaseStore {
       },
       actions: {
         /**
+         * Set ShowSettingTable
+         * Khắc Tiềm - 08.03.2023
+         */
+        setShowSettingTableAction(context: any){
+          context.commit("setShowSettingTableMutation");
+        },
+        /**
+         * Set Column
+         * Khắc Tiềm - 08.03.2023
+         */
+        setColumnAction(context: any, payload: any){
+          context.commit("setColumnMutation", payload);
+        },
+        /**
          * Set RecordSelectPaging
          */
         setRecordSelectPagingAction(context: any, payload: any){
@@ -364,15 +388,6 @@ export default class BaseStore {
          */
         setAllCheckboxRecordAction(context: any, payload: any) {
           context.commit("setAllCheckboxRecordMutation", payload);
-        },
-
-        /**
-         * Xét toggle các trường được hiển thị lên giao diện table
-         * @param {index được toggle} payload 
-         * Khắc Tiềm - 08.03.2023
-         */
-        setToggleShowColumnTableAction(context: any, payload: any) {
-          context.commit("setToggleShowColumnTableMutation", payload);
         },
         
         /**

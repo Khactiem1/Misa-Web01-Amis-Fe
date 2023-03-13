@@ -4,7 +4,7 @@
  */
 import { useStore } from "vuex";
 import i18n from '@/locales/i18n';
-import { ENotificationType, type ServiceResponse } from "@/core/public_api";
+import { ENotificationType } from "@/core/public_api";
 
 export class ApiService {
   /** Store vuex */
@@ -16,7 +16,7 @@ export class ApiService {
       this.Store.dispatch("config/setToggleShowLoaderAction");
     }
     await Api(data)
-      .then((response: ServiceResponse) => {
+      .then((response: any) => {
         if(!noLoaderAnimation){
           this.Store.dispatch("config/setToggleShowLoaderAction");
         }
@@ -32,7 +32,7 @@ export class ApiService {
           else{
             this.Store.dispatch("config/addNotification", {
               type: ENotificationType.Error,
-              message: i18n.global.t(`${response.data.userMsg}`)
+              message: i18n.global.t(`${response.Data.UserMsg}`)
             });
           }
         }

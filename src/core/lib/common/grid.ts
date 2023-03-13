@@ -1,6 +1,6 @@
 import { Utils } from './utils';
 import { computed } from "vue";
-import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem} from '@/core/public_api';
+import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 import type BaseApi from '@/api/base_api';
 
@@ -44,6 +44,9 @@ export class Grid extends Utils{
   /** biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0 */
   public recordSelectPaging:any = computed(() => this.store.state[`${this.Module}`].recordSelectPaging);
 
+  /** Biến chứa trạng thái ẩn hiện setting table */
+  public isShowSettingTable = computed(() => this.store.state[`${this.Module}`].isShowSettingTable);
+
 
 
 
@@ -54,12 +57,13 @@ export class Grid extends Utils{
    * Các Method
    */
 
-  /** Hàm load dữ liệu lên table */
+  /** Hàm load dữ liệu lên table 
+   * Khắc Tiềm - 08.03.2023*/
   public loadData = async (filter: any = undefined) => {
     try{
       if(filter && filter.resetPage){
         await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
-        filter.v_Offset = this.recordSelectPaging;
+        filter.v_Offset = this.recordSelectPaging.value;
       }
       if (filter) {
         if(filter !== true){
@@ -77,7 +81,8 @@ export class Grid extends Utils{
     }
   }
 
-  /** Hàm xử lý checkbox value true thì là check ô tất cả check, value là 0,1,2 là xử lý các phần tử được check */
+  /** Hàm xử lý checkbox value true thì là check ô tất cả check, value là 0,1,2 là xử lý các phần tử được check
+   * Khắc Tiềm - 08.03.2023 */
   public handleClickCheckbox = (value: any, listID: any) => {
     try {
       if (value === true) {
@@ -99,5 +104,36 @@ export class Grid extends Utils{
     this.PageSize = record;
     await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
     this.loadData({ v_Offset: 0, v_Limit: record, v_Where: this.keyword});
+  }
+
+  /** Hàm xử lý search tự động và debounce 600ms 
+   * Khắc Tiềm - 08.03.2023*/
+  public handleSearchData = async (event: any) =>{
+    this.handleDebounce(600, async (event: any) => {
+      this.keyword = event.target.value;
+      await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+      this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword, });
+    }, event);
+  }
+
+  /** Hàm xử lý chuyển trang 
+   * Khắc Tiềm - 08.03.2023*/
+  public selectPaging = async (value: any) => {
+    await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, value); 
+    this.loadData({ v_Offset: value, v_Limit: this.PageSize, v_Where: this.keyword, });
+  }
+
+  /**
+   * Hàm xử lý đóng mở setting table
+   * Khắc Tiềm - 08.03.2023
+   */
+  public handleShowSettingTable = async (columnCustom: any = undefined) => {
+    if(columnCustom){
+      const dataTable: IdbDataTable = new IdbDataTable(this.Module);
+      dataTable.set(JSON.parse(JSON.stringify(columnCustom)));
+      await this.store.dispatch(`${this.Module}/setColumnAction`, columnCustom);
+      this.loadData();
+    }
+    this.store.dispatch(`${this.Module}/setShowSettingTableAction`);
   }
 }

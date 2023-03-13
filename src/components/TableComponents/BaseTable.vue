@@ -4,15 +4,15 @@
       <table class="table">
         <thead class="thead-light">
           <tr>
-            <th v-if="BaseComponent.checkShowActionSeries">
+            <th style="width: 40px;" v-if="BaseComponent.checkShowActionSeries">
               <base-checkbox :checked="isShowCheckAllRecord" @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(true, listID)"></base-checkbox>
             </th>
-            <th v-for="(item) in BaseComponent.columns" class="item.TypeFormat.TextAlign" 
+            <th v-for="(item) in BaseComponent.columns"
               :style="{ 'min-width': `${item.Width}px`, width: `${item.Width}px`, }"
               :key="item.Field"
             >
-              <span  :class="item.TypeFormat.TextAlign" @click="handleSetSortColumn(item.Field)">
-                {{ $t(`${item.Header}`) }} 
+              <span style="display: flex;" :class="item.TypeFormat.TextAlign" @click="handleSetSortColumn(item.Field)">
+                <span style="flex: 1; display: inline-block;">{{ item.HeaderCustom && item.HeaderCustom.trim() !== '' ? item.HeaderCustom : $t(`${item.Header}`) }}</span>
                 <div v-if="item.Field.charAt(0).toUpperCase() + item.Field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
               </span>
               <div v-if="item.Filter" @click="handleShowFilter($event, item.Filter)" class="mi-header-option"></div>
@@ -34,34 +34,10 @@
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in BaseComponent.columns" :title="col.TypeFormat.FractionSize === true
-                  ? Base.Comma(row[col.Field])
-                  : col.TypeFormat.FormatDate === true
-                  ? Base.formatDateDDMMYYYY(row[col.Field])
-                  : col.TypeFormat.IsGender === true
-                  ? formatGender(row[col.Field])
-                  : col.TypeFormat.IsActive === true
-                  ? formatIsActive(row[col.Field])
-                  : col.TypeFormat.IsNature === true
-                  ? formatNature(row[col.Field])
-                  : col.TypeFormat.IsImage === true
-                  ? '' :row[col.Field]"
+            <td v-for="(col, index) in BaseComponent.columns" :title="formatData(col.TypeFormat, row[col.Field])"
               :class="col.TypeFormat.TextAlign" :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
-                {{
-                col.TypeFormat.FractionSize === true
-                  ? Base.Comma(row[col.Field])
-                  : col.TypeFormat.FormatDate === true
-                  ? Base.formatDateDDMMYYYY(row[col.Field])
-                  : col.TypeFormat.IsGender === true
-                  ? formatGender(row[col.Field])
-                  : col.TypeFormat.IsActive === true
-                  ? formatIsActive(row[col.Field])
-                  : col.TypeFormat.IsNature === true
-                  ? formatNature(row[col.Field])
-                  : col.TypeFormat.IsImage === true
-                  ? "" :row[col.Field]
-                }}
+                {{ formatData(col.TypeFormat, row[col.Field]) }}
               <div v-if="col.TypeFormat.IsImage === true" class="image-table">
                 <img v-bind:src="row[col.Field] ? row[col.Field].includes('/Assets/Images/') ? environment.IMAGE_API + row[col.Field] : '' + row[col.Field] : ''" alt="">
               </div>
@@ -119,12 +95,13 @@
     <div class="paging">
       <base-combobox
         :options="[
-          { value: 10, header: $t('common.paging', { record: '10'}) },
-          { value: 20, header: $t('common.paging', { record: '20'}) },
-          { value: 30, header: $t('common.paging', { record: '30'}) },
-          { value: 50, header: $t('common.paging', { record: '50'}) },
-          { value: 100, header: $t('common.paging', { record: '100'}) },
+          { value: 10, header: 'common.paging' },
+          { value: 20, header: 'common.paging' },
+          { value: 30, header: 'common.paging' },
+          { value: 50, header: 'common.paging' },
+          { value: 100, header: 'common.paging' },
         ]"
+        :i18n="true"
         :disabled="true"
         :value="'value'"
         :header="'header'"
@@ -135,16 +112,17 @@
       <base-paging
         :totalCount="BaseComponent.totalCount"
         :countRecordPageRecord="BaseComponent.PageSize"
+        :value="BaseComponent.recordSelectPaging"
+        @custom-handle-select-paging="BaseComponent.selectPaging"
+        :key="BaseComponent.PageSize || BaseComponent.keyword"
       ></base-paging>
-        <!-- v-model="recordSelectPaging"
-        :key="countRecordPageRecord || keyword" -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { BaseCheckbox, BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction, BaseCombobox, BasePaging } from "@/core/public_component";
-import { UtilsComponents, Gender, InfoTable, Header } from "@/core/public_api";
+import { UtilsComponents, Gender, TypeFormat } from "@/core/public_api";
 import { environment } from '@/environments/environment.prod';
 import { watch, ref, toRefs, computed, defineComponent, type PropType } from "vue";
 import { useStore } from "vuex";
@@ -178,6 +156,7 @@ export default defineComponent({
   setup(props) {
     const Base: UtilsComponents = new UtilsComponents();
     const { t } = useI18n();
+    const store: any = useStore();
     /**
      * Bóc tách props ra từ props chuyển vào
      * Khắc Tiềm - 15.09.2022
@@ -189,8 +168,6 @@ export default defineComponent({
     watch(paseSize, (newValue) => {
       BaseComponent.value.setPageSize(newValue);
     });
-
-    const store: any = useStore();
     /**
      * Trạng thái hiển thị ô lọc
      */
@@ -208,6 +185,21 @@ export default defineComponent({
    * Dữ liệu tìm kiếm trước đó khi click vo column table filter
    */
     const oldSearch: any = ref(null);
+
+    function formatData(typeFormat: TypeFormat, data: any){
+      return typeFormat.FractionSize === true
+      ? Base.Comma(data)
+      : typeFormat.FormatDate === true
+      ? Base.formatDateDDMMYYYY(data)
+      : typeFormat.IsGender === true
+      ? formatGender(data)
+      : typeFormat.IsActive === true
+      ? formatIsActive(data)
+      : typeFormat.IsNature === true
+      ? formatNature(data)
+      : typeFormat.IsImage === true
+      ? "" :data
+    }
     
     /**
      * 
@@ -222,7 +214,7 @@ export default defineComponent({
           setPositionFilter.value.left = rect.left - (346 - rect.width);
         }
         if(!isShowFilter.value){
-          const valueSearch = await store.state[BaseComponent.value.Module].filter.customSearch.find((item: any) => item.columnSearch === data.columnSearch);
+          const valueSearch = await store.state[BaseComponent.value.Module].filter.CustomSearch.find((item: any) => item.ColumnSearch === data.columnSearch);
             if(valueSearch){
               oldSearch.value = valueSearch;
             }
@@ -242,7 +234,7 @@ export default defineComponent({
      */
     function handleFilterData(filter: any){
       try {
-        BaseComponent.value.loadData(filter);
+        BaseComponent.value.loadData({resetPage:true, ...filter});
       } catch (e) {
         console.log(e);
       }
@@ -412,6 +404,7 @@ export default defineComponent({
       oldSearch,
       dataFilter,
       sortBy,
+      formatData,
       handleFilterData,
       setPositionFilter,
       formatIsActive,

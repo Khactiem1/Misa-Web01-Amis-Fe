@@ -3,8 +3,11 @@
     <div class="logo-sidebar">
       <a v-if="showSidebar" class="logo-sidebar_home"></a>
       <a v-if="showSidebar" class="logo-sidebar_menu">
-        <img
+        <img v-if="lang === SystemConstants.get(EntitySystem.Vi)"
           src="../assets/css/image/logo_event_trungthu.090d014b.svg" alt=""
+        />
+        <img v-if="lang === SystemConstants.get(EntitySystem.En)"
+          src="../assets/css/image/Logo_Module_TiengAnh_White.6f592bc6.svg" alt=""
         />
       </a>
       <div v-if="!showSidebar" @click="handleToggleSidebar" class="logo-sidebar_active"></div>
@@ -139,6 +142,11 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { TheChangeLanguage } from '@/core/public_component'
+import { SystemConstants, EntitySystem } from '@/core/public_api';
+import i18n from '@/locales/i18n';
+
+/** Lấy ra ngôn ngữ đang sử dụng */
+const lang = computed(() => i18n.global.locale.value);
 
 /**
  * Biến store vuex
@@ -185,7 +193,7 @@ function handleToggleSidebar(){
 .logo-sidebar_home {
   width: 24px;
   height: 24px;
-  margin-right: 18px;
+  margin-right: 12px;
   background: var(--url__icon) no-repeat -424px -86px;
 }
 .logo-sidebar_menu {
@@ -194,7 +202,9 @@ function handleToggleSidebar(){
 .logo-sidebar_menu img {
   height: 32px;
   vertical-align: middle;
+  max-width: 104px !important;
   transform: scale(1.15);
+  max-height: 36px;
 }
 .logo-sidebar_active {
   background: var(--url__icon) no-repeat;

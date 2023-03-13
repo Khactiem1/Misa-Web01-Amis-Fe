@@ -33,11 +33,11 @@ const config = {
 			*/
 			configNotificationWanning: {
 				cancelAction: {
-					display: i18n.global.t('notification.no'),
+					display: 'notification.no',
 					action: ()=>{},
 				},
 				agreeAction: {
-					display: i18n.global.t('notification.yes'),
+					display: 'notification.yes',
 					action: ()=>{},
 				},
 				messageAction: {
@@ -58,7 +58,7 @@ const config = {
 			*/
 			configNotificationError: {
 			agreeAction: {
-				display: i18n.global.t('notification.close'),
+				display: 'notification.close',
 				action: ()=>{},
 			},
 			messageAction: {
@@ -78,12 +78,12 @@ const config = {
 				*/
 			configNotificationQuestion: {
 				cancelAction: {
-					display: i18n.global.t('notification.destroy'),
+					display: 'notification.destroy',
 					action: ()=>{},
 				},
 				agreeAction: {
-					display: i18n.global.t('notification.yes'),
-					refuseActionDisplay: i18n.global.t('notification.no'),
+					display: 'notification.yes',
+					refuseActionDisplay: 'notification.no',
 					refuseAction: ()=>{},
 					action: ()=>{},
 				},

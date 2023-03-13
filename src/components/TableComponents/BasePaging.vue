@@ -25,8 +25,8 @@
 import { toRefs, ref, computed, watch, defineComponent } from "vue";
 
 export default defineComponent({
-  props: ["modelValue", "totalCount", "countRecordPageRecord"],
-  emits: ["update:modelValue"],
+  props: ["value", "totalCount", "countRecordPageRecord"],
+  emits: ["custom-handle-select-paging"],
   setup(props, context) {
     /**
      * Trang hiện tại đứng
@@ -44,9 +44,9 @@ export default defineComponent({
      * props truyền vào là lượng muốn lấy và số tổng danh sách
      * NK Tiềm 7/10/2022
      */
-    const { countRecordPageRecord, totalCount, modelValue } = toRefs(props);
+    const { countRecordPageRecord, totalCount, value } = toRefs(props);
 
-    watch(modelValue, (newValue) => {
+    watch(value, (newValue) => {
       currentPage.value = (newValue / countRecordPageRecord.value) + 1;
     })
 
@@ -110,7 +110,7 @@ export default defineComponent({
           }
         }
         else{
-          await context.emit("update:modelValue", (countRecordPageRecord.value ) * (page - 1));
+          await context.emit("custom-handle-select-paging", (countRecordPageRecord.value ) * (page - 1));
           if(page === Math.ceil(totalCount.value / countRecordPageRecord.value)){
             pageChangeCLick.value = currentPage.value - 1;
           }
@@ -137,7 +137,7 @@ export default defineComponent({
             pageChangeCLick.value = currentPage.value - 1;
           }
           currentPage.value -= 1;
-          context.emit("update:modelValue", (countRecordPageRecord.value ) * (currentPage.value - 1));
+          context.emit("custom-handle-select-paging", (countRecordPageRecord.value ) * (currentPage.value - 1));
         }
       } catch (e) {
         console.log(e);
@@ -155,7 +155,7 @@ export default defineComponent({
             pageChangeCLick.value = currentPage.value + 1;
           }
           currentPage.value += 1;
-          context.emit("update:modelValue", (countRecordPageRecord.value ) * (currentPage.value - 1));
+          context.emit("custom-handle-select-paging", (countRecordPageRecord.value ) * (currentPage.value - 1));
         }
       } catch (e) {
         console.log(e);

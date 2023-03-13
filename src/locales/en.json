@@ -49,7 +49,7 @@
     "remove_search": "Remove search",
     "prev": "Prev",
     "next": "Next",
-    "setting_table": "Setting Table",
+    "setting_table": "Setting table",
     "done": "Done",
     "name_column": "Name Column",
     "close": "Close",
@@ -67,7 +67,13 @@
     "total": "Total",
     "record": "Record",
     "paging": "{record} record in 1 page",
-    "back": "Back"
+    "back": "Back",
+    "customize_interface": "Customize interface",
+    "load_data": "Load data",
+    "export_excel": "Export to excel",
+    "width": "Width",
+    "name_column_custom": "Name column custom",
+    "drag": "Drag and drop to change position"
   },
   "module": {
     "cash": {
@@ -108,7 +114,10 @@
     "year": "Year",
     "month": "Month",
     "day": "Day",
-    "today": "Today"
+    "today": "Today",
+    "thg": "M",
+    "t": "D",
+    "su": "SU"
   },
   "search":{
     "Empty": "(Empty)",

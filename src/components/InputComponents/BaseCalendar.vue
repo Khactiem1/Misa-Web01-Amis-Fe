@@ -41,13 +41,13 @@
           ></div>
         </div>
         <div class="date">
-          <div class="day-name">T2</div>
-          <div class="day-name">T3</div>
-          <div class="day-name">T4</div>
-          <div class="day-name">T5</div>
-          <div class="day-name">T6</div>
-          <div class="day-name">T7</div>
-          <div class="day-name">CN</div>
+          <div class="day-name">{{$t('calendar.t')}}2</div>
+          <div class="day-name">{{$t('calendar.t')}}3</div>
+          <div class="day-name">{{$t('calendar.t')}}4</div>
+          <div class="day-name">{{$t('calendar.t')}}5</div>
+          <div class="day-name">{{$t('calendar.t')}}6</div>
+          <div class="day-name">{{$t('calendar.t')}}7</div>
+          <div class="day-name">{{$t('calendar.su')}}</div>
         </div>
         <div class="date date-container">
           <div v-for="(item, index) in startDay" class="day" :key="index"></div>
@@ -96,7 +96,7 @@
               :key="index"
               class="calendar-select_item"
             >
-              <span @click="handleSelectMonth(item)">Thg {{ item }}</span>
+              <span @click="handleSelectMonth(item)">{{ $t('calendar.thg') }} {{ item }}</span>
             </div>
           </div>
           <div class="calendar-cancel">

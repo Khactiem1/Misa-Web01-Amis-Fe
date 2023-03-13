@@ -5,8 +5,16 @@
       v-for="(item, index) in dataBindFilter"
       :key="index"
     >
-      <span> {{ item.LabelSearch }}: {{ item.TypeSearch === TypeSearch.Date ? Base.formatDateDDMMYYYY(item.HeaderSearch) : 
-      item.TypeSearch === TypeSearch.Date ? Base.Comma(item.HeaderSearch) : item.HeaderSearch }}</span>
+      <span> {{ item.LabelSearch.split(" ")[0] ? $t(item.LabelSearch.split(" ")[0]) : '' }} {{ item.LabelSearch.split(" ")[1] ? $t(item.LabelSearch.split(" ")[1]) : ''}}:
+        {{ 
+          item.LabelSearch.split(" ")[0] === 'common.gender' || 
+          item.LabelSearch.split(" ")[0] === 'common.status' 
+          ? $t(`${ item.HeaderSearch }`) :
+          item.TypeSearch === TypeSearch.Date ? Base.formatDateDDMMYYYY(item.HeaderSearch) : 
+          item.TypeSearch === TypeSearch.Number ? Base.Comma(item.HeaderSearch) : 
+          item.HeaderSearch
+        }}
+      </span>
       <div
         @click="handleDeleteFilterItem(item.ColumnSearch)"
         class="delete-filter-icon"

@@ -29,6 +29,18 @@ export class Utils extends UtilsComponents{
   public EventCtrlShiftS: any [] = [];
 
   /**
+   * Biến lưu trạng thái ẩn hiện hành động hàng loạt
+   * Khắc Tiềm - 08.03.2023
+   */
+  public showActionAll = false;
+
+  /**
+   * Biến trạng thái ẩn hiện modal thêm sửa
+   * Khắc Tiềm - 08.03.2023
+   */
+  public isShowModal = false;
+
+  /**
    * Hàm khởi tạo lấy ra page size
    */
   constructor(module: string = ''){

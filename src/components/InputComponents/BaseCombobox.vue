@@ -20,7 +20,7 @@
         :placeholder="placeholder"
         @focus="handleFocusInput"
         class="input"
-        :value="inputEvent"
+        :value="i18n ? inputEvent === 'common.paging' ? $t(inputEvent, { record:  modelValue}) :  $t(inputEvent) : inputEvent"
         @input="handleInput"
         @blur="handleBlur"
         type="text"
@@ -61,7 +61,7 @@
               {{ item[headerCode || ''] }}
             </div>
             <div class="label-item label-name">
-              {{ item[header || ''] }}
+              {{ i18n ? item[header] === 'common.paging' ? $t(item[header], { record:  item[value || '']}) : $t(item[header]) : item[header]}}
             </div>
           </div>
         </div>
@@ -98,6 +98,7 @@ export default defineComponent({
      */
     header: {
       type: String,
+      default: ''
     },
     /**
      * Giá trị hiển thị lên form select phần code
@@ -198,6 +199,10 @@ export default defineComponent({
      * Có auto set vị trí hay không
      */
     autoPosition: {},
+
+    i18n: {
+      default: false
+    }
   },
   setup(props, context) {
     /**

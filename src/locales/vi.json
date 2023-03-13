@@ -67,7 +67,13 @@
     "total": "Tổng số",
     "record": "bản ghi",
     "paging": "{record} bản ghi trên 1 trang",
-    "back": "Quay lại"
+    "back": "Quay lại",
+    "customize_interface": "Tuỳ chỉnh giao diện",
+    "load_data": "Lấy lại dữ liệu",
+    "export_excel": "Xuất ra excel",
+    "width": "Độ rộng",
+    "name_column_custom": "Tên cột tuỳ chỉnh",
+    "drag": "Kéo và thả để thay đổi vị trí"
   },
   "module": {
     "cash": {
@@ -108,7 +114,10 @@
     "year": "Năm",
     "month": "Tháng",
     "day": "Ngày",
-    "today": "Hôm nay"
+    "today": "Hôm nay",
+    "thg": "Thg",
+    "t": "T",
+    "su": "CN"
   },
   "search":{
     "Empty": "(Trống)",

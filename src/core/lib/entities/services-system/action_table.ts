@@ -199,7 +199,11 @@ export class Header {
   /** kiểu dữ liệu so format lên table */
   public TypeFormat: TypeFormat;
 
+  /** Data tìm kiếm với combobox, radio */
   public Data?: any;
+
+  /** Trường hiển thị người dùng tự setup */
+  public HeaderCustom?: string = '';
 }
 
 export class TypeFormat {

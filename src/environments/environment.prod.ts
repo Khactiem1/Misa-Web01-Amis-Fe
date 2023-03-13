@@ -5,6 +5,9 @@
 
 export const environment = {
     production: true,
-    IMAGE_API: 'http://khactiema8.click:44349',
-    BASE_API: 'http://khactiema8.click:44349/api/v1',
+    // IMAGE_API: 'http://khactiema8.click:44349',
+    // BASE_API: 'http://khactiema8.click:44349/api/v1',
+
+    IMAGE_API: 'https://localhost:44349',
+    BASE_API: 'https://localhost:44349/api/v1',
 };
