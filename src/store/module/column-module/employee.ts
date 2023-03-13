@@ -52,12 +52,12 @@ let columns: Header [] = [
     "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeTitle" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeTitle'},
   ),
-  new Header(
-    "branchName",
-    'module.cash.branchName',
-    "200",
-    { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName'},
-  ),
+  // new Header(
+  //   "branchName",
+  //   'module.cash.branchName',
+  //   "200",
+  //   { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName'},
+  // ),
   new Header(
     "bankAccount",
     'module.cash.bankAccount',
@@ -106,24 +106,24 @@ let columns: Header [] = [
     "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeAddress" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'common.address'},
   ),
-  new Header(
-    "isCustomer",
-    'module.cash.isCustomer',
-    "150",
-    { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
-      { value: 'true', header: 'common.yes' },
-      { value: 'false', header: 'common.no' },
-    ], module: ModuleName.Employee, headerSearch: 'module.cash.isCustomer', comparisonType: ComparisonType.Equal },
-  ),
-  new Header(
-    "isVendor",
-    'module.cash.isVendor',
-    "150",
-    { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
-      { value: 'true', header: 'common.yes' },
-      { value: 'false', header: 'common.no' },
-    ], module: ModuleName.Employee, headerSearch: 'module.cash.isVendor', comparisonType: ComparisonType.Equal },
-  ),
+  // new Header(
+  //   "isCustomer",
+  //   'module.cash.isCustomer',
+  //   "150",
+  //   { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
+  //     { value: 'true', header: 'common.yes' },
+  //     { value: 'false', header: 'common.no' },
+  //   ], module: ModuleName.Employee, headerSearch: 'module.cash.isCustomer', comparisonType: ComparisonType.Equal },
+  // ),
+  // new Header(
+  //   "isVendor",
+  //   'module.cash.isVendor',
+  //   "150",
+  //   { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
+  //     { value: 'true', header: 'common.yes' },
+  //     { value: 'false', header: 'common.no' },
+  //   ], module: ModuleName.Employee, headerSearch: 'module.cash.isVendor', comparisonType: ComparisonType.Equal },
+  // ),
   new Header(
     "isActive",
     'common.status',

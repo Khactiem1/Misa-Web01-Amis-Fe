@@ -12,6 +12,7 @@ const NotificationError = defineAsyncComponent(() => import('@/components/Notifi
 const NotificationModal = defineAsyncComponent(() => import('@/components/NotificationComponent/NotificationModal.vue'))
 const NotificationQuestion = defineAsyncComponent(() => import('@/components/NotificationComponent/NotificationQuestion.vue'))
 const NotificationWanning = defineAsyncComponent(() => import('@/components/NotificationComponent/NotificationWanning.vue'))
+const ListNotification = defineAsyncComponent(() => import('@/components/NotificationComponent/ListNotification.vue'))
 /** Table */
 const BaseTableEmpty = defineAsyncComponent(() => import('@/components/TableComponents/BaseTableEmpty.vue'))
 const BaseFormKeySearch = defineAsyncComponent(() => import('@/components/TableComponents/BaseFormKeySearch.vue'))
@@ -34,7 +35,7 @@ const TheChangeLanguage = defineAsyncComponent(() => import('@/components/TheCha
 
 export {
   BaseCalendar, BaseCheckbox, BaseCombobox, BaseInput, BaseRadio, BaseModalForm,
-  NotificationError, NotificationModal, NotificationQuestion, NotificationWanning, 
+  NotificationError, NotificationModal, NotificationQuestion, NotificationWanning, ListNotification,
   TheFooter, TheHeader, TheLoader, TheSidebar, TheTopMessage, TheTopMessageList, TheChangeLanguage,
   BaseTableEmpty, BaseFormKeySearch, BasePaging, BaseSetting, BaseTable, BaseTableFilter, BaseTableListAction, BaseTableLoader,
 }

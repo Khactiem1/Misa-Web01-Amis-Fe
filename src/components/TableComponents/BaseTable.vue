@@ -394,8 +394,9 @@ export default defineComponent({
       }
     }
     return {
+      Base,
+      paseSize,
       rowColumn,
-      formatGender,
       positionAction,
       isShowCheckAllRecord,
       listID,
@@ -404,17 +405,16 @@ export default defineComponent({
       oldSearch,
       dataFilter,
       sortBy,
+      setPositionFilter,
+      formatGender,
       formatData,
       handleFilterData,
-      setPositionFilter,
       formatIsActive,
       handleSetSortColumn,
       formatNature,
       handleShowFilter,
       handleShowAction,
       handleCloseAction,
-      Base,
-      paseSize,
     };
   },
 });

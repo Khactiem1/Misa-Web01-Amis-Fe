@@ -73,7 +73,10 @@
     "export_excel": "Xuất ra excel",
     "width": "Độ rộng",
     "name_column_custom": "Tên cột tuỳ chỉnh",
-    "drag": "Kéo và thả để thay đổi vị trí"
+    "drag": "Kéo và thả để thay đổi vị trí",
+    "success": "Thành công",
+    "error": "Lỗi",
+    "wanning": "Cảnh báo"
   },
   "module": {
     "cash": {
@@ -145,9 +148,9 @@
       "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa."
     },
     "crud": {
-      "delete": "Bản ghi đã bị xoá.",
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
-      "wanning_delete": "Bạn có thực sự muốn xoá bản ghi "
+      "delete_success": "Bản ghi đã bị xoá.",
+      "question_wanning_delete": "Bạn có thực sự muốn xoá {module} <{code}> không?"
     }
   }
 }

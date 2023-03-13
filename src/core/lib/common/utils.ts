@@ -7,6 +7,9 @@ import { useStore } from "vuex";
  * Khắc Tiềm - 08.03.2023
  */
 export class Utils extends UtilsComponents{
+  /** Bản ghi được sửa hoặc nhân bản */
+  public RecordEdit: any;
+
   /** Module đang hoạt động kế thừa lớp */
   public Module: string;
 
@@ -35,12 +38,6 @@ export class Utils extends UtilsComponents{
   public showActionAll = false;
 
   /**
-   * Biến trạng thái ẩn hiện modal thêm sửa
-   * Khắc Tiềm - 08.03.2023
-   */
-  public isShowModal = false;
-
-  /**
    * Hàm khởi tạo lấy ra page size
    */
   constructor(module: string = ''){
@@ -64,7 +61,7 @@ export class Utils extends UtilsComponents{
   * Hàm xử lý các event nút bấm tắt Ctrl Alt A
   * NK Tiềm 08.03.2023
   */
-  public handleEventCtrlAltA(event: any, handle: Function, dataHandle: any) {
+  public handleEventCtrlAltA = (event: any, handle: Function, dataHandle: any) => {
     if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Alt || event.keyCode === KeyCode.A ) {
       if (!this.EventCtrlAltA.includes(event.keyCode)) {
         this.EventCtrlAltA.push(event.keyCode);
@@ -81,7 +78,7 @@ export class Utils extends UtilsComponents{
   * Hàm xử lý khi các phím tắt bấm bị ngắt quãng thì hành động sẽ k đc thực hiện Ctrl Alt A
   * NK Tiềm 08.03.2023
   */
-  public handleEventInterruptCtrlAltA(event: any) {
+  public handleEventInterruptCtrlAltA = (event: any) => {
     if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Alt || event.keyCode === KeyCode.A ) {
       if (this.EventCtrlAltA.includes(event.keyCode)) {
         this.EventCtrlAltA.length = 0;
@@ -93,7 +90,7 @@ export class Utils extends UtilsComponents{
   * Hàm xử lý các event nút bấm tắt Ctrl Shift S
   * NK Tiềm 08.03.2023
   */
-  public handleEventFormCtrlShiftS(event: any, handleEsc: Function, dataEsc: any, handleCtrlShiftS: Function, dataCtrlShiftS: any, handleCtrlS: Function, dataCtrlS: any) {
+  public handleEventFormCtrlShiftS = (event: any, handleEsc: Function, dataEsc: any, handleCtrlShiftS: Function, dataCtrlShiftS: any, handleCtrlS: Function, dataCtrlS: any) => {
     if (event.keyCode === KeyCode.Esc) {
       handleEsc(dataEsc);
     } 
@@ -121,7 +118,7 @@ export class Utils extends UtilsComponents{
   * Hàm xử lý khi các phím tắt bấm bị ngắt quãng thì hành động sẽ k đc thực hiện Ctrl Shift S
   * NK Tiềm 08.03.2023
   */
-  public handleEventInterruptFormCtrlShiftS(event: any) {
+  public handleEventInterruptFormCtrlShiftS = (event: any) => {
     if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Shift || event.keyCode === KeyCode.S ) {
       if (this.EventCtrlShiftS.includes(event.keyCode)) {
         this.EventCtrlShiftS.length = 0;

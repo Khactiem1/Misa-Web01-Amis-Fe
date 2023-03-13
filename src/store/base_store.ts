@@ -1,4 +1,4 @@
-import { Filter, Header, IdbDataTable } from "@/core/public_api";
+import { Filter, Header } from "@/core/public_api";
 
 /**
  * Base Store với action, mutation được xây dựng sẵn
@@ -91,9 +91,21 @@ export default class BaseStore {
             * Khắc Tiềm - 08.03.2023
             */
           isShowLoaderTable: false,
+          /**
+            * Biến chứa trạng thái mở form
+            * Khắc Tiềm - 08.03.2023
+            */
+          isShowModal: false,
         };
       },
       mutations: {
+        /**
+         * Set trạng thái mở form
+         * Khắc Tiềm - 08.03.2023
+         */
+        setShowModalMutation(state: any, payload: any){
+          state.isShowModal = payload;
+        },
         /**
          * Set ShowSettingTable
          * Khắc Tiềm - 08.03.2023
@@ -278,6 +290,13 @@ export default class BaseStore {
         ...this.Mutations,
       },
       actions: {
+        /**
+         * Set trạng thái mở form
+         * Khắc Tiềm - 08.03.2023
+         */
+        setShowModalAction(context: any, payload: any){
+          context.commit("setShowModalMutation", payload);
+        },
         /**
          * Set ShowSettingTable
          * Khắc Tiềm - 08.03.2023

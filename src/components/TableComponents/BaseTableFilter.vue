@@ -147,6 +147,9 @@ export default defineComponent({
     const valueSearch = ref('');
     onBeforeMount(()=> {
       if(oldSearch.value){
+        if(oldSearch.value.ComparisonType === ComparisonType.Empty || oldSearch.value.ComparisonType === ComparisonType.NotEmpty){
+          isDisableInput.value = true;
+        }
         valueSearch.value = oldSearch.value.ValueSearch;
         if(oldSearch.value.TypeSearch === TypeFilter.Text){
           const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);

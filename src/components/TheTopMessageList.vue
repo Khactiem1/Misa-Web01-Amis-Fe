@@ -4,7 +4,8 @@
       v-for="notification in notifications"
       :key="notification.id"
       :notification="notification"
-    />
+    >
+    </the-top-message>
   </div>
 </template>
 

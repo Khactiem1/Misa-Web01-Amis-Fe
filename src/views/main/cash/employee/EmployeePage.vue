@@ -10,7 +10,7 @@
       </div>
       <div class="action-table">
         <div class="btn-add">
-					<button title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
+					<button @click="Base.handleOpenModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
 					<button :title="$t('common.import')" class="import"><i class="icon"></i></button>
         </div>
       </div>
@@ -22,7 +22,7 @@
             <span>{{ $t('common.batch_execution') }}</span>
             <div class="table-function_series-icon"></div>
             <div v-show="Base.showActionAll && Base.checkShowActionSeries.length > 0" class="table-list_action">
-              <div class="list_action-item" @click="handleDeleteAll()">{{ $t('common.delete') }}</div>
+              <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
             </div>
           </div>
           <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
@@ -33,7 +33,7 @@
             <div class="icon-search"></div>
           </div>
           <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
-          <a target="_blank" class="action-render_table export-data" :content="$t('common.export_excel')"></a>
+          <a target="_blank" :href="environment.BASE_API + '/Employees/export_data?keyword=' + Base.keyword" class="action-render_table export-data" :content="$t('common.export_excel')"></a>
           <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
         </div>
 			</div>
@@ -61,10 +61,10 @@
 </template>
 
 <script setup lang="ts">
-import { Grid, ModuleName, ENotificationType, ActionTable } from '@/core/public_api';
-import { BaseTable, BasePaging, BaseSetting, BaseFormKeySearch, BaseModalForm } from '@/core/public_component';
+import { Grid, ModuleName, ActionTable } from '@/core/public_api';
+import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm } from '@/core/public_component';
 import FormEmployee from './FormEmployee.vue';
-import { reactive ,computed, ref, watch, onBeforeMount, onUnmounted, onMounted } from 'vue';
+import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { environment } from '@/environments/environment.prod';
 import { useI18n } from 'vue-i18n'
 import EmployeeApi from '@/api/module/employee';
@@ -93,10 +93,6 @@ onBeforeMount(() => {
 	Base.loadData({ v_Offset: Base.recordSelectPaging, v_Limit: Base.PageSize, v_Where: Base.keyword });
 });
 
-async function handleDeleteAll() {
-	console.log('delete all');
-}
-
 /**
  * Hàm xử lý khi click vào các hành động của từng cột dữ liệu table
  * Khắc Tiềm - 08.03.2023
@@ -104,13 +100,13 @@ async function handleDeleteAll() {
 async function handleClickActionColumTable(action: any, recordId: any, recordCode: any) {
 	try {
 		if (action == ActionTable.Edit) {
-			console.log(action);
-		} else if (action == ActionTable.Delete) {
-			console.log(action);
+			Base.handleOpenModal(action, recordId);
 		} else if (action == ActionTable.Replication) {
-			console.log(action);
-		}else if(action === ActionTable.StopUsing){
-			console.log(action);
+			Base.handleOpenModal(action, recordId);
+		} else if (action == ActionTable.Delete) {
+			questionDeleteRecordApi(recordId, recordCode);
+		} else if(action === ActionTable.StopUsing){
+			Base.toggleRecordActiveApi(recordId);
 		}
 	} catch (e) {
 		console.log(e);
@@ -118,8 +114,33 @@ async function handleClickActionColumTable(action: any, recordId: any, recordCod
 }
 
 /**
+ *  Hàm thực hiện hỏi xoá một bản ghi 
+ * Khắc Tiềm - 08.03.2023
+*/
+async function questionDeleteRecordApi(recordId: any, recordCode:any ){
+	Base.store.dispatch("config/setToggleShowNotificationWanningAction", 
+	{ 
+		action: Base.deleteRecord, 
+		message: t('message.crud.question_wanning_delete', { module: t(`module.cash.${Base.Module}`), code: recordCode }),
+		id: recordId
+	});
+}
+
+/** 
+ * Hàm hỏi xác nhận xoá nhiều 
+ * Khắc Tiềm - 08.03.2023
+*/
+function handleQuestionDeleteAll() {
+	try {
+		Base.store.dispatch("config/setToggleShowNotificationWanningAction", { action: Base.deleteAll, message: t('message.crud.wanning_delete_all')});
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+/**
  * Hàm xử lý sự kiện click không trúng templateActionAll thì sẽ ẩn hành động hàng loạt
- * Khắc Tiềm - 15.09.2022
+ * Khắc Tiềm - 08.03.2023
  */
 const handleClickActionAll = (event: any) => {
 	const isClick = templateActionAll.value.contains(event.target);
@@ -130,7 +151,7 @@ const handleClickActionAll = (event: any) => {
 
 /**
  * Hàm xử lý ẩn hành động thực hiện hàng loạt
- * Khắc Tiềm - 15.09.2022
+ * Khắc Tiềm - 08.03.2023
  */
 function handleToggleActionAll() {
 	try {
@@ -145,6 +166,29 @@ function handleToggleActionAll() {
 		console.log(e);
 	}
 }
+
+function handleKey(event: any){
+	Base.handleEventCtrlAltA(event, Base.handleOpenModal, ActionTable.Add)
+}
+
+/** 
+ * Khi Mounted thì bắt đầu lắng nghe các sự kiện
+ * Khắc Tiềm - 08.03.2023
+ */
+onMounted(() => {
+	window.addEventListener("keydown", handleKey);
+	window.addEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+})
+
+/** 
+ * Khi UnMounted thì bắt đầu huỷ lắng nghe các sự kiện
+ * Khắc Tiềm - 08.03.2023
+ */
+onUnmounted(() =>{
+	window.removeEventListener("click", handleClickActionAll);
+	window.removeEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+	window.removeEventListener("keydown", handleKey);
+})
 
 </script>
 
@@ -341,9 +385,6 @@ function handleToggleActionAll() {
 	display: flex;
 	align-items: center;
 }
-
-
-
 .btn-add{
 	display: flex;
 	align-items: center;

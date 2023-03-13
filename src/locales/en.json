@@ -73,7 +73,10 @@
     "export_excel": "Export to excel",
     "width": "Width",
     "name_column_custom": "Name column custom",
-    "drag": "Drag and drop to change position"
+    "drag": "Drag and drop to change position",
+    "success": "Success",
+    "error": "Error",
+    "wanning": "Wanning"
   },
   "module": {
     "cash": {
@@ -145,9 +148,9 @@
       "exception": "Something went wrong, please contact Misa."
     },
     "crud": {
-      "delete": "Bản ghi đã bị xoá.",
-      "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
-      "wanning_delete": "Bạn có thực sự muốn xoá bản ghi "
+      "wanning_delete_all": "Do you really want to delete the entire selected record?",
+      "delete_success": "Record has been deleted.",
+      "question_wanning_delete": "Do you really want to remove {module} <{code}>?"
     }
   }
 }

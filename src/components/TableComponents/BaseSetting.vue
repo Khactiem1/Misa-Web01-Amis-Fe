@@ -65,7 +65,7 @@ import { BaseCheckbox } from "@/core/public_component";
 import { Header, KeyCode } from "@/core/public_api";
 import draggable from "vuedraggable";
 
-import { onMounted, onUnmounted, toRefs, ref, defineComponent, type PropType, reactive, watch, computed } from "vue";
+import { onMounted, onUnmounted, toRefs, ref, defineComponent, type PropType, reactive, computed } from "vue";
 export default defineComponent({
   props: {
     /**
@@ -252,7 +252,6 @@ export default defineComponent({
 }
 
 .setting-content {
-  margin-top: 12px;
   flex-grow: 1;
   overflow: auto;
 }

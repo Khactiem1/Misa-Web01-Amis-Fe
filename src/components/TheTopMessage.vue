@@ -5,9 +5,9 @@
     role="alert"
   >
     <div class="top-message_icon-content" :class="typeClass">
-      <div class="top-message_icon"></div>
+      <div class="top-message_icon" :content="typeClass=='alert-success' ? $t('common.success')+'!' : typeClass == 'alert-error'? $t('common.error')+'!' : $t('common.wanning')+'!'"></div>
       <div class="top-message_content">
-        {{ notificationScreen }} 
+        {{ notificationScreen }}
       </div>
     </div>
     <div @click="handleCloseNotification" class="top-message_close">
@@ -170,7 +170,7 @@ export default defineComponent({
   margin-right: 92px;
 }
 .alert-success .top-message_icon::before{
-  content: 'Thành công!';
+  content: attr(content);
   position: absolute;
   color: var(--primary__color);
   white-space: nowrap;
@@ -184,7 +184,7 @@ export default defineComponent({
   margin-right: 33px;
 }
 .alert-error .top-message_icon::before{
-  content: 'Lỗi!';
+  content: attr(content);
   position: absolute;
   color: #DE3618;
   white-space: nowrap;
@@ -198,7 +198,7 @@ export default defineComponent({
   margin-right: 77px;
 }
 .alert-wanning .top-message_icon::before{
-  content: 'Cảnh báo!';
+  content: attr(content);
   position: absolute;
   color: #F49342;
   white-space: nowrap;

@@ -13,7 +13,7 @@
           @click="cancelAction.action"
           class="btn"
         >
-          {{ cancelAction.display }}
+          {{ $t(cancelAction.display) }}
         </button>
       </div>
       <div class="modal-notification_action-item">
@@ -21,7 +21,7 @@
           @click="agreeAction.action(messageAction.id)"
           class="btn btn-success"
         >
-          {{ agreeAction.display }}
+          {{ $t(agreeAction.display) }}
         </button>
         <button ref="focusLoop" class="focus-loop"></button>
       </div>

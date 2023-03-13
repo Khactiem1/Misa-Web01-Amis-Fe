@@ -1,6 +1,6 @@
 import { Utils } from './utils';
 import { computed } from "vue";
-import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable } from '@/core/public_api';
+import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 import type BaseApi from '@/api/base_api';
 
@@ -47,11 +47,14 @@ export class Grid extends Utils{
   /** Biến chứa trạng thái ẩn hiện setting table */
   public isShowSettingTable = computed(() => this.store.state[`${this.Module}`].isShowSettingTable);
 
-
-
-
   /** Lấy danh sách columns hiển thị cài đặt */
   public columnSetting:any = computed(() => this.store.state[`${this.Module}`].columns);
+
+  /**
+   * Biến trạng thái ẩn hiện modal thêm sửa
+   * Khắc Tiềm - 08.03.2023
+   */
+  public isShowModal:any = computed(() => this.store.state[`${this.Module}`].isShowModal);
 
   /**
    * Các Method
@@ -70,8 +73,13 @@ export class Grid extends Utils{
           await this.store.dispatch(`${this.Module}/setFilterAction`, filter);
         }
       }
-      await this.store.dispatch(`${this.Module}/setIsShowLoaderTableAction`, true); 
-      await this.apiService.callApi(this.api.getRecordList, this.store.state[`${this.Module}`].filter, (response: any) => { 
+      await this.store.dispatch(`${this.Module}/setIsShowLoaderTableAction`, true);
+      const columnSelect = this.columns.value.reduce((acc: any, cur: any) => {
+        if(cur.IsShow){
+          return [...acc, cur.Field.charAt(0).toUpperCase() + cur.Field.slice(1)];
+        }
+      },[])
+      await this.apiService.callApi(this.api.getRecordList, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
         this.store.dispatch(`${this.Module}/getRecordListAction`, response); 
       });
       await this.store.dispatch(`${this.Module}/setIsShowLoaderTableAction`, false); 
@@ -135,5 +143,67 @@ export class Grid extends Utils{
       this.loadData();
     }
     this.store.dispatch(`${this.Module}/setShowSettingTableAction`);
+  }
+
+  /**
+   * Hàm xử lý xoá 1 bản ghi đã chọn
+   * Khắc Tiềm - 08.03.2023
+   */
+  public deleteRecord = (id: any) => {
+    this.apiService.callApi(this.api.deleteRecordApi, id, async () => { 
+      await this.store.dispatch('config/addNotification', { type: ENotificationType.Success, message: i18n.global.t('message.crud.delete_success') }); 
+      await this.store.dispatch(`${this.Module}/setCheckboxUnCheckRecordAction`, id);
+      if(this.recordList.value.length === 0){
+        await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+        this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
+      }
+    }, () => {}, false);
+  }
+  
+  /**
+   * Hàm xử lý xoá toàn bộ danh sách đã chọn
+   * Khắc Tiềm - 08.03.2023
+   */
+  public deleteAll = () => {
+    this.apiService.callApi(this.api.deleteMultipleApi, this.checkShowActionSeries.value, async (res: any) => { 
+      await this.store.dispatch(`${this.Module}/setEmptyCheckBoxRecordAction`);
+      await this.store.dispatch('config/addNotification', { type: ENotificationType.Success, message: i18n.global.t('message.crud.delete_success') });
+      if(this.recordList.value.length === 0){
+        await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+        this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
+      }
+    }, ()=> {}, false);
+  }
+
+  /**
+   * Hàm thực hiện call api toggle active record
+   * Khắc Tiềm - 08.03.2023
+   */
+  public toggleRecordActiveApi = (recordId: any) => {
+    this.apiService.callApi(this.api.toggleActiveApi, recordId, () => { 
+      this.store.dispatch(`${this.Module}/setToggleActiveAction`, recordId);
+    });
+  }
+
+  public handleOpenModal = async (stateForm: any, recordId: any = undefined) => {
+    try {
+      if(recordId){
+        await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
+          this.RecordEdit = response;
+        },() => {}, false);
+      }
+      if(stateForm === ActionTable.Add){
+        this.RecordEdit = null;
+        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      }
+      else if(stateForm === ActionTable.Edit){
+        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      }
+      else if(stateForm === ActionTable.Replication){
+        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
