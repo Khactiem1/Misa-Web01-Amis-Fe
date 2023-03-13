@@ -17,7 +17,6 @@ const axiosAPI = axios.create({
 
 axiosAPI.interceptors.request.use(
   function (config) {
-    config.headers.common['Content-Type'] = 'application/json; charset=utf-8';
     return config;
   },
 );

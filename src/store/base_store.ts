@@ -43,6 +43,16 @@ export default class BaseStore {
       state: () => {
         return {
           /**
+           * biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0
+           * Khắc Tiềm - 08.03.2023
+           */
+          recordSelectPaging: 0,
+          /**
+           * Trạng thái load table
+           * Khắc Tiềm - 08.03.2023
+           */
+          isShowLoaderTable: false,
+          /**
            * Các hành động của table
            * Khắc Tiềm - 08.03.2023
            */
@@ -80,6 +90,20 @@ export default class BaseStore {
         };
       },
       mutations: {
+        /**
+         * Set RecordSelectPaging
+         * Khắc Tiềm - 08.03.2023
+         */
+        setRecordSelectPagingMutation(state: any, payload: any){
+          state.recordSelectPaging = payload;
+        },
+        /**
+         * Set RecordSelectPaging
+         * Khắc Tiềm - 08.03.2023
+         */
+        setIsShowLoaderTableMutation(state: any, payload: any){
+          state.isShowLoaderTable = payload;
+        },
         /**
          * Xét toggle các trường được hiển thị lên giao diện table
          * @param {index được toggle} payload 
@@ -244,6 +268,18 @@ export default class BaseStore {
         ...this.Mutations,
       },
       actions: {
+        /**
+         * Set RecordSelectPaging
+         */
+        setRecordSelectPagingAction(context: any, payload: any){
+          context.commit("setRecordSelectPagingMutation", payload);
+        },
+        /**
+         * Set RecordSelectPaging
+         */
+        setIsShowLoaderTableAction(context: any, payload: any){
+          context.commit("setIsShowLoaderTableMutation", payload);
+        },
         /**
          * Hàm xử lý sắp xếp theo trường
          */

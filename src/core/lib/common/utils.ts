@@ -116,13 +116,4 @@ export class Utils extends UtilsComponents{
       }
     }
   }
-
-  /**
-  * hàm lưu số lượng bản ghi muốn hiển thị vào local
-  * @param {Số lượng bản ghi} record 
-  * Khắc Tiềm - 08.03.2023
-  */
-  public setPageSize(record: number){
-    StorageService.setItem(SystemConstants.get(EntitySystem.PageSize), record)
-  }
 }

@@ -61,7 +61,13 @@
     "enter_filter": "Nhập giá trị lọc",
     "option": "Tùy chọn",
     "all_report": "Tất cả báo cáo",
-    "report": "Báo cáo"
+    "report": "Báo cáo",
+    "import": "Nhập từ Excel",
+    "batch_execution": "Thực hiện hàng loạt",
+    "total": "Tổng số",
+    "record": "bản ghi",
+    "paging": "{record} bản ghi trên 1 trang",
+    "back": "Quay lại"
   },
   "module": {
     "cash": {
@@ -87,7 +93,8 @@
       "aggregate_inventory": "Tổng hợp tồn kho",
       "report_reconciliation_warehouse": "Báo cáo đối chiếu kho và sổ cái",
       "production_progress_report": "Báo cáo tiến độ sản xuất",
-      "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho"
+      "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho",
+      "search_employee_code_name": "Tìm theo mã, tên nhân viên"
     },
     "inventory": {
       "goods": "Hàng hoá",
@@ -103,6 +110,20 @@
     "day": "Ngày",
     "today": "Hôm nay"
   },
+  "search":{
+    "Empty": "(Trống)",
+    "NotEmpty": "(Không trống)",
+    "Equal": "Bằng",
+    "Other": "Khác",
+    "Contain": "Chứa",
+    "NotContain": "Không chứa",
+    "StartedBy": "Bắt đầu với",
+    "EndBy": "Kết thúc với với",
+    "Less": "Nhỏ hơn",
+    "LessOrEqual": "Nhỏ hơn hoặc bằng",
+    "Bigger": "Lớn hơn",
+    "GreaterOrEqual": "Lớn hơn hoặc bằng"
+  },
   "notification": {
     "no": "Không",
     "yes": "Có",
@@ -113,6 +134,11 @@
     "api": {
       "error_internet": "Đã xảy ra lỗi mạng.",
       "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa."
+    },
+    "crud": {
+      "delete": "Bản ghi đã bị xoá.",
+      "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
+      "wanning_delete": "Bạn có thực sự muốn xoá bản ghi "
     }
   }
 }

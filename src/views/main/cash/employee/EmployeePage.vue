@@ -1,25 +1,365 @@
 <template>
-	<div>
-		{{ api }}
-	</div>
+	<div class="container-table">
+		<div class="container-table_header">
+      <div class="name-table">
+        <h1>{{ $t('page.employee') }}</h1>
+				<router-link to="/cash" class="prev_page">
+					<div class="prev_page-icon"></div>
+					<div class="prev_page-text">{{ $t('common.back') }}</div>
+				</router-link>
+      </div>
+      <div class="action-table">
+        <div class="btn-add">
+					<button title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
+					<button :title="$t('common.import')" class="import"><i class="icon"></i></button>
+        </div>
+      </div>
+    </div>
+		<div class="table-content">
+			<div class="table-function sticky">
+				<div class="form-fix">
+          <div ref="templateActionAll" class="table-function_series">
+            <span>{{ $t('common.batch_execution') }}</span>
+            <div class="table-function_series-icon"></div>
+            <div v-show="false" class="table-list_action">
+              <div class="list_action-item">{{ $t('common.delete') }}</div>
+            </div>
+          </div>
+          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
+        </div>
+				<div style="min-width: 350px;" class="table-function_search">
+          <div class="search-table">
+            <input class="input input-table_search" type="text" :placeholder="$t('module.cash.search_employee_code_name')"/>
+            <div class="icon-search"></div>
+          </div>
+          <div @click="Base.loadData()" class="action-render_table reload-table"></div>
+          <a target="_blank" class="action-render_table export-data"></a>
+          <div class="action-render_table setting-table"></div>
+        </div>
+			</div>
+			<!-- Table -->
+			<base-table
+				:BaseComponent="Base"
+				:handleClickActionColumTable="handleClickActionColumTable"
+			>
+			</base-table>
+			<!-- End Table -->
+		</div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Grid, ModuleName, ActionTable, ENotificationType, ApiService, Employee } from '@/core/public_api';
+import { Grid, ModuleName, ENotificationType, ActionTable } from '@/core/public_api';
 import { BaseTable, BasePaging, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseCombobox } from '@/core/public_component';
 import { reactive ,computed, ref, watch, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { environment } from '@/environments/environment.prod';
+import { useI18n } from 'vue-i18n'
 import EmployeeApi from '@/api/module/employee';
 
-const Base: Grid = reactive(new Grid(ModuleName.Employee));
+const { t } = useI18n();
+/**
+ * Khai báo các api của module
+ * Khắc Tiềm 13-03-2023
+ */
 const api:EmployeeApi = new EmployeeApi();
-console.log(Base.columns);
 
+/** Sử dụng base thư viện Grid đã viết */
+const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
+
+/**
+ * Trước khi mounted sẽ load dữ liệu 1 lần
+ * Khắc Tiềm - 08.03.2023
+ */
+onBeforeMount(() => {
+	Base.loadData({ v_Offset: Base.recordSelectPaging, v_Limit: Base.PageSize, v_Where: Base.keyword });
+});
+
+/**
+ * Hàm xử lý khi click vào các hành động của từng cột dữ liệu table
+ * Khắc Tiềm - 08.03.2023
+ */
+async function handleClickActionColumTable(action: any, recordId: any, recordCode: any) {
+	try {
+		if (action == ActionTable.Edit) {
+			console.log(action);
+		} else if (action == ActionTable.Delete) {
+			console.log(action);
+		} else if (action == ActionTable.Replication) {
+			console.log(action);
+		}else if(action === ActionTable.StopUsing){
+			console.log(action);
+		}
+	} catch (e) {
+		console.log(e);
+	}
+}
 </script>
 
 <style scoped>
-h1{
-	text-align: center;
-	margin-top: 20px;
+/* Phần header table */
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  margin-top: 100px;
+  margin-bottom: 55px;
+  direction: rtl;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #b0b0b0;
+}
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 0;
+  background: #808080;
+}
+::-webkit-scrollbar {
+  height: 10px; /* height of horizontal scrollbar ← You're missing this */
+  width: 8px;
+	background-color: var(--while__color);
+}
+.container-table {
+  padding: 0 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.container-table_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 16px 0px;
+}
+/* Phần table */
+.table-content {
+  position: relative;
+  overflow: auto;
+  scroll-behavior: smooth;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.table-function {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px;
+  z-index: 5;
+  height: 66px;
+  background-color: var(--while__color);
+}
+/* Phần thực hiện nhiều chức năng */
+.table-function_series {
+  border: 2px solid #3b3c3f;
+  padding: 0 16px;
+  border-radius: 30px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.table-function_series:hover {
+  background-color: #d2d3d6;
+}
+.table-function_series:active {
+  background-color: #bbbcbc;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.table-function_series span {
+  font-family: "notosans-semibold";
+  padding-right: 4px;
+}
+.table-function_series-icon {
+  background: var(--url__icon);
+  background-position: -560px -359px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+}
+.table-list_action {
+  border: solid 1px var(--border__input);
+  background-color: var(--while__color);
+  border-radius: 2px;
+  padding: 3px 0;
+  min-width: 100px;
+  top: calc(100% + 2px);
+  right: 5px;
+  position: absolute;
+  z-index: 5;
+  transition: all ease 0.15s;
+}
+.list_action-item {
+  white-space: nowrap;
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all ease 0.15s;
+  color: inherit;
+}
+.list_action-item:hover {
+  background-color: #f5f5f5;
+  color: var(--primary__color);
+}
+/* Phần search */
+.search-table {
+  position: relative;
+}
+.icon-search {
+  background: var(--url__icon) no-repeat;
+  background-position: -992px -360px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.action-render_table {
+  background: var(--url__icon) no-repeat;
+  cursor: pointer;
+  margin-left: 12px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+.action-render_table::before {
+  display: none;
+  position: absolute;
+  background-color: var(--menu__color);
+  color: var(--text__while-color);
+  text-align: center;
+  padding: 6px 6px;
+  border-radius: 3px;
+  top: 120%;
+  font-size: 12px;
+}
+.action-render_table:hover:before {
+  display: block;
+}
+.reload-table:hover {
+  background-position: -1097px -88px;
+}
+.reload-table {
+  background-position: -423px -201px;
+}
+.setting-table:hover {
+  background-position: -88px -256px;
+}
+.setting-table {
+  background-position: -88px -200px;
+}
+.export-data:hover {
+  background-position: -704px -256px;
+}
+.export-data {
+  background-position: -704px -200px;
+}
+.setting-table::before {
+  content: "Tuỳ chỉnh giao diện";
+  width: 130px;
+  left: -96px;
+}
+.reload-table::before {
+  content: "Lấy lại dữ liệu";
+  width: 100px;
+  left: -40px;
+}
+.export-data::before {
+  content: "Xuất ra Excel";
+  width: 110px;
+  left: -50px;
+}
+.table-function_search {
+  display: flex;
+  align-items: center;
+}
+.input.input-table_search {
+  padding-left: 10px;
+  padding-right: 2.75rem;
+}
+/* Phần phân trang */
+.form-fix{
+	min-width: 316px;
+	display: flex;
+	align-items: center;
+}
+
+
+
+.btn-add{
+	display: flex;
+	align-items: center;
+	padding: 0;
+}
+.import,.add{
+	transition: all 0.15s ease-in-out;
+	font-family: "notosans-bold";  
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background-color: var(--primary__color);
+	height: 100%;
+	height: 32px;
+	color: var(--text__while-color);
+}
+.import:hover,.add:hover{
+	background-color: var(--primary__color-hover);
+}
+.import:active,.add:active{
+	background-color: var(--primary__color);
+}
+.import:focus{
+  box-shadow: 0 0 0 2px #e0e0e0;
+}
+.add:focus{
+  box-shadow: 0 0 0 2px #e0e0e0;
+}
+.add{
+	flex: 1;
+	border-radius: 30px 0 0 30px;
+	padding: 0 19px;
+	position: relative;
+}
+.add::before{
+	content: '';
+	position: absolute;
+	width: 1px;
+	height: 22px;
+	background-color: var(--while__color);
+	top: 5px;
+	right: 0;
+}
+.import{
+	border-radius: 0 30px 30px 0;
+	width: 47px;
+	padding: 0 12px;
+}
+.import .icon{
+	display: block;
+	background: var(--url__icon) no-repeat;
+	background-position: -705px -203px;
+	width: 23px;
+  height: 18px;
+	background-color: var(--while__color);
+	border-radius: 3px;
+}
+.prev_page{
+  display: flex;
+  align-items: center;
+  color: #0075c0;
+  margin-top: 4px;
+}
+.prev_page-icon{
+  background: var(--url__icon) no-repeat;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  background-position: -224px -360px;
 }
 </style>

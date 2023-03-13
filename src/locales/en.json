@@ -61,7 +61,13 @@
     "enter_filter": "Enter filter",
     "option": "Option",
     "all_report": "All report",
-    "report": "Report"
+    "report": "Report",
+    "import": "Import to excel",
+    "batch_execution": "Batch execution",
+    "total": "Total",
+    "record": "Record",
+    "paging": "{record} record in 1 page",
+    "back": "Back"
   },
   "module": {
     "cash": {
@@ -87,7 +93,8 @@
       "aggregate_inventory": "Aggregate inventory",
       "report_reconciliation_warehouse": "Report on reconciliation of warehouse and ledger",
       "production_progress_report": "Production progress report",
-      "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred"
+      "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred",
+      "search_employee_code_name": "Search by code, name"
     },
     "inventory": {
       "goods": "Goods",
@@ -103,6 +110,20 @@
     "day": "Day",
     "today": "Today"
   },
+  "search":{
+    "Empty": "(Empty)",
+    "NotEmpty": "(Not empty)",
+    "Equal": "Equal",
+    "Other": "Other",
+    "Contain": "Contain",
+    "NotContain": "Not contain",
+    "StartedBy": "Started by",
+    "EndBy": "End by",
+    "Less": "Less",
+    "LessOrEqual": "Less or equal",
+    "Bigger": "Bigger",
+    "GreaterOrEqual": "Greater or equal"
+  },
   "notification": {
     "no": "No",
     "yes": "Yes",
@@ -113,6 +134,11 @@
     "api": {
       "error_internet": "A network error has occurred.",
       "exception": "Something went wrong, please contact Misa."
+    },
+    "crud": {
+      "delete": "Bản ghi đã bị xoá.",
+      "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
+      "wanning_delete": "Bạn có thực sự muốn xoá bản ghi "
     }
   }
 }

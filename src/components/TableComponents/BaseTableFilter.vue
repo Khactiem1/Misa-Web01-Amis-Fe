@@ -11,7 +11,7 @@
             <div class="column-filter">
               {{ $t('common.filter') }} {{ dataFilter.headerSearch }}
             </div>
-            <div v-if="dataFilter.typeFilter !== 'combobox'" class="filter-op-dropdown">
+            <div v-if="dataFilter.typeFilter !== TypeFilter.Combobox" class="filter-op-dropdown">
               <div ref="elmDropDown" @click="isShowDropDown = !isShowDropDown;" class="drop-icon">
                 {{ selectComparison[comparisonType].header }}
               </div>
@@ -23,10 +23,10 @@
             </div>
         </div>
         <div class="filter-value">
-          <base-input v-if="dataFilter.typeFilter === 'number' || dataFilter.typeFilter === 'text'" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === 'number'" ></base-input>
-          <base-calendar v-if="dataFilter.typeFilter === 'date'" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
+          <base-input v-if="dataFilter.typeFilter === TypeFilter.Number || dataFilter.typeFilter === TypeFilter.Text" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === TypeFilter.Number" ></base-input>
+          <base-calendar v-if="dataFilter.typeFilter === TypeFilter.Date" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
           <base-combobox 
-            v-if="dataFilter.typeFilter === 'combobox'" 
+            v-if="dataFilter.typeFilter === TypeFilter.Combobox" 
             :placeholder="$t('common.enter_filter')"
             :value="'value'"
             :header="'header'"
@@ -48,7 +48,9 @@
 import { BaseInput, BaseCombobox, BaseCalendar } from "@/core/public_component";
 import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent } from 'vue';
 import { useStore } from "vuex";
-import { FilterHeaderIn, KeyCode } from '@/core/public_api';
+import { ComparisonType, ComparisonTypeSearch, FilterHeaderIn, KeyCode, TypeFilter } from '@/core/public_api';
+import { useI18n } from 'vue-i18n';
+
 export default defineComponent({
   props: {
     /**
@@ -87,6 +89,7 @@ export default defineComponent({
     BaseCalendar,
   },
   setup(props, context){
+    const { t } = useI18n();
     const store = useStore();
     /**
      * Lấy ra props
@@ -108,27 +111,27 @@ export default defineComponent({
      * option select kiểu truy vấn cho kiểu text
      */
     const selectComparisonTypeText = [
-      {header: "(Trống)" , comparisonType: "=Null"},
-      {header: "(Không trống)" , comparisonType: "!=Null"},
-      {header: "Bằng" , comparisonType: "="},
-      {header: "Khác" , comparisonType: "!="},
-      {header: "Chứa" , comparisonType: "%%"},
-      {header: "Không chứa" , comparisonType: "!%%"},
-      {header: "Bắt đầu với" , comparisonType: "_%"},
-      {header: "Kết thúc với với" , comparisonType: "%_"},
+      {header: t('search.Empty') , comparisonType: ComparisonType.Empty},
+      {header: t('search.NotEmpty') , comparisonType: ComparisonType.NotEmpty},
+      {header: t('search.Equal') , comparisonType: ComparisonType.Equal},
+      {header: t('search.Other') , comparisonType: ComparisonType.Other},
+      {header: t('search.Contain') , comparisonType: ComparisonType.Contain},
+      {header: t('search.NotContain') , comparisonType: ComparisonType.NotContain},
+      {header: t('search.StartedBy') , comparisonType: ComparisonType.StartedBy},
+      {header: t('search.EndBy') , comparisonType: ComparisonType.EndBy},
     ];
     /**
      * option select kiểu truy vấn cho kiểu Number
      */
     const selectComparisonTypeNumber = [
-      {header: "(Trống)" , comparisonType: "=Null"},
-      {header: "(Không trống)" , comparisonType: "!=Null"},
-      {header: "Khác" , comparisonType: "!="},
-      {header: "Nhỏ hơn" , comparisonType: "<"},
-      {header: "Bằng" , comparisonType: "="},
-      {header: "Nhỏ hơn hoặc bằng" , comparisonType: "<="},
-      {header: "Lớn hơn" , comparisonType: ">"},
-      {header: "Lớn hơn hoặc bằng" , comparisonType: ">="},
+      {header: t('search.Empty') , comparisonType: ComparisonType.Empty},
+      {header: t('search.NotEmpty') , comparisonType: ComparisonType.NotEmpty},
+      {header: t('search.Other') , comparisonType: ComparisonType.Other},
+      {header: t('search.Less') , comparisonType: ComparisonType.Less},
+      {header: t('search.Equal') , comparisonType: ComparisonType.Equal},
+      {header: t('search.LessOrEqual') , comparisonType: ComparisonType.LessOrEqual},
+      {header: t('search.Bigger') , comparisonType: ComparisonType.Bigger},
+      {header: t('search.GreaterOrEqual') , comparisonType: ComparisonType.GreaterOrEqual},
     ];
     /**
      * Giá trị comparisonType được select mặc định sẽ là 4 (là index của mảng)
@@ -137,20 +140,20 @@ export default defineComponent({
     /**
      * option select 
      */
-    const selectComparison = ref(dataFilter.value.typeFilter === "text" ? selectComparisonTypeText : dataFilter.value.typeFilter === "number" || dataFilter.value.typeFilter === "date" ? selectComparisonTypeNumber: []);
+    const selectComparison = ref(dataFilter.value.typeFilter === TypeFilter.Text ? selectComparisonTypeText : dataFilter.value.typeFilter === TypeFilter.Number || dataFilter.value.typeFilter === TypeFilter.Date ? selectComparisonTypeNumber: []);
     /**
      * Dữ liệu select
      */
     const valueSearch = ref('');
     onBeforeMount(()=> {
       if(oldSearch.value){
-        valueSearch.value = oldSearch.value.valueSearch;
-        if(oldSearch.value.typeSearch === 'text'){
-          const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.comparisonType);
+        valueSearch.value = oldSearch.value.ValueSearch;
+        if(oldSearch.value.TypeSearch === TypeFilter.Text){
+          const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
           comparisonType.value = index;
         }
-        else if(oldSearch.value.typeSearch === 'number' || oldSearch.value.typeSearch === 'date'){
-          const index = selectComparisonTypeNumber.findIndex(item => item.comparisonType === oldSearch.value.comparisonType);
+        else if(oldSearch.value.TypeSearch === TypeFilter.Number || oldSearch.value.TypeSearch === TypeFilter.Date){
+          const index = selectComparisonTypeNumber.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
           comparisonType.value = index;
         }
       }
@@ -182,12 +185,12 @@ export default defineComponent({
      * Hàm xử lý tìm kiếm lọc
      */
     function handleSearchData(){
-      if(dataFilter.value.typeFilter !== 'combobox'){
-        const dataSearch = { typeSearch: dataFilter.value.typeSearch, columnSearch: dataFilter.value.columnSearch, valueSearch: valueSearch.value, headerSearch: valueSearch.value, labelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, comparisonType: selectComparison.value[comparisonType.value].comparisonType};
+      if(dataFilter.value.typeFilter !== TypeFilter.Combobox){
+        const dataSearch:ComparisonTypeSearch = { TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
         context.emit("handle-filter-data", { resetPage:true, [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       else{
-        const dataSearch = { typeSearch: dataFilter.value.typeSearch, columnSearch: dataFilter.value.columnSearch, valueSearch: valueSearch.value, headerSearch: valueLabel.value, labelSearch: dataFilter.value.headerSearch, comparisonType: dataFilter.value.comparisonType};
+        const dataSearch: ComparisonTypeSearch = { TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
         context.emit("handle-filter-data", { resetPage:true, [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       handleShowFilter.value();
@@ -209,7 +212,7 @@ export default defineComponent({
      const handleClickTemplate = function (event: any) {
       try {
         const isClickElmMain = elmMain.value.contains(event.target);
-        if(dataFilter.value.typeFilter === 'combobox'){
+        if(dataFilter.value.typeFilter === TypeFilter.Combobox){
           if (!isClickElmMain) {
             handleShowFilter.value();
           }
@@ -261,6 +264,7 @@ export default defineComponent({
       handleSelectComparisonType,
       handleDeleteFilterItem,
       handleSearchData,
+      TypeFilter,
     }
   },
   emits: ["handle-filter-data"],

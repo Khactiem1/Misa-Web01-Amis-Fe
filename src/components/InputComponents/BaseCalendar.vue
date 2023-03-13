@@ -3,12 +3,12 @@
     <label v-if="label">{{ label }}</label>
     <div class="form-input" :class="{ 'is-valid': (new Date(modelValue || '') > (maxDate || '')) && maxDate}">
       <input
-        :disabled:="disabled"
+        :disabled="disabled"
         @keypress="isNumber($event)"
         @blur="handleSave()"
         ref="elementInput"
         type="text"
-        :tabindex:="tabindex"
+        :tabindex="tabindex"
         placeholder="DD/MM/YYYY"
         class="input"
         v-model="displayData"
@@ -146,11 +146,15 @@ import { UtilsComponents } from "@/core/public_api";
 export default defineComponent({
   props: {
     modelValue: { default: (): any => '' },
-    tabindex: {},
+    tabindex: {
+      default: 0
+    },
     label: {},
     messageValid: {},
     maxDate: {},
-    disabled: {},
+    disabled: {
+      default: false
+    },
   },
   setup(props, context) {
     /**

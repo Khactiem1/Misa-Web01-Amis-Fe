@@ -21,7 +21,7 @@
           <div
             class="setting-name"
             v-for="(item, index) in columns"
-            :key="index"
+            :key="item.Field"
           >
             <base-checkbox
               @custom-handle-click-checkbox="handleClickCheckbox(index)"

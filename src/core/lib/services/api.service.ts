@@ -11,7 +11,7 @@ export class ApiService {
   public Store: any = useStore();
   
   /** Hàm gọi api */
-  public async callApi(Api: Function, data: any, thenApi: Function, catchApi: Function, noLoaderAnimation: boolean = true) {
+  public async callApi(Api: Function, data?: any, thenApi?: Function, catchApi?: Function, noLoaderAnimation: boolean = true) {
     if(!noLoaderAnimation){
       this.Store.dispatch("config/setToggleShowLoaderAction");
     }
@@ -37,7 +37,8 @@ export class ApiService {
           }
         }
       })
-      .catch((response: ServiceResponse) => {
+      .catch((response: any) => {
+        console.log(response);
         if(catchApi){
           catchApi(response);
         }

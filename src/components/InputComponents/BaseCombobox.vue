@@ -17,15 +17,15 @@
       </div>
       <input
         ref="input"
-        :placeholder:="placeholder"
+        :placeholder="placeholder"
         @focus="handleFocusInput"
         class="input"
         :value="inputEvent"
         @input="handleInput"
         @blur="handleBlur"
         type="text"
-        :readonly:="disabled"
-        :tabindex:="tab"
+        :readonly="disabled"
+        :tabindex="tab"
       />
       <div class="combobox-select_icon" @click="handleClickOpenCombobox">
         <div class="select_icon-combobox"></div>
@@ -138,7 +138,9 @@ export default defineComponent({
     /**
      * placeholder ô input
      */
-    placeholder:{},
+    placeholder:{
+      default: ''
+    },
     /**
      * có bắt buộc hay không
      */
@@ -146,7 +148,9 @@ export default defineComponent({
     /**
      * tabindex
      */
-    tab: {},
+    tab: {
+      default: 0,
+    },
     /**
      * báo lỗi khi giá trị sai
      */
@@ -158,7 +162,9 @@ export default defineComponent({
     /**
      * Không cho nhập
      */
-    disabled: {},
+    disabled: {
+      default: false
+    },
     /**
      * Tooltip hiển thị bổ sung
      */

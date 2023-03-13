@@ -75,13 +75,19 @@ export class ComparisonTypeSearch {
   public TypeSearch?: TypeSearch = '';
 
   /** Giá trị cần tìm kiếm */
-  public ValueSearch?: string = '';
+  public ValueSearch?: any;
+
+  /** Giá trị hiển thị khi search */
+  public HeaderSearch?: any;
 
   /** Tên cột tìm kiếm */
   public ColumnSearch: string = '';
 
   /** Kiểu tìm kiếm (=, =!, <=, >=, ...) */
   public ComparisonType?: ComparisonType = '';
+
+  /** Hiển thị ui: Bằng, Nhỏ hơn, Lớn hơn, ... */
+  public LabelSearch?: string = '';
 }
 
 /**
@@ -126,7 +132,7 @@ export class TypeFilter{
  */
 export class ComparisonType {
   /** Bằng */
-  public static equal = '=';
+  public static Equal = '=';
 
   /** Lớn hơn */
   public static Bigger = '>';

@@ -5,9 +5,10 @@
       v-for="(item, index) in dataBindFilter"
       :key="index"
     >
-      <span> {{ item.labelSearch }}: {{ item.typeSearch === "date" ? Base.formatDateDDMMYYYY(item.headerSearch) : item.headerSearch }}</span>
+      <span> {{ item.LabelSearch }}: {{ item.TypeSearch === TypeSearch.Date ? Base.formatDateDDMMYYYY(item.HeaderSearch) : 
+      item.TypeSearch === TypeSearch.Date ? Base.Comma(item.HeaderSearch) : item.HeaderSearch }}</span>
       <div
-        @click="handleDeleteFilterItem(item.columnSearch)"
+        @click="handleDeleteFilterItem(item.ColumnSearch)"
         class="delete-filter-icon"
       ></div>
     </div>
@@ -24,7 +25,7 @@
 <script lang="ts">
 import { computed, toRefs, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { UtilsComponents } from "@/core/public_api";
+import { ComparisonType, ComparisonTypeSearch, UtilsComponents, TypeSearch } from "@/core/public_api";
 
 export default defineComponent({
   props: {
@@ -47,7 +48,7 @@ export default defineComponent({
     * Dữ liệu đang được tìm kiếm
     */
     const dataBindFilter = computed(()=> {
-      return store.state[moduleFilter.value].filter.customSearch.filter((item: any) => item.valueSearch || item.valueSearch === 0 || item.comparisonType === "!=Null" || item.comparisonType === "=Null");
+      return store.state[moduleFilter.value].filter.CustomSearch.filter((item: ComparisonTypeSearch) => item.ValueSearch || item.ValueSearch === 0 || item.ComparisonType === ComparisonType.NotEmpty || item.ComparisonType === ComparisonType.Empty);
     });
 
     /**
@@ -73,6 +74,7 @@ export default defineComponent({
       Base,
       dataBindFilter,
       handleDeleteFilterItem,
+      TypeSearch,
     }
   },
 });

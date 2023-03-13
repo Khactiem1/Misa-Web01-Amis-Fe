@@ -41,7 +41,7 @@ const router = createRouter({
  */
 router.beforeEach((to: any, from: any, next: any) => {
   document.title = i18n.global.t(to.meta.title ? to.meta.title : 'page.default') // Đặt tiêu đề trang theo ngôn ngữ hiện tại
-  next()
+  next();
 })
 
 export default router

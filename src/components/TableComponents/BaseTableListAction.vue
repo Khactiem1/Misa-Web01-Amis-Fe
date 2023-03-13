@@ -35,7 +35,6 @@ export default defineComponent({
      * Các hành đồng của table
      */
     actionTable: {
-      type: InfoTable,
       default: new InfoTable(),
     },
     /**
