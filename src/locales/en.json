@@ -76,7 +76,11 @@
     "drag": "Drag and drop to change position",
     "success": "Success",
     "error": "Error",
-    "wanning": "Wanning"
+    "wanning": "Wanning",
+    "cancel_form": "Destroy",
+    "add_form": "Save",
+    "add_form_and_add": "Save and add",
+    "support": "Support"
   },
   "module": {
     "cash": {
@@ -103,7 +107,9 @@
       "report_reconciliation_warehouse": "Report on reconciliation of warehouse and ledger",
       "production_progress_report": "Production progress report",
       "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred",
-      "search_employee_code_name": "Search by code, name"
+      "search_employee_code_name": "Search by code, name",
+      "add_employee": "Add employee",
+      "edit_employee": "Edit employee"
     },
     "inventory": {
       "goods": "Goods",

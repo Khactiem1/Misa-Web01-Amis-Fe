@@ -88,6 +88,9 @@ export class ComparisonTypeSearch {
 
   /** Hiển thị ui: Bằng, Nhỏ hơn, Lớn hơn, ... */
   public LabelSearch?: string = '';
+
+  /** Trường hiển thị người dùng tự setup */
+  public HeaderCustom?: string = '';
 }
 
 /**
@@ -260,4 +263,7 @@ export class FilterHeaderIn {
 
   /** Kiểu so sánh */
   public comparisonType?: ComparisonType;
+
+  /** Trường hiển thị người dùng tự setup */
+  public headerCustom?: string = '';
 }

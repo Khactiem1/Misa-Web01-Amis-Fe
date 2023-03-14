@@ -134,6 +134,9 @@ export default defineComponent({
      * Khắc Tiềm - 15.09.2022
     */
     function closeDone(){
+      columnCustom.forEach((item: Header, index: any) => {
+        columnCustom[index].Filter.headerCustom = columnCustom[index].HeaderCustom;
+      })
       handleShowSettingTable.value(columnCustom);
     }
 

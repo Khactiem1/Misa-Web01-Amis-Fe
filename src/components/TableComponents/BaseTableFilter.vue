@@ -9,7 +9,7 @@
     <div class="filter-container">
         <div class="view-fitler-text">
             <div class="column-filter">
-              {{ $t('common.filter') }} {{ $t(dataFilter.headerSearch) }}
+              {{ $t('common.filter') }} {{ (dataFilter.headerCustom && dataFilter.headerCustom !== '') ? dataFilter.headerCustom : $t(dataFilter.headerSearch) }}
             </div>
             <div v-if="dataFilter.typeFilter !== TypeFilter.Combobox" class="filter-op-dropdown">
               <div ref="elmDropDown" @click="isShowDropDown = !isShowDropDown;" class="drop-icon">
@@ -189,11 +189,11 @@ export default defineComponent({
      */
     function handleSearchData(){
       if(dataFilter.value.typeFilter !== TypeFilter.Combobox){
-        const dataSearch: ComparisonTypeSearch = { TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       else{
-        const dataSearch: ComparisonTypeSearch = { TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       handleShowFilter.value();

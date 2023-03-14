@@ -5,7 +5,7 @@
       v-for="(item, index) in dataBindFilter"
       :key="index"
     >
-      <span> {{ item.LabelSearch.split(" ")[0] ? $t(item.LabelSearch.split(" ")[0]) : '' }} {{ item.LabelSearch.split(" ")[1] ? $t(item.LabelSearch.split(" ")[1]) : ''}}:
+      <span> {{ (item.HeaderCustom && item.HeaderCustom !== '') ? item.HeaderCustom : item.LabelSearch.split(" ")[0] ? $t(item.LabelSearch.split(" ")[0]) : '' }} {{ item.LabelSearch.split(" ")[1] ? $t(item.LabelSearch.split(" ")[1]) : ''}}:
         {{ 
           item.LabelSearch.split(" ")[0] === 'common.gender' || 
           item.LabelSearch.split(" ")[0] === 'common.status' 
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, toRefs, defineComponent } from "vue";
+import { computed, toRefs, defineComponent, watch } from "vue";
 import { useStore } from "vuex";
 import { ComparisonType, ComparisonTypeSearch, UtilsComponents, TypeSearch } from "@/core/public_api";
 

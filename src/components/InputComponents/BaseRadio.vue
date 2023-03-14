@@ -24,7 +24,7 @@ export default defineComponent({
     /**
      * Giá trị bind 2 chiều
      */
-    modelValue: { default: "" },
+    modelValue: {},
     /**
      * Giá trị mặc định
      */
@@ -67,8 +67,8 @@ export default defineComponent({
 .input-radio_focus {
   position: absolute;
   border-radius: 50%;
-  left: -3px;
-  top: -3px;
+  left: -4px;
+  top: -4px;
   width: 24px;
   height: 24px;
   display: block;
@@ -91,8 +91,8 @@ export default defineComponent({
   position: absolute;
   width: 10px;
   height: 10px;
-  top: 4px;
-  left: 4px;
+  top: 3px;
+  left: 3px;
   border-radius: 50%;
   background: var(--primary__color);
 }

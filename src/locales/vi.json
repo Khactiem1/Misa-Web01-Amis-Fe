@@ -76,7 +76,11 @@
     "drag": "Kéo và thả để thay đổi vị trí",
     "success": "Thành công",
     "error": "Lỗi",
-    "wanning": "Cảnh báo"
+    "wanning": "Cảnh báo",
+    "cancel_form": "Huỷ",
+    "add_form": "Cất",
+    "add_form_and_add": "Cất và thêm",
+    "support": "Giúp"
   },
   "module": {
     "cash": {
@@ -103,7 +107,9 @@
       "report_reconciliation_warehouse": "Báo cáo đối chiếu kho và sổ cái",
       "production_progress_report": "Báo cáo tiến độ sản xuất",
       "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho",
-      "search_employee_code_name": "Tìm theo mã, tên nhân viên"
+      "search_employee_code_name": "Tìm theo mã, tên nhân viên",
+      "add_employee": "Thêm thông tin nhân viên",
+      "edit_employee": "Sửa thông tin nhân viên"
     },
     "inventory": {
       "goods": "Hàng hoá",

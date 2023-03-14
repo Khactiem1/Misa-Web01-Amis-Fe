@@ -151,7 +151,7 @@ export class Grid extends Utils{
    */
   public deleteRecord = (id: any) => {
     this.apiService.callApi(this.api.deleteRecordApi, id, async () => { 
-      await this.store.dispatch('config/addNotification', { type: ENotificationType.Success, message: i18n.global.t('message.crud.delete_success') }); 
+      await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
       await this.store.dispatch(`${this.Module}/setCheckboxUnCheckRecordAction`, id);
       if(this.recordList.value.length === 0){
         await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
@@ -167,7 +167,7 @@ export class Grid extends Utils{
   public deleteAll = () => {
     this.apiService.callApi(this.api.deleteMultipleApi, this.checkShowActionSeries.value, async (res: any) => { 
       await this.store.dispatch(`${this.Module}/setEmptyCheckBoxRecordAction`);
-      await this.store.dispatch('config/addNotification', { type: ENotificationType.Success, message: i18n.global.t('message.crud.delete_success') });
+      await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
       if(this.recordList.value.length === 0){
         await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
         this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
@@ -185,25 +185,35 @@ export class Grid extends Utils{
     });
   }
 
-  public handleOpenModal = async (stateForm: any, recordId: any = undefined) => {
-    try {
-      if(recordId){
-        await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
-          this.RecordEdit = response;
-        },() => {}, false);
-      }
-      if(stateForm === ActionTable.Add){
-        this.RecordEdit = null;
-        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
-      }
-      else if(stateForm === ActionTable.Edit){
-        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
-      }
-      else if(stateForm === ActionTable.Replication){
-        await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
-      }
-    } catch (e) {
-      console.log(e);
+  /** 
+   * Hàm mở form thêm, sửa 
+   * Khắc Tiềm - 08.03.2023
+   * */
+  public openModal = async (stateForm: any, recordId: any = undefined) => {
+    this.StateForm = stateForm;
+    if(recordId){
+      await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
+        this.RecordEdit = response;
+      },() => {}, false);
     }
+    if(stateForm === ActionTable.Add){
+      this.RecordEdit = null;
+      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+    }
+    else if(stateForm === ActionTable.Edit){
+      this.RecordCode = null;
+      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+    }
+    else if(stateForm === ActionTable.Replication){
+      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+    }
+  }
+
+  /**
+   * Hàm đóng form thêm, sửa 
+   * Khắc Tiềm - 08.03.2023
+   */
+  public closeModal = () => {
+    this.store.dispatch(`${this.Module}/setShowModalAction`, false);
   }
 }

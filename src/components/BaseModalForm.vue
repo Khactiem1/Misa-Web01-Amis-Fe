@@ -70,16 +70,16 @@ export default defineComponent({
   cursor: pointer;
 }
 .modal-icon_help::before {
-  content: "Giúp F1";
+  content: attr(content);
 }
 .modal-icon_close::before {
-  content: "Đóng ESC";
+  content: attr(content);
 }
 .btn-form_cat::before {
-  content: "Cất (Ctrl + S)";
+  content: attr(content);
 }
 .btn-form_cat-them::before {
-  content: "Cất và thêm (Ctrl + Shift +  S)";
+  content: attr(content);
 }
 .modal-icon {
   position: relative;

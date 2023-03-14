@@ -10,7 +10,7 @@
       </div>
       <div class="action-table">
         <div class="btn-add">
-					<button @click="Base.handleOpenModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
+					<button @click="customHandleOpenModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
 					<button :title="$t('common.import')" class="import"><i class="icon"></i></button>
         </div>
       </div>
@@ -47,9 +47,7 @@
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-employee
-					
-        ></form-employee>
+        <form-employee :Base="Base"></form-employee>
       </base-modal-form>
       <base-setting
         v-if="Base.isShowSettingTable"
@@ -85,24 +83,40 @@ const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
  */
 const templateActionAll: any = ref(null);
 
+function loadDropDown(){
+  
+}
+
 /**
  * Trước khi mounted sẽ load dữ liệu 1 lần
  * Khắc Tiềm - 08.03.2023
  */
 onBeforeMount(() => {
 	Base.loadData({ v_Offset: Base.recordSelectPaging, v_Limit: Base.PageSize, v_Where: Base.keyword });
+  loadDropDown();
 });
+
+async function customHandleOpenModal(action: any, recordId: any = undefined){
+  try {
+    await Base.apiService.callApi(api.nextValue, null, (response: any) => { 
+      Base.RecordCode = response;
+    }, () => {}, false);
+    Base.openModal(action, recordId);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 /**
  * Hàm xử lý khi click vào các hành động của từng cột dữ liệu table
  * Khắc Tiềm - 08.03.2023
  */
-async function handleClickActionColumTable(action: any, recordId: any, recordCode: any) {
+function handleClickActionColumTable(action: any, recordId: any, recordCode: any) {
 	try {
 		if (action == ActionTable.Edit) {
-			Base.handleOpenModal(action, recordId);
+			Base.openModal(action, recordId);
 		} else if (action == ActionTable.Replication) {
-			Base.handleOpenModal(action, recordId);
+      customHandleOpenModal(action, recordId);
 		} else if (action == ActionTable.Delete) {
 			questionDeleteRecordApi(recordId, recordCode);
 		} else if(action === ActionTable.StopUsing){
@@ -117,13 +131,8 @@ async function handleClickActionColumTable(action: any, recordId: any, recordCod
  *  Hàm thực hiện hỏi xoá một bản ghi 
  * Khắc Tiềm - 08.03.2023
 */
-async function questionDeleteRecordApi(recordId: any, recordCode:any ){
-	Base.store.dispatch("config/setToggleShowNotificationWanningAction", 
-	{ 
-		action: Base.deleteRecord, 
-		message: t('message.crud.question_wanning_delete', { module: t(`module.cash.${Base.Module}`), code: recordCode }),
-		id: recordId
-	});
+function questionDeleteRecordApi(recordId: any, recordCode:any ){
+  Base.showNotificationWanning(Base.deleteRecord, t('message.crud.question_wanning_delete', { module: t(`module.cash.${Base.Module}`), code: recordCode }), recordId);
 }
 
 /** 
@@ -132,7 +141,7 @@ async function questionDeleteRecordApi(recordId: any, recordCode:any ){
 */
 function handleQuestionDeleteAll() {
 	try {
-		Base.store.dispatch("config/setToggleShowNotificationWanningAction", { action: Base.deleteAll, message: t('message.crud.wanning_delete_all')});
+    Base.showNotificationWanning(Base.deleteAll, t('message.crud.wanning_delete_all'));
 	} catch (e) {
 		console.log(e);
 	}
@@ -168,7 +177,7 @@ function handleToggleActionAll() {
 }
 
 function handleKey(event: any){
-	Base.handleEventCtrlAltA(event, Base.handleOpenModal, ActionTable.Add)
+	Base.handleEventCtrlAltA(event, customHandleOpenModal, ActionTable.Add)
 }
 
 /** 

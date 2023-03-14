@@ -10,6 +10,12 @@ export class Utils extends UtilsComponents{
   /** Bản ghi được sửa hoặc nhân bản */
   public RecordEdit: any;
 
+  /** Mã sinh tự động */
+  public RecordCode: any;
+
+  /** Mã sinh tự động */
+  public StateForm: any;
+
   /** Module đang hoạt động kế thừa lớp */
   public Module: string;
 
@@ -124,5 +130,18 @@ export class Utils extends UtilsComponents{
         this.EventCtrlShiftS.length = 0;
       }
     }
+  }
+
+  public showNotificationWanning = (action: any, message: any = '', data: any = '') => {
+    this.store.dispatch("config/setToggleShowNotificationWanningAction", 
+    { 
+      action: action, 
+      message: message,
+      id: data
+    });
+  }
+
+  public addNotification = (type: any, message: any) => {
+    this.store.dispatch('config/addNotification', { type: type, message: message }); 
   }
 }

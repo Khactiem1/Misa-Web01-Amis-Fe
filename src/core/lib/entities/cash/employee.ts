@@ -1,14 +1,27 @@
 import { Gender } from "@/core/public_api";
+import { BaseEntity } from "../base_entities";
 
 /**
  * Nhân viên
  */
-export class Employee {
+export class Employee extends BaseEntity{
+  /** ID nhân viên */
+  public employeeID: string;
+
   /** Mã nhân viên */
   public employeeCode: string;
   
   /** Tên nhân viên */
   public employeeName: string;
+
+  /** ID đơn vị */
+  public branchID: string;
+
+  /** Mã đơn vị */
+  public branchCode: string;
+
+  /** Tên đơn vị */
+  public branchName: string;
 
   /** Giới tính */
   public gender: Gender = Gender.Male;
@@ -24,9 +37,6 @@ export class Employee {
   
   /** Chức danh */
   public employeeTitle: string;
-
-  /** Tên đơn vị */
-  public branchName: string;
 
   /** Số tài khoản */
   public bankAccount: string;
