@@ -35,6 +35,7 @@ const config = {
 				cancelAction: {
 					display: 'notification.no',
 					action: ()=>{},
+					callBack: ()=>{},
 				},
 				agreeAction: {
 					display: 'notification.yes',
@@ -81,6 +82,7 @@ const config = {
 				cancelAction: {
 					display: 'notification.destroy',
 					action: ()=>{},
+					callBack: ()=>{},
 				},
 				agreeAction: {
 					display: 'notification.yes',
@@ -108,6 +110,7 @@ const config = {
 				payload.action(id);
 			}
 			state.configNotificationWanning.messageAction.display = payload.message;
+			state.configNotificationWanning.cancelAction.callBack = payload.callBack;
 			if(payload.id){
 				state.configNotificationWanning.messageAction.id = payload.id;
 			}
@@ -143,6 +146,7 @@ const config = {
 				payload.refuseAction();
 			}
 			state.configNotificationQuestion.messageAction.display = payload.message;
+			state.configNotificationQuestion.cancelAction.callBack = payload.callBack;
 			state.isShowNotificationQuestion = true;
 		},
 

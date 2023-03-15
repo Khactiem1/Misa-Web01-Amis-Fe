@@ -83,7 +83,8 @@
     "support": "Support",
     "id": "Id",
     "name": "Name",
-    "email": "email"
+    "email": "email",
+    "question_data_change": "Data has been instead. You have want to do not?"
   },
   "module": {
     "cash": {

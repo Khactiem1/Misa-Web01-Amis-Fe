@@ -435,7 +435,7 @@ export default defineComponent({
      */
     function handleSave(){
       if(displayData.value === ""){
-        context.emit("update:modelValue", null);
+        context.emit("update:modelValue", undefined);
       }
       displayData.value = modelValue.value
         ? Base.formatDateDDMMYYYY(new Date(modelValue.value))

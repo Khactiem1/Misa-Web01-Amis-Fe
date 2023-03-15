@@ -77,6 +77,13 @@ export class Utils extends UtilsComponents{
     }
   }
 
+  /** Hàm xử lý bấm phím F1 */
+  public handleEventF1 = (event: any, handle: Function, dataHandle: any = undefined) => {
+    if ( event.keyCode === KeyCode.F1){
+      handle(dataHandle);
+    }
+  }
+
   /**
   * Hàm xử lý khi các phím tắt bấm bị ngắt quãng thì hành động sẽ k đc thực hiện Ctrl Alt A
   * NK Tiềm 08.03.2023
@@ -133,12 +140,13 @@ export class Utils extends UtilsComponents{
    * Hàm xử lý mở notification wanning
    * NK Tiềm 08.03.2023
    */
-  public showNotificationWanning = (action: any, message: any = '', data: any = '') => {
+  public showNotificationWanning = (action: any, message: any = '', data: any = '', callBack: any = () => {}) => {
     this.store.dispatch("config/setToggleShowNotificationWanningAction", 
     { 
       action: action, 
       message: message,
-      id: data
+      id: data,
+      callBack: callBack,
     });
   }
 
@@ -146,8 +154,8 @@ export class Utils extends UtilsComponents{
    * Hàm xử lý mở notification hỏi
    * NK Tiềm 08.03.2023
    */
-  public showNotificationAction = (action: any, refuseAction: any, message: any = '') => {
-    this.store.dispatch("config/setToggleShowNotificationQuestionAction", { action: action, refuseAction: refuseAction, message: message});
+  public showNotificationAction = (action: any, refuseAction: any, message: any = '', callBack: any = () => {}) => {
+    this.store.dispatch("config/setToggleShowNotificationQuestionAction", { action: action, refuseAction: refuseAction, message: message, callBack: callBack});
   }
 
   /**

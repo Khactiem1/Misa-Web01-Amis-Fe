@@ -10,7 +10,7 @@
         <button
           v-if="cancelAction"
           ref="elmAgree"
-          @click="cancelAction.action"
+          @click="cancelAction.action(); cancelAction.callBack()"
           class="btn"
         >
           {{ $t(cancelAction.display) }}
@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from "vue";
+import { KeyCode } from "@/core/public_api";
+import { defineComponent, onMounted, onUnmounted, ref, toRefs } from "vue";
 
 export default defineComponent({
   props: {
@@ -40,7 +41,8 @@ export default defineComponent({
     cancelAction: {
       default: {
         display: '',
-        action: () => {}
+        action: () => {},
+        callBack: () => {},
       }
     },
     /**
@@ -63,7 +65,8 @@ export default defineComponent({
       }
     },
   },
-  setup() {
+  setup(props) {
+    const { cancelAction }: any = toRefs(props);
     /**
      * Biến chứa element nút bấm 
      * Khắc Tiềm - 15.09.2022
@@ -88,11 +91,27 @@ export default defineComponent({
      * Hàm xử lý lặp khi tab focus
      * NK Tiềm 28/10/2022
      */
-     const handleLoopFocus = function () {
+    const handleLoopFocus = function () {
       elmAgree.value.focus();
     };
-    onMounted(() => focusLoop.value.addEventListener("focus", handleLoopFocus));
-    onUnmounted(() => window.removeEventListener("focus", handleLoopFocus));
+    /**
+     * Hàm xử lý đóng
+     * Khắc Tiềm 19.09.2022
+     */
+     const handleEventKey = function (event: any) {
+      if (event.keyCode === KeyCode.Esc) {
+        cancelAction.value.action(); 
+        cancelAction.value.callBack(); 
+      }
+    };
+    onMounted(() => {
+      focusLoop.value.addEventListener("focus", handleLoopFocus);
+      window.addEventListener("keydown", handleEventKey);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("focus", handleLoopFocus);
+      window.removeEventListener("keydown", handleEventKey);
+    });
     return {
       elmAgree,
       focusLoop,

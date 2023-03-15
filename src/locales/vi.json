@@ -83,7 +83,8 @@
     "support": "Giúp",
     "id": "Mã",
     "name": "Tên",
-    "email": "email"
+    "email": "email",
+    "question_data_change": "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?"
   },
   "module": {
     "cash": {

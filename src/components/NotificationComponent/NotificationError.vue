@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts">
+import { KeyCode } from '@/core/public_api';
 import { onBeforeMount, onMounted, onUnmounted, ref, toRefs, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -49,7 +50,7 @@ export default defineComponent({
     /**
      * Lấy ra thông báo
      */
-    const { messageAction }: any = toRefs(props);
+    const { messageAction, agreeAction }: any = toRefs(props);
 
     /**
      * Thông báo hiển thị
@@ -60,6 +61,7 @@ export default defineComponent({
      */
     onBeforeMount(()=> {
       if(Array.isArray(messageAction.value.display)){
+        messageAction.value.display.length = 1;
         if(messageAction.value.display.length === 1){
           displayMessage.value = messageAction.value.display[0];
         }
@@ -101,8 +103,25 @@ export default defineComponent({
      const handleLoopFocus = function () {
       elmAgree.value.focus();
     };
-    onMounted(() => focusLoop.value.addEventListener("focus", handleLoopFocus));
-    onUnmounted(() => window.removeEventListener("focus", handleLoopFocus));
+
+    /**
+     * Hàm xử lý đóng
+     * Khắc Tiềm 19.09.2022
+     */
+    const handleEventKey = function (event: any) {
+      if (event.keyCode === KeyCode.Esc) {
+        agreeAction.value.action(); 
+        messageAction.value.callBack()
+      }
+    };
+    onMounted(() => {
+      focusLoop.value.addEventListener("focus", handleLoopFocus);
+      window.addEventListener("keydown", handleEventKey);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("focus", handleLoopFocus);
+      window.removeEventListener("keydown", handleEventKey);
+    });
     return {
       elmAgree,
       displayMessage,

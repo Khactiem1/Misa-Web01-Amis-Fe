@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="modal-close">
-          <div class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></div>
+          <a href="/support/help" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
           <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
           ></div>
         </div>
@@ -234,7 +234,7 @@
 <script setup lang="ts">
 import { BaseInput, BaseCalendar, BaseCombobox, BaseCheckbox, BaseRadio } from '@/core/public_component';
 import { ActionTable, Employee, ENotificationType, Gender, Grid } from '@/core/public_api';
-import { defineProps, onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
+import { onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -297,7 +297,8 @@ async function handleSaveData(closeModal: any) {
     const messValid = validateInput();
     if (messValid.length > 0) {
       isValid.value = true;
-      props.Base.showNotificationError(messValid, props.Base.focusInputError);
+      unListentEvent();
+      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError(), listentEvent() });
     }
     else {
       if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication) {
@@ -399,7 +400,8 @@ const handleLoopFocus = function () {
 const handleCloseModal = () => {
   try {
     if (JSON.stringify(employee.value) != JSON.stringify(employeeComparison.value)) {
-      props.Base.showNotificationAction(saveDataAndCloceForm, props.Base.closeModal, 'QUESTION_DATA_CHANGE');
+      unListentEvent();
+      props.Base.showNotificationAction(saveDataAndCloceForm, props.Base.closeModal, t('common.question_data_change'), listentEvent);
     } else {
       props.Base.closeModal();
     }
@@ -413,7 +415,17 @@ const saveDataAndCloceForm = () => {
   handleSaveData(true);
 }
 
+/** Lắng nghe các sử kiện */
+const listentEvent = () => {
+	window.addEventListener("keydown", handleKey);
+  window.addEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
+}
 
+/** Bỏ lắng nghe */
+const unListentEvent = () => {
+	window.removeEventListener("keydown", handleKey);
+	window.removeEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
+}
 
 /**
  * Hàm xử lý các event nút bấm tắt
@@ -421,17 +433,19 @@ const saveDataAndCloceForm = () => {
  */
 function handleKey(event: any){
   props.Base.handleEventFormCtrlShiftS(event, handleCloseModal, null, handleSaveData, false, handleSaveData, true)
+	props.Base.handleEventF1(event, () => {
+    window.open('/support/help');
+  })
 }
 
 /** 
  * Khi Mounted thì bắt đầu lắng nghe các sự kiện
  * Khắc Tiềm - 08.03.2023
  */
- onMounted(() => {
+onMounted(() => {
 	focusLoop.value.addEventListener("focus", handleLoopFocus);
 	focusLoopTop.value.addEventListener("focus", handleLoopFocus);
-	window.addEventListener("keydown", handleKey);
-  window.addEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
+  listentEvent();
 })
 
 /** 
@@ -440,8 +454,7 @@ function handleKey(event: any){
  */
 onUnmounted(() =>{
 	window.removeEventListener("focus", handleLoopFocus);
-	window.removeEventListener("keydown", handleKey);
-	window.removeEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
+  unListentEvent();
 })
 </script>
 

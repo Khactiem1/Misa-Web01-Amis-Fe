@@ -65,4 +65,7 @@ export enum KeyCode {
 
   /** Phím TAB */
   Tab = 9,
+
+  /** Phím F1 */
+  F1 = 112,
 }

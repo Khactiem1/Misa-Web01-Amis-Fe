@@ -12,7 +12,7 @@ export default defineConfig({
     VueI18nPlugin({
       /* options */
       // locale messages resource pre-compile option
-      include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
     }),
     topLevelAwait({
       // The export name of top-level await promise for each chunk module

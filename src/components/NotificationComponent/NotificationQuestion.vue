@@ -10,7 +10,7 @@
         <button
           ref="elmTabNext"
           v-if="cancelAction"
-          @click="cancelAction.action"
+          @click="cancelAction.action(); cancelAction.callBack();"
           class="btn"
         >
           {{ $t(cancelAction.display) }}
@@ -18,13 +18,13 @@
       </div>
       <div class="modal-notification_action-item">
         <button 
-          @click="agreeAction.refuseAction" 
+          @click="agreeAction.refuseAction()" 
           class="btn">
           {{ $t(agreeAction.refuseActionDisplay) }}
         </button>
         <button
           ref="elmAgree"
-          @click="agreeAction.action"
+          @click="agreeAction.action()"
           class="btn btn-success"
         >
           {{ $t(agreeAction.display) }}
@@ -36,7 +36,8 @@
 </template>
 
 <script lang="ts">
-import { onMounted, onUnmounted, ref, defineComponent } from "vue";
+import { KeyCode } from "@/core/public_api";
+import { onMounted, onUnmounted, ref, defineComponent, toRefs } from "vue";
 
 export default defineComponent({
   props: {
@@ -46,7 +47,8 @@ export default defineComponent({
     cancelAction: {
       default: {
         display: '',
-        action: () => {}
+        action: () => {},
+        callBack: () => {},
       }
     },
     /**
@@ -70,7 +72,8 @@ export default defineComponent({
       }
     },
   },
-  setup() {
+  setup(props) {
+    const { cancelAction }: any = toRefs(props);
     /**
      * Biến chứa element nút bấm 
      * Khắc Tiềm - 15.09.2022
@@ -102,11 +105,23 @@ export default defineComponent({
     // const handleLoopFocusTabNext = function(){
     //   elmTabEnd.value.focus();
     // }
+    /**
+     * Hàm xử lý đóng
+     * Khắc Tiềm 19.09.2022
+     */
+    const handleEventKey = function (event: any) {
+      if (event.keyCode === KeyCode.Esc) {
+        cancelAction.value.action(); 
+        cancelAction.value.callBack(); 
+      }
+    };
     onMounted(() => {
-      focusLoop.value.addEventListener("focus", handleLoopFocus)
+      focusLoop.value.addEventListener("focus", handleLoopFocus);
+      window.addEventListener("keydown", handleEventKey);
     });
     onUnmounted(() => {
-      window.removeEventListener("focus", handleLoopFocus)
+      window.removeEventListener("focus", handleLoopFocus);
+      window.removeEventListener("keydown", handleEventKey);
     });
     return {
       elmAgree,
