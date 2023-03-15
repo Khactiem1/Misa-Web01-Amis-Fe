@@ -120,3 +120,6 @@ a {
   display: block;
   border: none;
 }
+.table-content{
+  border-radius: 5px;
+}

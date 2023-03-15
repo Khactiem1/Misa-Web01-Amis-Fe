@@ -96,9 +96,22 @@ export default class BaseStore {
             * Khắc Tiềm - 08.03.2023
             */
           isShowModal: false,
+
+          /**
+           * Biến chứa trạng thái form thêm, sửa, nhân bản
+           * Khắc Tiềm - 08.03.2023
+           */
+          stateForm: '',
         };
       },
       mutations: {
+        /**
+         * Set trạng thái form thêm, sửa, nhân bản
+         * Khắc Tiềm - 08.03.2023
+         */
+        setStateFormMutation(state: any, payload: any){
+          state.stateForm = payload;
+        },
         /**
          * Set trạng thái mở form
          * Khắc Tiềm - 08.03.2023
@@ -290,6 +303,13 @@ export default class BaseStore {
         ...this.Mutations,
       },
       actions: {
+        /**
+         * Set trạng thái form thêm, sửa, nhân bản
+         * Khắc Tiềm - 08.03.2023
+         */
+        setStateFormAction(context: any, payload: any){
+          context.commit("setStateFormMutation", payload);
+        },
         /**
          * Set trạng thái mở form
          * Khắc Tiềm - 08.03.2023

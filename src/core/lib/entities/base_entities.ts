@@ -1,12 +1,12 @@
 export class BaseEntity {
   /** Người thêm */
-  public createdBy: string;
+  public createdBy: string = '';
 
   /** Ngày thêm */
   public createdDate: Date;
 
   /** Người sửa */
-  public modifiedBy: string;
+  public modifiedBy: string = '';
   
   /** Ngày sửa */
   public modifiedDate: Date;

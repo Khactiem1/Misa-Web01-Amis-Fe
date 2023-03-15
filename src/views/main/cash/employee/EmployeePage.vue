@@ -47,7 +47,10 @@
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-employee :Base="Base"></form-employee>
+        <form-employee 
+          :Base="Base" 
+          :optionBranch="optionBranch">
+        </form-employee>
       </base-modal-form>
       <base-setting
         v-if="Base.isShowSettingTable"
@@ -66,6 +69,7 @@ import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { environment } from '@/environments/environment.prod';
 import { useI18n } from 'vue-i18n'
 import EmployeeApi from '@/api/module/employee';
+import BranchApi from '@/api/module/branch';
 
 const { t } = useI18n();
 /**
@@ -73,9 +77,13 @@ const { t } = useI18n();
  * Khắc Tiềm 13-03-2023
  */
 const api:EmployeeApi = new EmployeeApi();
+const apiDropdown:BranchApi = new BranchApi();
 
 /** Sử dụng base thư viện Grid đã viết */
 const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
+
+/** Dữ liệu dropdown đơn vị */
+const optionBranch: any = ref([]);
 
 /**
  * Biến chứa template thực hiện hành động hàng loạt
@@ -84,7 +92,7 @@ const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
 const templateActionAll: any = ref(null);
 
 function loadDropDown(){
-  
+  Base.apiService.callApi(apiDropdown.getAll, null, async (response: any) => { optionBranch.value = response;});
 }
 
 /**
@@ -222,6 +230,7 @@ onUnmounted(() =>{
   height: 10px; /* height of horizontal scrollbar ← You're missing this */
   width: 8px;
 	background-color: var(--while__color);
+  border-radius: 5px;
 }
 .container-table {
   padding: 0 24px;

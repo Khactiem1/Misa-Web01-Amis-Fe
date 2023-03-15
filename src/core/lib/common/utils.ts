@@ -13,9 +13,6 @@ export class Utils extends UtilsComponents{
   /** Mã sinh tự động */
   public RecordCode: any;
 
-  /** Mã sinh tự động */
-  public StateForm: any;
-
   /** Module đang hoạt động kế thừa lớp */
   public Module: string;
 
@@ -132,6 +129,10 @@ export class Utils extends UtilsComponents{
     }
   }
 
+  /**
+   * Hàm xử lý mở notification wanning
+   * NK Tiềm 08.03.2023
+   */
   public showNotificationWanning = (action: any, message: any = '', data: any = '') => {
     this.store.dispatch("config/setToggleShowNotificationWanningAction", 
     { 
@@ -141,7 +142,40 @@ export class Utils extends UtilsComponents{
     });
   }
 
+  /**
+   * Hàm xử lý mở notification hỏi
+   * NK Tiềm 08.03.2023
+   */
+  public showNotificationAction = (action: any, refuseAction: any, message: any = '') => {
+    this.store.dispatch("config/setToggleShowNotificationQuestionAction", { action: action, refuseAction: refuseAction, message: message});
+  }
+
+  /**
+   * Hàm xử lý mở notification lỗi
+   * NK Tiềm 08.03.2023
+   */
+  public showNotificationError = (message: any = '', callBack: any = () => {}) => {
+    this.store.dispatch("config/setToggleShowNotificationErrorAction", {display: message, callBack: callBack});
+  }
+
+  /**
+   * Hàm xử lý thêm top message
+   * 
+   */
   public addNotification = (type: any, message: any) => {
     this.store.dispatch('config/addNotification', { type: type, message: message }); 
+  }
+
+  /**
+   * Hàm xử lý focus vào ô đầu tiên nếu ô đó có lỗi
+   * NK Tiềm 08.03.2023
+   */
+  public focusInputError = () => {
+    setTimeout(() => {
+      const elm: any = document.querySelector('.form-group .is-valid .input');
+      if(elm){
+        elm.focus();
+      }
+    }, 100);
   }
 }

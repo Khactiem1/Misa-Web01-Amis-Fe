@@ -52,7 +52,7 @@ export default defineComponent({
   display: inline-block;
 }
 .input-radio_check + .input-radio_check {
-  margin-left: 20px;
+  margin-left: 16px;
 }
 .input-radio_check::before {
   content: "";

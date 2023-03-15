@@ -80,7 +80,10 @@
     "cancel_form": "Huỷ",
     "add_form": "Cất",
     "add_form_and_add": "Cất và thêm",
-    "support": "Giúp"
+    "support": "Giúp",
+    "id": "Mã",
+    "name": "Tên",
+    "email": "email"
   },
   "module": {
     "cash": {
@@ -88,13 +91,19 @@
       "employeeCode" : "Mã nhân viên",
       "employeeName" : "Tên nhân viên",
       "branchBank" : "Chi nhánh ngân hàng",
+      "branchBank_small" : "Chi nhánh",
       "identityCard" : "Số chứng minh",
+      "identityCard_small" : "Số CMND",
       "employeeTitle" : "Chức danh",
       "branchName" : "Tên đơn vị",
+      "branchCode" : "Mã đơn vị",
+      "branch" : "Đơn vị",
       "bankAccount" : "Số tài khoản",
       "nameBank" : "Tên ngân hàng",
       "dayForIdentity" : "Ngày cấp chứng minh",
+      "dayForIdentity_small" : "Ngày cấp",
       "grantAddressIdentity" : "Nơi cấp chứng minh",
+      "grantAddressIdentity_small" : "Nơi cấp",
       "landlinePhone" : "Điện thoại cố định",
       "employeeEmail" : "Địa chỉ email",
       "isCustomer": "Là khách hàng",
@@ -109,7 +118,11 @@
       "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho",
       "search_employee_code_name": "Tìm theo mã, tên nhân viên",
       "add_employee": "Thêm thông tin nhân viên",
-      "edit_employee": "Sửa thông tin nhân viên"
+      "edit_employee": "Sửa thông tin nhân viên",
+      "phoneNumber": "Số điện thoại di động",
+      "phoneNumber_small": "ĐT di động",
+      "fixed_phone": "Điện thoại cố định",
+      "fixed_phone_small": "ĐT cố định"
     },
     "inventory": {
       "goods": "Hàng hoá",
@@ -118,6 +131,12 @@
       "finished_product": "Thành phẩm",
       "tool_tools": "Dụng cụ công cụ"
     }
+  },
+  "validate": {
+    "empty": "{field} không được để trống.",
+    "empty_data_cbx": "Dữ liệu < {field} > không có trong danh mục.",
+    "max_date_now": "{field} phải nhỏ hơn ngày hiện tại.",
+    "malformed": "Không đúng định dạng {field}."
   },
   "calendar": {
     "year": "Năm",

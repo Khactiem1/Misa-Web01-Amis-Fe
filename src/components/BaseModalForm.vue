@@ -34,6 +34,9 @@ export default defineComponent({
 
 <style>
 /* modal */
+.modal-body{
+  border-radius: 5px;
+}
 .form-header {
   display: flex;
   justify-content: space-between;
@@ -246,6 +249,9 @@ label.required::after {
 }
 label{
   font-size: 12px;
+}
+.base-radio_item{
+  margin-top: 10px;
 }
 </style>
   

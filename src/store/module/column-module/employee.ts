@@ -52,12 +52,12 @@ let columns: Header [] = [
     "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeTitle" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeTitle'},
   ),
-  // new Header(
-  //   "branchName",
-  //   'module.cash.branchName',
-  //   "200",
-  //   { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName'},
-  // ),
+  new Header(
+    "branchName",
+    'module.cash.branchName',
+    "200",
+    { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName'},
+  ),
   new Header(
     "bankAccount",
     'module.cash.bankAccount',

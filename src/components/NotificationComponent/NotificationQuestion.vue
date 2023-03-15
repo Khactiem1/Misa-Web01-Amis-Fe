@@ -13,21 +13,21 @@
           @click="cancelAction.action"
           class="btn"
         >
-          {{ cancelAction.display }}
+          {{ $t(cancelAction.display) }}
         </button>
       </div>
       <div class="modal-notification_action-item">
         <button 
           @click="agreeAction.refuseAction" 
           class="btn">
-          {{ agreeAction.refuseActionDisplay }}
+          {{ $t(agreeAction.refuseActionDisplay) }}
         </button>
         <button
           ref="elmAgree"
           @click="agreeAction.action"
           class="btn btn-success"
         >
-          {{ agreeAction.display }}
+          {{ $t(agreeAction.display) }}
         </button>
         <button ref="focusLoop" class="focus-loop"></button>
       </div>

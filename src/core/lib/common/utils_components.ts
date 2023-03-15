@@ -10,7 +10,7 @@ export class UtilsComponents{
   * @param {event để lấy giá trị nhập} event 
   * Khắc Tiềm - 08.03.2023
   */
-  public handleDebounce(timeOut: number, handle: Function, data: any) {
+  public handleDebounce = (timeOut: number, handle: Function, data: any) => {
     this.EventDebounce.forEach((item) => {
       clearTimeout(item);
     });
@@ -28,7 +28,7 @@ export class UtilsComponents{
   * @returns Dữ liệu đã định dạng
   * Khắc Tiềm - 15.09.2022
   */
-  public formatDateDDMMYYYY(date: any) {
+  public formatDateDDMMYYYY = (date: any) => {
     if (!date) {
       return '';
     } 
@@ -52,7 +52,7 @@ export class UtilsComponents{
    * @returns Dữ liệu đã định dạng
    * Khắc Tiềm - 15.09.2022
    */
-  public formatDateYYYYMMDD(date: any){
+  public formatDateYYYYMMDD = (date: any) => {
     if (!date) {
       return '';
     } else {
@@ -73,7 +73,7 @@ export class UtilsComponents{
    * Hàm định dạng đơn vị tiền tệ
    * Khắc Tiềm - 15.09.2022
    */
-  public Comma(number: any){
+  public Comma = (number: any) => {
     if(number || number === 0){
       let intPart = Math.trunc(number) + ''; 
       const floatPart = Number((number - Number(intPart)).toFixed(10));
@@ -96,7 +96,7 @@ export class UtilsComponents{
    * Hàm đệ quy một danh mục cha con
    * Khắc Tiềm - 15.09.2022
    */
-  public listToTree(array: any [], idRecord: string){
+  public listToTree = (array: any [], idRecord: string) => {
     array = array.sort(function() {
       return -1;
     });
@@ -131,7 +131,7 @@ export class UtilsComponents{
    * @returns Trả về true là định dạng đúng và false là định dạng sai
    * Khắc Tiềm - 15.09.2022
    */
-  public validateEmail(email: any){
+  public validateEmail = (email: any) => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //eslint-disable-line
     return regex.test(email);
   }
@@ -142,7 +142,7 @@ export class UtilsComponents{
    * @returns Trả về true là định dạng đúng và false là định dạng sai
    * Khắc Tiềm - 15.09.2022
    */
-  public validatePhone(sdt: any){
+  public validatePhone = (sdt: any) => {
     const regex = /(03|02|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/; //eslint-disable-line
     return regex.test(sdt);
   }

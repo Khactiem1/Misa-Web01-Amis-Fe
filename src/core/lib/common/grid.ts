@@ -50,11 +50,11 @@ export class Grid extends Utils{
   /** Lấy danh sách columns hiển thị cài đặt */
   public columnSetting:any = computed(() => this.store.state[`${this.Module}`].columns);
 
-  /**
-   * Biến trạng thái ẩn hiện modal thêm sửa
-   * Khắc Tiềm - 08.03.2023
-   */
+  /** Biến trạng thái ẩn hiện modal thêm sửa */
   public isShowModal:any = computed(() => this.store.state[`${this.Module}`].isShowModal);
+
+  /** trạng thái form */
+  public StateForm: any = computed(() => this.store.state[`${this.Module}`].stateForm);
 
   /**
    * Các Method
@@ -190,7 +190,7 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    * */
   public openModal = async (stateForm: any, recordId: any = undefined) => {
-    this.StateForm = stateForm;
+    this.setStateForm(stateForm);
     if(recordId){
       await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
         this.RecordEdit = response;
@@ -215,5 +215,13 @@ export class Grid extends Utils{
    */
   public closeModal = () => {
     this.store.dispatch(`${this.Module}/setShowModalAction`, false);
+  }
+
+  /**
+   * Hàm set trạng thái form (Sửa, thêm, nhân bản, ...)
+   * Khắc Tiềm - 08.03.2023
+   */
+  public setStateForm = (state: string) => {
+    this.store.dispatch(`${this.Module}/setStateFormAction`, state);
   }
 }

@@ -63,6 +63,7 @@ const config = {
 			},
 			messageAction: {
 					display: '',
+					callBack: () => {}
 				},
 			},
 
@@ -121,7 +122,7 @@ const config = {
 			state.configNotificationError.agreeAction.action = ()=> {
 				state.isShowNotificationError = false;
 			}
-			state.configNotificationError.messageAction.display = payload;
+			state.configNotificationError.messageAction = payload;
 			state.isShowNotificationError = true;
 		},
 

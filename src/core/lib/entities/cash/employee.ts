@@ -9,19 +9,19 @@ export class Employee extends BaseEntity{
   public employeeID: string;
 
   /** Mã nhân viên */
-  public employeeCode: string;
+  public employeeCode: string = '';
   
   /** Tên nhân viên */
-  public employeeName: string;
+  public employeeName: string = '';
 
   /** ID đơn vị */
-  public branchID: string;
+  public branchID: string = '';
 
   /** Mã đơn vị */
-  public branchCode: string;
+  public branchCode: string = '';
 
   /** Tên đơn vị */
-  public branchName: string;
+  public branchName: string = '';
 
   /** Giới tính */
   public gender: Gender = Gender.Male;
@@ -30,37 +30,37 @@ export class Employee extends BaseEntity{
   public dateOfBirth: Date;
 
   /** Chi nhánh ngân hàng */
-  public branchBank: string;
+  public branchBank: string = '';
 
   /** Số cmnd */
-  public identityCard: string;
+  public identityCard: string = '';
   
   /** Chức danh */
-  public employeeTitle: string;
+  public employeeTitle: string = '';
 
   /** Số tài khoản */
-  public bankAccount: string;
+  public bankAccount: string = '';
 
   /** Tên ngân hàng */
-  public nameBank: string;
+  public nameBank: string = '';
 
   /** Ngày cấp CM */
   public dayForIdentity: Date;
 
   /** Nơi cấp cm */
-  public grantAddressIdentity: string;
+  public grantAddressIdentity: string = '';
 
   /** Số điện thoại */
-  public phoneNumber: string;
+  public phoneNumber: string = '';
 
   /** Số điện thoại cố định */
-  public landlinePhone: string;
+  public landlinePhone: string = '';
 
   /** Địa chỉ */
-  public employeeAddress: string;
+  public employeeAddress: string = '';
 
   /** Địa chỉ mail */
-  public employeeEmail: string;
+  public employeeEmail: string = '';
 
   /** Trạng thái */
   public isActive: boolean = true;

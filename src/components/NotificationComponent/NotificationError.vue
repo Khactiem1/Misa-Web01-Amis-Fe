@@ -10,10 +10,10 @@
         <button
           tabindex="-1"
           ref="elmAgree"
-          @click="agreeAction.action"
+          @click="agreeAction.action(); messageAction.callBack()"
           class="btn btn-success"
         >
-          {{ agreeAction.display }}
+          {{ $t(agreeAction.display) }}
         </button>
         <div tabindex="0" ref="focusLoop" class="focus-loop"></div>
       </div>
@@ -39,7 +39,10 @@ export default defineComponent({
      * Các xử lý hiển thị message
      */
     messageAction: {
-      type: Object,
+      default: {
+        display: '',
+        callBack: () => {}
+      }
     },
   },
   setup(props) {

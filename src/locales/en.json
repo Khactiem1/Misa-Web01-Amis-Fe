@@ -80,7 +80,10 @@
     "cancel_form": "Destroy",
     "add_form": "Save",
     "add_form_and_add": "Save and add",
-    "support": "Support"
+    "support": "Support",
+    "id": "Id",
+    "name": "Name",
+    "email": "email"
   },
   "module": {
     "cash": {
@@ -88,13 +91,19 @@
       "employeeCode" : "Employee code",
       "employeeName" : "Employee name",
       "branchBank" : "Branch bank",
+      "branchBank_small" : "Branch",
       "identityCard" : "Identity card",
+      "identityCard_small" : "ID number",
       "employeeTitle" : "Title",
       "branchName" : "Branch name",
+      "branchCode" : "Branch code",
+      "branch" : "Branch",
       "bankAccount" : "Bank account",
       "nameBank" : "Name bank",
       "dayForIdentity" : "Day for identity",
+      "dayForIdentity_small" : "Date Range",
       "grantAddressIdentity" : "Grant address identity",
+      "grantAddressIdentity_small" : "Issued by",
       "landlinePhone" : "Landline phone",
       "employeeEmail" : "Email address",
       "isCustomer": "Is customer",
@@ -109,7 +118,11 @@
       "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred",
       "search_employee_code_name": "Search by code, name",
       "add_employee": "Add employee",
-      "edit_employee": "Edit employee"
+      "edit_employee": "Edit employee",
+      "phoneNumber": "Mobile phone number",
+      "phoneNumber_small": "Mobile phone",
+      "fixed_phone": "Landline phone",
+      "fixed_phone_small": "Fixed phone"
     },
     "inventory": {
       "goods": "Goods",
@@ -118,6 +131,12 @@
       "finished_product": "Finished Product",
       "tool_tools": "Tool Tools"
     }
+  },
+  "validate": {
+    "empty": "{field} cannot be left blank.",
+    "empty_data_cbx": "Data < {field} > not in the list.",
+    "max_date_now": "{field} must be less than the current date.",
+    "malformed": "Malformed {field}."
   },
   "calendar": {
     "year": "Year",

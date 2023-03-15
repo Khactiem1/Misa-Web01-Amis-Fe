@@ -3,7 +3,7 @@
     <div class="form">
       <div class="form-header">
         <div class="modal-title">
-          <h2>{{ $t('module.cash.add_employee') }}</h2>
+          <h2>{{ (Base.StateForm === ActionTable.Add || Base.StateForm === ActionTable.Replication ? $t('module.cash.add_employee') : $t('module.cash.edit_employee')) }}</h2>
           <div class="form-header_checkbox">
             <div class="check form-checkbox_item">
               <base-checkbox
@@ -11,7 +11,7 @@
                 :false-value="false"
                 v-model="employee.isCustomer"
               >
-                <div class="info-checkbox">Là khách hàng</div>
+                <div class="info-checkbox">{{ $t('module.cash.isCustomer') }}</div>
               </base-checkbox>
             </div>
             <div class="check form-checkbox_item">
@@ -20,14 +20,14 @@
                 :false-value="false"
                 v-model="employee.isVendor"
               >
-                <div class="info-checkbox">Là nhà cung cấp</div>
+                <div class="info-checkbox">{{ $t('module.cash.isVendor') }}</div>
               </base-checkbox>
             </div>
           </div>
         </div>
         <div class="modal-close">
           <div class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></div>
-          <div @click="Base.closeModal" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
+          <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
           ></div>
         </div>
       </div>
@@ -42,45 +42,45 @@
                   :required="true"
                   :type="'text'"
                   :maxLength="20"
-                  :messageValid="''"
-                  :label="'Mã'" 
+                  :messageValid="t('validate.empty', { field: t('module.cash.employeeCode') })"
+                  :label="$t('common.id')" 
                   v-model="employee.employeeCode"
+                  :class="{ 'is-valid': isValid && employee.employeeCode == '' }"
                   ref="inputFocus"
                 ></base-input>
-                  <!-- :class="{ 'is-valid': isValid && employee.employeeCode == '' }" -->
               </div>
               <div class="form-group ms-big">
                 <base-input
                   :required="true"
                   :type="'text'"
                   :maxLength="80"
-                  :messageValid="''"
-                  :label="'Tên'"
+                  :messageValid="t('validate.empty', { field: t('module.cash.employeeName') })"
+                  :label="$t('common.name')"
                   v-model="employee.employeeName"
+                  :class="{ 'is-valid': isValid && employee.employeeName == '' }"
                 ></base-input>
-                  <!-- :class="{ 'is-valid': isValid && employee.employeeName == '' }" -->
               </div>
             </div>
             <div class="form-group">
               <base-combobox
-                :options="[]"
-                :value="'unitID'"
-                :header="'unitName'"
-                :label="'Đơn vị'"
-                :labelCode="'Mã đơn vị'"
-                :labelName="'Tên đơn vị'"
+                :options="optionBranch"
+                :value="'branchID'"
+                :header="'branchName'"
+                :label="$t('module.cash.branch')"
+                :labelCode="$t('module.cash.branchCode')"
+                :labelName="$t('module.cash.branchName')"
                 :required="true"
-                :headerCode = "'unitCode'"
+                :headerCode = "'branchCode'"
                 v-model:textField="employee.branchName"
-                :messageValid="''"
+                :messageValid="t('validate.empty_data_cbx', { field: t('module.cash.branchName') })"
                 v-model="employee.branchID"
+                :class="{ 'is-valid': isValid && !employee.branchID }"
               ></base-combobox>
-                <!-- :class="{ 'is-valid': isValid && !employee.branchID }" -->
             </div>
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Chức danh'"
+                :label="$t('module.cash.employeeTitle')"
                 v-model="employee.employeeTitle"
               ></base-input>
             </div>
@@ -89,28 +89,28 @@
             <div class="form-item_input">
               <div class="form-group ms-small">
                 <base-calendar
-                  :label="'Ngày sinh'"
+                  :label="$t('common.dateOfBirth')"
                   :maxDate="new Date()"
-                  :messageValid="''"
+                  :messageValid="t('validate.max_date_now', { field: t('common.dateOfBirth') })"
                   v-model="employee.dateOfBirth"
                 >
                 </base-calendar>
               </div>
               <div style="padding-left: 16px" class="form-group ms-big">
-                <label>Giới tính</label>
+                <label>{{ $t('common.gender') }}</label>
                 <div class="base-radio_item">
                   <base-radio
-                    label="Nam"
+                    :label="$t('gender.male')"
                     :value="Gender.Male"
                     v-model.number="employee.gender"
                   ></base-radio>
                   <base-radio
-                    label="Nữ"
+                    :label="$t('gender.female')"
                     :value="Gender.Female"
                     v-model.number="employee.gender"
                   ></base-radio>
                   <base-radio
-                    label="Khác"
+                    :label="$t('gender.other')"
                     :value="Gender.Other"
                     v-model.number="employee.gender"
                   ></base-radio>
@@ -121,16 +121,16 @@
               <div class="form-group ms-big">
                 <base-input
                   :type="'text'"
-                  :label="'Số CMND'"
-                  :toolTip="'Số chứng minh nhân dân'"
+                  :label="$t('module.cash.identityCard_small')"
+                  :toolTip="$t('module.cash.identityCard')"
                   v-model="employee.identityCard"
                 ></base-input>
               </div>
               <div class="form-group ms-small">
                 <base-calendar
-                  :label="'Ngày cấp'"
+                  :label="$t('module.cash.dayForIdentity_small')"
                   :maxDate="new Date()"
-                  :messageValid="''"
+                  :messageValid="t('validate.max_date_now', { field: t('module.cash.dayForIdentity') })"
                   v-model="employee.dayForIdentity"
                 >
                 </base-calendar>
@@ -139,7 +139,7 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Nơi cấp'"
+                :label="$t('module.cash.grantAddressIdentity_small')"
                 v-model="employee.grantAddressIdentity"
               ></base-input>
             </div>
@@ -149,7 +149,7 @@
           <div class="form-group">
             <base-input
               :type="'text'"
-              :label="'Địa chỉ'"
+              :label="$t('common.address')"
               v-model="employee.employeeAddress"
             ></base-input>
           </div>
@@ -157,29 +157,29 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'ĐT di động'"
-                :toolTip="'Điện thoại di động'"
+                :label="$t('module.cash.phoneNumber_small')"
+                :toolTip="$t('module.cash.phoneNumber')"
                 :isPhone="true"
-                :messageValid="''"
+                :messageValid="t('validate.malformed', { field: t('common.phoneNumber') })"
                 v-model="employee.phoneNumber"
               ></base-input>
             </div>
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'ĐT cố định'"
+                :label="$t('module.cash.fixed_phone_small')"
+                :toolTip="$t('module.cash.fixed_phone')"
                 :isPhone="true"
-                :toolTip="'Điện thoại cố định'"
-                :messageValid="''"
+                :messageValid="t('validate.malformed', { field: t('module.cash.landlinePhone') })"
                 v-model="employee.landlinePhone"
               ></base-input>
             </div>
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Email'"
+                :label="$t('common.email')"
                 :isEmail="true"
-                :messageValid="''"
+                :messageValid="t('validate.malformed', { field: t('module.cash.employeeEmail') })"
                 v-model="employee.employeeEmail"
               ></base-input>
             </div>
@@ -188,21 +188,21 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Tài khoản ngân hàng'"
+                :label="$t('module.cash.bankAccount')"
                 v-model="employee.bankAccount"
               ></base-input>
             </div>
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Tên ngân hàng'"
+                :label="$t('module.cash.nameBank')"
                 v-model="employee.nameBank"
               ></base-input>
             </div>
             <div class="form-group">
               <base-input
                 :type="'text'"
-                :label="'Chi nhánh'"
+                :label="$t('module.cash.branchBank_small')"
                 v-model="employee.branchBank"
               ></base-input>
             </div>
@@ -212,10 +212,10 @@
       <div class="form-action">
         <div class="form-action_container">
           <div class="form-action_item">
-            <button style="margin-right: 9px" class="btn modal-icon btn-form_cat" :content="$t('common.add_form') + ' (Ctrl + S)'">
+            <button @click="handleSaveData(true)" style="margin-right: 9px" class="btn modal-icon btn-form_cat" :content="$t('common.add_form') + ' (Ctrl + S)'">
               {{ $t('common.add_form') }}
             </button>
-            <button class="btn btn-success modal-icon btn-form_cat-them" :content="$t('common.add_form_and_add') + ' (Ctrl + Shift +  S)'">
+            <button @click="handleSaveData(false)" class="btn btn-success modal-icon btn-form_cat-them" :content="$t('common.add_form_and_add') + ' (Ctrl + Shift +  S)'">
               {{ $t('common.add_form_and_add') }}
             </button>
           </div>
@@ -233,8 +233,11 @@
 
 <script setup lang="ts">
 import { BaseInput, BaseCalendar, BaseCombobox, BaseCheckbox, BaseRadio } from '@/core/public_component';
-import { ActionTable, Employee, Gender, Grid } from '@/core/public_api';
-import { reactive, defineProps, onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
+import { ActionTable, Employee, ENotificationType, Gender, Grid } from '@/core/public_api';
+import { defineProps, onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 /**
  * Props truyền vào với những Base từ bên component cha
@@ -242,26 +245,139 @@ import { reactive, defineProps, onUnmounted, onMounted, ref, onBeforeMount } fro
  */
 const props = defineProps({
   Base: { type: Grid, required: true },
+  optionBranch: { type: Array, required: true },
 })
 
 /**
- * Khởi tạo đối tượng thêm sửa xoá
+ * Lưu trạng thái hiển thị validate
+ * NK Tiềm 08.03.2023
+ */
+const isValid = ref(false);
+
+/** Biến lưu trạng thái gọi api có bị lỗi hay không
+ *  Khắc Tiềm - 08.03.2023
+ */
+const errorApi = ref(false);
+
+/**
+ * Khởi tạo đối tượng thêm sửa xoá và so sánh
  * Khắc Tiềm - 08.03.2023
  */
-let employee: Employee = reactive(new Employee());
+const employee = ref<Employee>(new Employee());
+const employeeComparison = ref<Employee>(new Employee());
 
+/** 
+ * Chuẩn bị dữ liệu trước khi mount
+ * Khắc Tiềm - 08.03.2023
+ */
 onBeforeMount(() => {
   if(props.Base.StateForm === ActionTable.Add){
-    employee.employeeCode = props.Base.RecordCode;
+    employee.value.employeeCode = props.Base.RecordCode;
+    employeeComparison.value.employeeCode = props.Base.RecordCode;
   }
   else if(props.Base.StateForm === ActionTable.Edit){
-    employee = reactive({...props.Base.RecordEdit});
+    employee.value = {...props.Base.RecordEdit};
+    employeeComparison.value = {...props.Base.RecordEdit};
   }
   else{
-    employee = reactive({...props.Base.RecordEdit});
-    employee.employeeCode = props.Base.RecordCode;
+    employee.value = {...props.Base.RecordEdit};
+    employee.value.employeeCode = props.Base.RecordCode;
+    employeeComparison.value = {...props.Base.RecordEdit};
+    employeeComparison.value.employeeCode = props.Base.RecordCode;
   }
 })
+
+/** 
+ * Hàm xử lý lưu dữ liệu
+ * Khắc Tiềm - 08.03.2023
+ */
+async function handleSaveData(closeModal: any) {
+  try {
+    /** Kiểm tra validate */
+    const messValid = validateInput();
+    if (messValid.length > 0) {
+      isValid.value = true;
+      props.Base.showNotificationError(messValid, props.Base.focusInputError);
+    }
+    else {
+      if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication) {
+        /** Nếu trạng thái form là thêm thì truyền api thêm */
+        await callApiForm(props.Base.api.createRecordApi, props.Base.StateForm);
+      } 
+      else {
+        /** nếu trạng thái form là sửa thì truyền api sửa */
+        await callApiForm(props.Base.api.editRecordApi, props.Base.StateForm);
+      }
+      if (closeModal === true && errorApi.value === false) {
+        /** Đóng form, không tiếp tục thêm  */
+        props.Base.closeModal();
+      } 
+      else if (errorApi.value === false) {
+        /** Nếu tiếp tục thêm thì reset dữ liệu, call mã mới và focus vào ô input */
+        props.Base.setStateForm(ActionTable.Add);
+        isValid.value = false;
+        employee.value = new Employee();
+        employeeComparison.value = new Employee();
+        await props.Base.apiService.callApi(props.Base.api.nextValue, null, (response: any) => { 
+          employee.value.employeeCode = response;
+          employeeComparison.value.employeeCode = response;
+        }, () => {}, false);
+        inputFocus.value.tagInput.focus(); 
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+/** 
+ * Hàm xử lý gọi api của một form thêm, sửa xoá
+ * Khắc Tiềm - 08.03.2023
+ */
+const callApiForm = async (api: any, stateForm: string = '') => {
+  errorApi.value = true;
+  await props.Base.apiService.callApi(api, employee.value ,async (response: any) => { 
+    if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication){
+      props.Base.store.dispatch(`${props.Base.Module}/addRecordAction`, { ...employee.value, employeeID: response });
+    }
+    else{
+      props.Base.store.dispatch(`${props.Base.Module}/editRecordAction`, { ...employee.value, employeeID: response });
+      props.Base.setStateForm(ActionTable.Add);
+    }
+    errorApi.value = false;
+    props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
+  },() => {}, false);
+}
+
+/** 
+ * Hàm validate input
+ * Khắc Tiềm - 08.03.2023
+ */
+function validateInput() {
+  return [
+    /** Validate code */ 
+    employee.value.employeeCode.trim() === "" ? t('validate.empty', { field: t('module.cash.employeeCode') }) : null,
+    /** Validate name */
+    employee.value.employeeName.trim() === "" ? t('validate.empty', { field: t('module.cash.employeeName') }) : null,
+    /** Validate branch */
+    !employee.value.branchID ? t('validate.empty_data_cbx', { field: t('module.cash.branchName') }) : null, 
+    /** Validate dateOfBirth */
+    employee.value.dateOfBirth ? new Date(employee.value.dateOfBirth) > new Date() 
+      ? t('validate.max_date_now', { field: t('common.dateOfBirth') }) : null : null,
+    /** Validate dayForIdentity */ 
+    employee.value.dayForIdentity ? new Date(employee.value.dayForIdentity) > new Date() 
+      ? t('validate.max_date_now', { field: t('module.cash.dayForIdentity') }) : null : null,
+    /** Validate PhoneNumber */
+    props.Base.validatePhone(employee.value.phoneNumber) === false && employee.value.phoneNumber != "" && employee.value.phoneNumber 
+      ? t('validate.malformed', { field: t('common.phoneNumber') }) : null,
+    /** Validate landlinePhone */
+    props.Base.validatePhone(employee.value.landlinePhone) === false && employee.value.landlinePhone != "" && employee.value.landlinePhone
+      ? t('validate.malformed', { field: t('module.cash.landlinePhone') }) : null,
+    /** Validate employeeEmail */
+    props.Base.validateEmail(employee.value.employeeEmail) === false && employee.value.employeeEmail != "" && employee.value.employeeEmail
+      ? t('validate.malformed', { field: t('module.cash.employeeEmail') }) : null,
+  ].filter((item) => { if(item){ return true; } });
+}
 
 /**
  * Element input và các button ẩn đi bắt sự kiện focus vào tạo vòng lặp vào khi mở from
@@ -279,16 +395,32 @@ const handleLoopFocus = function () {
   inputFocus.value.tagInput.focus();
 };
 
+/** Xử lý hỏi lưu dữ liệu rồi mới đóng form */
+const handleCloseModal = () => {
+  try {
+    if (JSON.stringify(employee.value) != JSON.stringify(employeeComparison.value)) {
+      props.Base.showNotificationAction(saveDataAndCloceForm, props.Base.closeModal, 'QUESTION_DATA_CHANGE');
+    } else {
+      props.Base.closeModal();
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+/** Call back truyền vào action hỏi (chạy khi người dùng bấm đồng ý) */
+const saveDataAndCloceForm = () => {
+  handleSaveData(true);
+}
+
+
+
 /**
  * Hàm xử lý các event nút bấm tắt
  * NK Tiềm 08.03.2023
  */
 function handleKey(event: any){
-  props.Base.handleEventFormCtrlShiftS(event, props.Base.closeModal, null, () => {
-    console.log('save ctrl shift s');
-  }, false, () => {
-    console.log('save ctrl s');
-  }, true)
+  props.Base.handleEventFormCtrlShiftS(event, handleCloseModal, null, handleSaveData, false, handleSaveData, true)
 }
 
 /** 

@@ -7,7 +7,15 @@ export default class BaseApi{
   constructor(module: string){
     this.Module = module;
   }
-  
+  /**
+   * API lấy tất cả danh sách bản ghi tìm kiếm và phân trang
+   * @returns Danh sách bản ghi và tổng số lượng
+   * Khắc Tiềm - 08.03.2023
+   */
+  public getAll = () => {
+    return axiosAPI.get(`/${this.Module}`);
+  }
+
   /**
    * API lấy tất cả danh sách bản ghi tìm kiếm và phân trang
    * @returns Danh sách bản ghi và tổng số lượng
@@ -41,7 +49,7 @@ export default class BaseApi{
    * Khắc Tiềm - 08.03.2023
    */
   public editRecordApi = (record: any) => {
-    return axiosAPI.put(`/${this.Module}/${record[`${this.Module}ID`]}`, record);
+    return axiosAPI.put(`/${this.Module}/${record[`${this.Module.substring(0, this.Module.length - 1)}ID`]}`, record);
   }
 
   /**

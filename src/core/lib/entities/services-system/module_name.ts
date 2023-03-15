@@ -5,6 +5,7 @@
 export class ModuleName {
   /**Cash */
   public static Employee: string = 'employee';
+  public static Branch: string = 'branch';
 
   /** Inventory */
 }
