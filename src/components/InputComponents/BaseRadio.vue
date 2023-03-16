@@ -5,7 +5,8 @@
       :checked="isChecked"
       :value="value"
       :tabindex:="tab"
-      @change="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+      @change="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value); 
+      $emit('update:textField', label);"
     />
     <span class="info">{{ label }}</span>
     <span class="input-radio_focus"></span>

@@ -1,6 +1,6 @@
 import { Utils } from './utils';
 import { computed } from "vue";
-import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable } from '@/core/public_api';
+import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 import type BaseApi from '@/api/base_api';
 
@@ -30,7 +30,7 @@ export class Grid extends Utils{
   public recordList:any = computed(() => this.store.state[`${this.Module}`].recordList);
 
   /** Danh sách các column */
-  public columns:any = computed(() => this.store.state[`${this.Module}`].columns.filter(function (value: any) { return value.IsShow; }));
+  public columns:any = computed<Header []>(() => this.store.state[`${this.Module}`].columns.filter(function (value: any) { return value.IsShow; }));
 
   /** Lấy danh sách ng dùng được check để thực hiện chức năng như xoá hàng loạt */
   public checkShowActionSeries: any = computed(() => this.store.state[`${this.Module}`].recordCheck);
@@ -223,5 +223,13 @@ export class Grid extends Utils{
    */
   public setStateForm = (state: string) => {
     this.store.dispatch(`${this.Module}/setStateFormAction`, state);
+  }
+
+  /**
+   * Hàm mở download file từ url
+   * Khắc Tiềm - 08.03.2023
+   */
+  public downloadFromUrl = (url: any) => {
+    window.open(url,)
   }
 }

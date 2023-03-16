@@ -26,7 +26,7 @@ export class UtilsComponents{
   * Hàm định dạng ngày theo kiểu dd/MM/YYYY
   * @param {Ngày cần định dạng} date 
   * @returns Dữ liệu đã định dạng
-  * Khắc Tiềm - 15.09.2022
+  * Khắc Tiềm - 05.03.2023
   */
   public formatDateDDMMYYYY = (date: any) => {
     if (!date) {
@@ -50,7 +50,7 @@ export class UtilsComponents{
    * Hàm định dạng ngày theo kiểu YYYY/MM/dd
    * @param {Ngày cần định dạng} date 
    * @returns Dữ liệu đã định dạng
-   * Khắc Tiềm - 15.09.2022
+   * Khắc Tiềm - 05.03.2023
    */
   public formatDateYYYYMMDD = (date: any) => {
     if (!date) {
@@ -71,10 +71,11 @@ export class UtilsComponents{
 
   /**
    * Hàm định dạng đơn vị tiền tệ
-   * Khắc Tiềm - 15.09.2022
+   * Khắc Tiềm - 05.03.2023
    */
   public Comma = (number: any) => {
-    if(number || number === 0){
+    if(!this.isNumber(number + '')) return number;
+    if((number || number === 0)){
       let intPart = Math.trunc(number) + ''; 
       const floatPart = Number((number - Number(intPart)).toFixed(10));
       intPart = "" + intPart;
@@ -93,8 +94,16 @@ export class UtilsComponents{
   }
 
   /**
+   * Hàm kiểm tra chuỗi có phải số
+   * Khắc Tiềm - 05.03.2023
+   */
+  public isNumber = (str: string): boolean => {
+    return !isNaN(Number(str));
+  }
+
+  /**
    * Hàm đệ quy một danh mục cha con
-   * Khắc Tiềm - 15.09.2022
+   * Khắc Tiềm - 05.03.2023
    */
   public listToTree = (array: any [], idRecord: string) => {
     array = array.sort(function() {
@@ -129,7 +138,7 @@ export class UtilsComponents{
    * Hàm xử lý kiểm tra định dạng email
    * @param {Email cần validate} email 
    * @returns Trả về true là định dạng đúng và false là định dạng sai
-   * Khắc Tiềm - 15.09.2022
+   * Khắc Tiềm - 05.03.2023
    */
   public validateEmail = (email: any) => {
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; //eslint-disable-line
@@ -140,7 +149,7 @@ export class UtilsComponents{
    * Hàm xử lý kiểm tra định dạng sdt
    * @param {sdt cần validate} sdt 
    * @returns Trả về true là định dạng đúng và false là định dạng sai
-   * Khắc Tiềm - 15.09.2022
+   * Khắc Tiềm - 05.03.2023
    */
   public validatePhone = (sdt: any) => {
     const regex = /(03|02|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/; //eslint-disable-line

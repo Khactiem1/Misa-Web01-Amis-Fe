@@ -1,5 +1,5 @@
 <template>
-  <label class="check">
+  <label @click="lockEvent" class="check">
     <input
       class="checkbox"
       type="checkbox"
@@ -13,14 +13,14 @@
       :value="value"
       :checked="checked"
     />
-    <span class="input-focus"></span>
-    <div class="label-checkbox"></div>
+    <span class="input-focus" :class="{ 'lock-checkbox' : lockCheckBox }"></span>
+    <div class="label-checkbox" :class="{ 'lock-checkbox' : lockCheckBox }"></div>
     <slot></slot>
   </label>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, toRefs } from "vue";
 
 export default defineComponent({
   name: "InputCheckbox",
@@ -59,6 +59,7 @@ export default defineComponent({
     "round",
     "disabled",
     "indeterminate",
+    "lockCheckBox",
   ],
   emits: [
     "update:modelValue",
@@ -66,23 +67,34 @@ export default defineComponent({
     "custom-handle-click-checkbox-with-value",
   ],
   setup: (props, { emit }) => {
+    const { lockCheckBox } :any = toRefs(props);
     /**
      * Sự kiện bắn dữ liệu cập nhật cho component cha
      * Khắc Tiềm - 15.09.2022
      */
     const computedValue = computed({
       get() {
-        return props.modelValue;
+        if(!lockCheckBox.value){
+          return props.modelValue;
+        }
       },
       set(value) {
-        emit("update:modelValue", value);
-        //custom sự kiện check không có value
-        emit("custom-handle-click-checkbox"); 
-        //custom sự kiện check có value truyền vào
-        emit("custom-handle-click-checkbox-with-value", value); 
+        if(!lockCheckBox.value){
+          emit("update:modelValue", value);
+          //custom sự kiện check không có value
+          emit("custom-handle-click-checkbox"); 
+          //custom sự kiện check có value truyền vào
+          emit("custom-handle-click-checkbox-with-value", value); 
+        }
       },
     });
-    return { computedValue };
+
+    function lockEvent(event: any){
+      if(lockCheckBox.value){
+        event.preventDefault(); 
+      }
+    }
+    return { computedValue, lockEvent };
   },
 });
 </script>
@@ -130,7 +142,7 @@ export default defineComponent({
   left: 0;
   top: 0;
 }
-input:checked ~ .label-checkbox::before {
+input:checked ~ .label-checkbox::before{
   opacity: 1;
   visibility: visible;
 }
@@ -139,7 +151,7 @@ input:checked ~ .label-checkbox {
   transform: rotate(0deg);
 }
 
-.check:active .input-focus{
+.check:active .input-focus:not(.lock-checkbox){
   opacity: 1;
   visibility: visible;
 }
@@ -158,5 +170,13 @@ input {
 }
 .input.disabled-input {
   box-shadow: none;
+}
+.lock-checkbox{
+  cursor: default !important;
+  background-color: #e8e9ec;
+  border: solid 1px var(--border__input) !important;
+}
+.label-checkbox.lock-checkbox::before{
+  background: var(--url__icon) no-repeat -1273px -363px;
 }
 </style>

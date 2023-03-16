@@ -106,24 +106,24 @@ let columns: Header [] = [
     "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeAddress" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'common.address'},
   ),
-  // new Header(
-  //   "isCustomer",
-  //   'module.cash.isCustomer',
-  //   "150",
-  //   { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
-  //     { value: 'true', header: 'common.yes' },
-  //     { value: 'false', header: 'common.no' },
-  //   ], module: ModuleName.Employee, headerSearch: 'module.cash.isCustomer', comparisonType: ComparisonType.Equal },
-  // ),
-  // new Header(
-  //   "isVendor",
-  //   'module.cash.isVendor',
-  //   "150",
-  //   { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
-  //     { value: 'true', header: 'common.yes' },
-  //     { value: 'false', header: 'common.no' },
-  //   ], module: ModuleName.Employee, headerSearch: 'module.cash.isVendor', comparisonType: ComparisonType.Equal },
-  // ),
+  new Header(
+    "isCustomer",
+    'module.cash.isCustomer',
+    "170",
+    { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
+      { value: 'true', header: 'common.yes' },
+      { value: 'false', header: 'common.no' },
+    ], module: ModuleName.Employee, headerSearch: 'module.cash.isCustomer', comparisonType: ComparisonType.Equal },
+  ),
+  new Header(
+    "isVendor",
+    'module.cash.isVendor',
+    "170",
+    { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
+      { value: 'true', header: 'common.yes' },
+      { value: 'false', header: 'common.no' },
+    ], module: ModuleName.Employee, headerSearch: 'module.cash.isVendor', comparisonType: ComparisonType.Equal },
+  ),
   new Header(
     "isActive",
     'common.status',
@@ -140,22 +140,24 @@ columns.forEach((item: Header, index)=> {
   if(item.Field === 'gender'){
     columns[index].TypeFormat.IsGender = true;
   }
-  if(item.Field === 'dateOfBirth'){
+  else if(item.Field === 'dateOfBirth'){
     columns[index].TypeFormat.TextAlign = "center";
     columns[index].TypeFormat.FormatDate = true;
   }
-  if(item.Field === 'dayForIdentity'){
+  else if(item.Field === 'dayForIdentity'){
     columns[index].TypeFormat.TextAlign = "center";
     columns[index].TypeFormat.FormatDate = true;
   }
-  if(item.Field === 'isActive'){
+  else if(item.Field === 'isActive'){
     columns[index].TypeFormat.IsActive = true;
   }
-  if(item.Field === 'isVendor'){
+  else if(item.Field === 'isVendor'){
+    columns[index].TypeFormat.TextAlign = "center";
     columns[index].TypeFormat.CheckBox = true;
     columns[index].TypeFormat.LockCheckBox = true;
   }
-  if(item.Field === 'isCustomer'){
+  else if(item.Field === 'isCustomer'){
+    columns[index].TypeFormat.TextAlign = "center";
     columns[index].TypeFormat.CheckBox = true;
     columns[index].TypeFormat.LockCheckBox = true;
   }

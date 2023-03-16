@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="modal-close">
-          <a href="/support/help" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
+          <a href="/" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
           <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
           ></div>
         </div>
@@ -297,8 +297,8 @@ async function handleSaveData(closeModal: any) {
     const messValid = validateInput();
     if (messValid.length > 0) {
       isValid.value = true;
-      unListentEvent();
-      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError(), listentEvent() });
+      unListenEvent();
+      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError(), listenEvent() });
     }
     else {
       if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication) {
@@ -400,8 +400,8 @@ const handleLoopFocus = function () {
 const handleCloseModal = () => {
   try {
     if (JSON.stringify(employee.value) != JSON.stringify(employeeComparison.value)) {
-      unListentEvent();
-      props.Base.showNotificationAction(saveDataAndCloceForm, props.Base.closeModal, t('common.question_data_change'), listentEvent);
+      unListenEvent();
+      props.Base.showNotificationAction(saveDataAndCloseForm, props.Base.closeModal, t('common.question_data_change'), listenEvent);
     } else {
       props.Base.closeModal();
     }
@@ -411,18 +411,18 @@ const handleCloseModal = () => {
 }
 
 /** Call back truyền vào action hỏi (chạy khi người dùng bấm đồng ý) */
-const saveDataAndCloceForm = () => {
+const saveDataAndCloseForm = () => {
   handleSaveData(true);
 }
 
 /** Lắng nghe các sử kiện */
-const listentEvent = () => {
+const listenEvent = () => {
 	window.addEventListener("keydown", handleKey);
   window.addEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
 }
 
 /** Bỏ lắng nghe */
-const unListentEvent = () => {
+const unListenEvent = () => {
 	window.removeEventListener("keydown", handleKey);
 	window.removeEventListener("keyup", props.Base.handleEventInterruptFormCtrlShiftS);
 }
@@ -434,7 +434,7 @@ const unListentEvent = () => {
 function handleKey(event: any){
   props.Base.handleEventFormCtrlShiftS(event, handleCloseModal, null, handleSaveData, false, handleSaveData, true)
 	props.Base.handleEventF1(event, () => {
-    window.open('/support/help');
+    window.open('/');
   })
 }
 
@@ -445,7 +445,7 @@ function handleKey(event: any){
 onMounted(() => {
 	focusLoop.value.addEventListener("focus", handleLoopFocus);
 	focusLoopTop.value.addEventListener("focus", handleLoopFocus);
-  listentEvent();
+  listenEvent();
 })
 
 /** 
@@ -454,7 +454,7 @@ onMounted(() => {
  */
 onUnmounted(() =>{
 	window.removeEventListener("focus", handleLoopFocus);
-  unListentEvent();
+  unListenEvent();
 })
 </script>
 

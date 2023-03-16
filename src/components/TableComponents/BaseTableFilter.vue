@@ -7,11 +7,11 @@
         {{ $t('common.fixed_column') }}
     </div>
     <div class="filter-container">
-        <div class="view-fitler-text">
+        <div class="view-filter-text">
             <div class="column-filter">
               {{ $t('common.filter') }} {{ (dataFilter.headerCustom && dataFilter.headerCustom !== '') ? dataFilter.headerCustom : $t(dataFilter.headerSearch) }}
             </div>
-            <div v-if="dataFilter.typeFilter !== TypeFilter.Combobox" class="filter-op-dropdown">
+            <div v-if="dataFilter.typeFilter !== TypeFilter.Combobox && dataFilter.typeFilter !== TypeFilter.Radio" class="filter-op-dropdown">
               <div ref="elmDropDown" @click="isShowDropDown = !isShowDropDown;" class="drop-icon">
                 {{ $t(selectComparison[comparisonType].header) }}
               </div>
@@ -36,6 +36,16 @@
             :i18n="true"
           >
           </base-combobox>
+          <div class="radio" v-if="dataFilter.typeFilter === TypeFilter.Radio">
+            <div v-for="(item, index) in dataFilter.data" :key="index" class="radio-item">
+              <base-radio
+                :label="$t(item.header)"
+                :value="item.value"
+                v-model="valueSearch"
+                v-model:textField="valueLabel"
+              ></base-radio>
+            </div>
+          </div>
         </div>
     </div>
     <div class="filter-footer">
@@ -46,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { BaseInput, BaseCombobox, BaseCalendar } from "@/core/public_component";
+import { BaseInput, BaseCombobox, BaseCalendar, BaseRadio } from "@/core/public_component";
 import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent } from 'vue';
 import { useStore } from "vuex";
 import { ComparisonType, ComparisonTypeSearch, FilterHeaderIn, KeyCode, TypeFilter } from '@/core/public_api';
@@ -88,6 +98,7 @@ export default defineComponent({
     BaseInput,
     BaseCombobox,
     BaseCalendar,
+    BaseRadio,
   },
   setup(props, context){
     const store = useStore();
@@ -188,12 +199,16 @@ export default defineComponent({
      * Hàm xử lý tìm kiếm lọc
      */
     function handleSearchData(){
-      if(dataFilter.value.typeFilter !== TypeFilter.Combobox){
-        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
+      if(dataFilter.value.typeFilter === TypeFilter.Radio){
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
+        context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
+      }
+      else if(dataFilter.value.typeFilter === TypeFilter.Combobox){
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       else{
-        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       handleShowFilter.value();
@@ -278,40 +293,40 @@ export default defineComponent({
 .condition-container{
   font-family: "notosans-regular";
   position: absolute;
-    padding: 22px 17px;
-    border: 1px solid #babec5;
-    z-index: 10;
-    background: #fff;
-    min-width: 350px;
-    max-width: 350px;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    font-weight: 400;
-    font-size: 13px;
-    border-radius: 2px;
-    box-shadow: 3px 3px 6px #ddd;
+  padding: 22px 17px;
+  border: 1px solid #babec5;
+  z-index: 10;
+  background: #fff;
+  min-width: 350px;
+  max-width: 350px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-weight: 400;
+  font-size: 13px;
+  border-radius: 2px;
+  box-shadow: 3px 3px 6px #ddd;
 }
 .condition-container .lock{
   position: relative;
-    padding-left: 30px;
-    line-height: 24px;
-    cursor: pointer;
-    border-bottom: 1px solid #ebedf0;
-    padding-bottom: 14px;
-    margin-bottom: 14px;
+  padding-left: 30px;
+  line-height: 24px;
+  cursor: pointer;
+  border-bottom: 1px solid #ebedf0;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
 }
 .condition-container .lock::before{
   content: "";
-    position: absolute;
-    display: block;
-    height: 24px;
-    width: 24px;
-    top: 0;
-    left: 2px;
-    background: transparent var(--url__icon) no-repeat -1726px -560px;
+  position: absolute;
+  display: block;
+  height: 24px;
+  width: 24px;
+  top: 0;
+  left: 2px;
+  background: transparent var(--url__icon) no-repeat -1726px -560px;
 }
-.view-fitler-text{
+.view-filter-text{
   width: 100%;
   display: flex;
   align-items: center;
@@ -320,14 +335,14 @@ export default defineComponent({
 }
 .filter-op-dropdown{
   font-size: 13px;
-    font-weight: 600;
-    color: #0075c0;
-    cursor: pointer;
-    position: relative;
-    position: relative;
-    display: inline-block;
-    margin-left: 15px;
-    line-height: 19px;
+  font-weight: 600;
+  color: #0075c0;
+  cursor: pointer;
+  position: relative;
+  position: relative;
+  display: inline-block;
+  margin-left: 15px;
+  line-height: 19px;
 }
 .drop-icon{
   padding-right: 20px;
@@ -335,12 +350,12 @@ export default defineComponent({
 }
 .drop-icon::after{
   content: "";
-    position: absolute;
-    height: 10px;
-    width: 13px;
-    background: transparent var(--url__icon) no-repeat -178px -363px;
-    top: 4px;
-    right: 2px;
+  position: absolute;
+  height: 10px;
+  width: 13px;
+  background: transparent var(--url__icon) no-repeat -178px -363px;
+  top: 4px;
+  right: 2px;
 }
 .filter-footer{
   display: flex;
@@ -350,33 +365,41 @@ export default defineComponent({
 }
 .dropdown-list{
   background: #fff;
-    padding: 2px 1px;
-    border-radius: 2px;
-    border: 1px solid #babec5;
-    position: absolute;
-    color: var(--text__color);
-    text-align: left;
-    font-weight: 400;
-    font-size: 13px;
-    z-index: 5;
-    width: 150px;
-    top: 100%;
-    right: 0;
-    transition: all ease .2s;
+  padding: 2px 1px;
+  border-radius: 2px;
+  border: 1px solid #babec5;
+  position: absolute;
+  color: var(--text__color);
+  text-align: left;
+  font-weight: 400;
+  font-size: 13px;
+  z-index: 5;
+  width: 150px;
+  top: 100%;
+  right: 0;
+  transition: all ease .2s;
 }
 .dropdown-item{
   background: inherit;
-    color: inherit;
-    cursor: pointer;
-    transition: all .2s ease;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 100%;
-    display: block;
+  color: inherit;
+  cursor: pointer;
+  transition: all .2s ease;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+  display: block;
 }
 .dropdown-item:hover{
   color: var(--primary__color) !important;
   background-color: #ebedf0 !important;
+}
+.radio{
+  display: flex;
+  flex-wrap: wrap;
+}
+.radio-item{
+  margin-right: 16px;
+  margin-bottom: 6px;
 }
 </style>

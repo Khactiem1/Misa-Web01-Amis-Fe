@@ -41,6 +41,9 @@
               <div v-if="col.TypeFormat.IsImage === true" class="image-table">
                 <img v-bind:src="row[col.Field] ? row[col.Field].includes('/Assets/Images/') ? environment.IMAGE_API + row[col.Field] : '' + row[col.Field] : ''" alt="">
               </div>
+              <div v-if="col.TypeFormat.CheckBox === true" class="checkBox">
+                  <base-checkbox :checked="row[col.Field]" :lockCheckBox="col.TypeFormat.LockCheckBox"> </base-checkbox>
+              </div>
             </td>
             <td class="text-center">
               <div class="action-colum_table">
@@ -197,8 +200,10 @@ export default defineComponent({
       ? formatIsActive(data)
       : typeFormat.IsNature === true
       ? formatNature(data)
+      : typeFormat.CheckBox === true
+      ? ''
       : typeFormat.IsImage === true
-      ? "" :data
+      ? '' :data
     }
     
     /**
@@ -648,8 +653,10 @@ tbody tr.active,
   text-align: left !important;
 }
 
-
-
+.checkBox{
+  width: 18px;
+  margin: 0 auto;
+}
 
 .table-scroll {
   padding: 0 16px;
