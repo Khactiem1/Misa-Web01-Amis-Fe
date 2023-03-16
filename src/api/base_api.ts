@@ -26,6 +26,15 @@ export default class BaseApi{
   }
 
   /**
+   * API lấy tất cả danh sách bản ghi tìm kiếm và phân trang
+   * @returns Danh sách bản ghi và tổng số lượng
+   * Khắc Tiềm - 08.03.2023
+   */
+  public getExportExcel = (filter: Filter) => {
+    return axiosAPI.post(`/${this.Module}/export_data`, filter);
+  }
+
+  /**
    * API thêm bản ghi
    * @returns Guid bản ghi
    * Khắc Tiềm - 08.03.2023

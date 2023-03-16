@@ -33,7 +33,7 @@
             <div class="icon-search"></div>
           </div>
           <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
-          <a target="_blank" :href="environment.BASE_API + '/Employees/export_data?keyword=' + Base.keyword" class="action-render_table export-data" :content="$t('common.export_excel')"></a>
+          <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
           <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
         </div>
 			</div>
@@ -66,7 +66,6 @@ import { Grid, ModuleName, ActionTable } from '@/core/public_api';
 import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm } from '@/core/public_component';
 import FormEmployee from './FormEmployee.vue';
 import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
-import { environment } from '@/environments/environment.prod';
 import { useI18n } from 'vue-i18n'
 import EmployeeApi from '@/api/module/employee';
 import BranchApi from '@/api/module/branch';

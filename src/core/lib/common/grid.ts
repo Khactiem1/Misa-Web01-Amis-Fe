@@ -1,5 +1,6 @@
 import { Utils } from './utils';
 import { computed } from "vue";
+import { environment } from '@/environments/environment.prod';
 import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 import type BaseApi from '@/api/base_api';
@@ -231,5 +232,25 @@ export class Grid extends Utils{
    */
   public downloadFromUrl = (url: any) => {
     window.open(url,)
+  }
+
+  /** 
+   * Hàm export excel theo điều kiện 
+   * Khắc Tiềm - 08.03.2023
+   * */
+  public exportToExcel = () => {
+    try{
+      const columnSelect = this.columns.value.reduce((acc: any, cur: any) => {
+        if(cur.IsShow){
+          return [...acc, cur.Field.charAt(0).toUpperCase() + cur.Field.slice(1)];
+        }
+      },[])
+      this.apiService.callApi(this.api.getExportExcel, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
+        this.downloadFromUrl(environment.IMAGE_API + response);
+      });
+    }
+    catch(e){
+      console.log(e);
+    }
   }
 }
