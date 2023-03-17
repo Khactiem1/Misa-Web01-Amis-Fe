@@ -5,9 +5,9 @@
 
 export const environment = {
     production: true,
-    IMAGE_API: 'http://tiem2603.duckdns.org:8888',
-    BASE_API: 'http://tiem2603.duckdns.org:8888/api/v1',
+    // IMAGE_API: 'http://tiem2603.duckdns.org:8888/assets',
+    // BASE_API: 'http://tiem2603.duckdns.org:8888/api/v1',
 
-    // IMAGE_API: 'https://localhost:44349',
-    // BASE_API: 'https://localhost:44349/api/v1',
+    IMAGE_API: 'https://localhost:44349/assets',
+    BASE_API: 'https://localhost:44349/api/v1',
 };
