@@ -4,20 +4,30 @@
       <table class="table">
         <thead class="thead-light">
           <tr>
-            <th style="width: 40px;" v-if="BaseComponent.checkShowActionSeries">
+            <th class="fix" style="width: 40px;" v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck">
               <base-checkbox :checked="isShowCheckAllRecord" @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(true, listID)"></base-checkbox>
             </th>
-            <th v-for="(item) in BaseComponent.columns"
-              :style="{ 'min-width': `${item.Width}px`, width: `${item.Width}px`, }"
-              :key="item.Field"
+            <draggable
+              :list="columnCustom"
+              :disabled="!true"
+              item-key="Field"
+              :tag="'div'"
+              class="drag"
+              ghost-class="ghost"
+              @start="dragging = true"
+              @end="dragging = false"
             >
-              <span style="display: flex;" :class="item.TypeFormat.TextAlign" @click="handleSetSortColumn(item.Field)">
-                <span style="flex: 1; display: inline-block;">{{ item.HeaderCustom && item.HeaderCustom.trim() !== '' ? item.HeaderCustom : $t(`${item.Header}`) }}</span>
-                <div v-if="item.Field.charAt(0).toUpperCase() + item.Field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
-              </span>
-              <div v-if="item.Filter" @click="handleShowFilter($event, item.Filter)" class="mi-header-option"></div>
-            </th>
-            <th style="width: 120px; min-width: 120px" class="text-center">
+            <template #item="{ element }">
+              <th :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
+                <span style="display: flex;" :class="element.TypeFormat.TextAlign" @click="handleSetSortColumn(element.Field)">
+                  <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
+                  <div v-if="element.Field.charAt(0).toUpperCase() + element.Field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
+                </span>
+                <div v-if="element.Filter" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
+              </th>
+            </template>
+            </draggable>
+            <th style="width: 120px; min-width: 120px" class="text-center fix">
               {{ $t('common.function') }}
             </th>
           </tr>
@@ -29,12 +39,12 @@
             :class="{ active: BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false, parent: row.bindHTMLChild === '' && listTree}"
             :key="row[BaseComponent.actionTable.fieldId]"
           >
-            <td v-if="BaseComponent.checkShowActionSeries" class="column-sticky">
+            <td v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck" class="column-sticky">
               <base-checkbox :checked="BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false"
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in BaseComponent.columns" :title="formatData(col.TypeFormat, row[col.Field])"
+            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])"
               :class="col.TypeFormat.TextAlign" :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
                 {{ formatData(col.TypeFormat, row[col.Field]) }}
@@ -130,6 +140,7 @@ import { environment } from '@/environments/environment.prod';
 import { watch, ref, toRefs, computed, defineComponent, type PropType } from "vue";
 import { useStore } from "vuex";
 import { useI18n } from 'vue-i18n'
+import draggable from "vuedraggable";
 export default defineComponent({
   components: {
     BaseCheckbox,
@@ -138,7 +149,8 @@ export default defineComponent({
     BaseTableListAction,
     BaseTableFilter,
     BaseCombobox,
-    BasePaging
+    BasePaging,
+    draggable
   },
   props: {
     /** Số lượng bản ghi trên 1 trang */
@@ -159,6 +171,7 @@ export default defineComponent({
   setup(props) {
     const Base: UtilsComponents = new UtilsComponents();
     const { t } = useI18n();
+    const dragging = ref(false);
     const store: any = useStore();
     /**
      * Bóc tách props ra từ props chuyển vào
@@ -166,8 +179,17 @@ export default defineComponent({
      */
     const { BaseComponent }: any = toRefs(props);
 
-    const paseSize = ref(BaseComponent.value.PageSize);
+    /** Column lấy từ Base */
+    const columnCustom: any = ref(JSON.parse(JSON.stringify(BaseComponent.value.columns)));
 
+    /** Kiểm tra sự thay đổi từ Base, nếu thay đổi thì tiến hành update */
+    const refColumn: any = computed(() => BaseComponent.value.columns);
+    watch(refColumn, () => {
+      columnCustom.value = BaseComponent.value.columns;
+    })
+
+    /** Số bản ghi trên 1 trang */
+    const paseSize = ref(BaseComponent.value.PageSize);
     watch(paseSize, (newValue) => {
       BaseComponent.value.setPageSize(newValue);
     });
@@ -400,6 +422,8 @@ export default defineComponent({
     }
     return {
       Base,
+      columnCustom,
+      dragging,
       paseSize,
       rowColumn,
       positionAction,
@@ -431,6 +455,9 @@ table {
   width: 100%;
   background-color: var(--while__color);
 }
+.drag{
+  display: contents;
+}
 .table .thead-light th {
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
@@ -450,7 +477,7 @@ table {
   display: flex;
   align-items: center;
 }
-.table .thead-light th:not(:first-child){
+.table .thead-light th:not(:first-child), .drag th:first-child{
   padding: 0 25px 0 10px;
 }
 .mi-header-option{
@@ -474,7 +501,7 @@ thead tr th {
 .table .thead-light th:hover .mi-header-option{
   display: block;
 }
-.table .thead-light th:last-child {
+.table .thead-light th.fix:last-child {
   border-right: none;
 }
 tbody tr:hover,
@@ -499,17 +526,17 @@ tbody tr.active,
   border-right: 1px dotted #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
 }
-.table .thead-light th:last-child,
-.table .thead-light th:first-child {
+.table .thead-light th.fix:last-child,
+.table .thead-light th.fix:first-child {
   background-color: #e5e8ec;
   z-index: 3;
 }
-.table .thead-light th:last-child,
+.table .thead-light th.fix:last-child,
 .table tbody th:last-child,
 .table tbody td:last-child {
   right: 15px !important;
 }
-.table .thead-light th:last-child::before,
+.table .thead-light th.fix:last-child::before,
 .table tbody th:last-child::before,
 .table tbody td:last-child::before {
   content: "";
@@ -520,12 +547,12 @@ tbody tr.active,
   position: absolute;
   background-color: var(--while__color);
 }
-.table .thead-light th:first-child,
+.table .thead-light th.fix:first-child,
 .table tbody th:first-child,
 .table tbody td:first-child {
   left: 16px;
 }
-.table .thead-light th:first-child::before,
+.table .thead-light th.fix:first-child::before,
 .table tbody th:first-child::before,
 .table tbody td:first-child::before {
   content: "";
@@ -536,8 +563,8 @@ tbody tr.active,
   position: absolute;
   background-color: var(--while__color);
 }
-.table .thead-light th:last-child,
-.table .thead-light th:first-child,
+.table .thead-light th.fix:last-child,
+.table .thead-light th.fix:first-child,
 .table tbody th:last-child,
 .table tbody th:first-child,
 .table tbody td:last-child,
@@ -555,7 +582,7 @@ tbody tr.active,
 .table tbody td:last-child {
   border-right: none;
 }
-.table .thead-light th:first-child,
+.table .thead-light th.fix:first-child,
 .table tbody th:first-child {
   min-width: 40px;
   max-width: 40px;
@@ -678,6 +705,8 @@ tbody tr.active,
 	z-index: 1;
   justify-content: space-between;
   margin-right: -1px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .paging {
   display: flex;

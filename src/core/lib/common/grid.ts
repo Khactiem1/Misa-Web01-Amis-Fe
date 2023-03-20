@@ -39,23 +39,8 @@ export class Grid extends Utils{
   /** Lấy ra tổng số lượng bản ghi */
   public totalCount:any = computed(() => this.store.state[`${this.Module}`].totalCount);
 
-  /** Biến chứa trạng thái ẩn hiện loader table */
-  public isShowLoaderTable:any = computed(() => this.store.state[`${this.Module}`].isShowLoaderTable);
-
-  /** biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0 */
-  public recordSelectPaging:any = computed(() => this.store.state[`${this.Module}`].recordSelectPaging);
-
-  /** Biến chứa trạng thái ẩn hiện setting table */
-  public isShowSettingTable = computed(() => this.store.state[`${this.Module}`].isShowSettingTable);
-
   /** Lấy danh sách columns hiển thị cài đặt */
   public columnSetting:any = computed(() => this.store.state[`${this.Module}`].columns);
-
-  /** Biến trạng thái ẩn hiện modal thêm sửa */
-  public isShowModal:any = computed(() => this.store.state[`${this.Module}`].isShowModal);
-
-  /** trạng thái form */
-  public StateForm: any = computed(() => this.store.state[`${this.Module}`].stateForm);
 
   /**
    * Các Method
@@ -66,7 +51,7 @@ export class Grid extends Utils{
   public loadData = async (filter: any = undefined) => {
     try{
       if(filter && filter.resetPage){
-        await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+        this.recordSelectPaging.value = 0;
         filter.v_Offset = this.recordSelectPaging.value;
       }
       if (filter) {
@@ -74,16 +59,18 @@ export class Grid extends Utils{
           await this.store.dispatch(`${this.Module}/setFilterAction`, filter);
         }
       }
-      await this.store.dispatch(`${this.Module}/setIsShowLoaderTableAction`, true);
+      this.isShowLoaderTable.value = true;
       const columnSelect = this.columns.value.reduce((acc: any, cur: any) => {
         if(cur.IsShow){
-          return [...acc, cur.Field.charAt(0).toUpperCase() + cur.Field.slice(1)];
+          return [...acc, cur.FieldSelect];
         }
       },[])
+      console.log(this.store.state[`${this.Module}`].filter);
+      console.log(columnSelect);
       await this.apiService.callApi(this.api.getRecordList, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
         this.store.dispatch(`${this.Module}/getRecordListAction`, response); 
       });
-      await this.store.dispatch(`${this.Module}/setIsShowLoaderTableAction`, false); 
+      this.isShowLoaderTable.value = false;
     }
     catch(e){
       console.log(e);
@@ -111,7 +98,7 @@ export class Grid extends Utils{
   public setPageSize = async (record: number) => {
     StorageService.setItemWithSystemConstants(EntitySystem.PageSize, record)
     this.PageSize = record;
-    await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+    this.recordSelectPaging.value = 0;
     this.loadData({ v_Offset: 0, v_Limit: record, v_Where: this.keyword});
   }
 
@@ -120,7 +107,7 @@ export class Grid extends Utils{
   public handleSearchData = async (event: any) =>{
     this.handleDebounce(600, async (event: any) => {
       this.keyword = event.target.value;
-      await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+      this.recordSelectPaging.value = 0;
       this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword, });
     }, event);
   }
@@ -128,7 +115,7 @@ export class Grid extends Utils{
   /** Hàm xử lý chuyển trang 
    * Khắc Tiềm - 08.03.2023*/
   public selectPaging = async (value: any) => {
-    await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, value); 
+    this.recordSelectPaging.value = value;
     this.loadData({ v_Offset: value, v_Limit: this.PageSize, v_Where: this.keyword, });
   }
 
@@ -143,7 +130,7 @@ export class Grid extends Utils{
       await this.store.dispatch(`${this.Module}/setColumnAction`, columnCustom);
       this.loadData();
     }
-    this.store.dispatch(`${this.Module}/setShowSettingTableAction`);
+    this.isShowSettingTable.value = !this.isShowSettingTable.value;
   }
 
   /**
@@ -155,10 +142,10 @@ export class Grid extends Utils{
       await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
       await this.store.dispatch(`${this.Module}/setCheckboxUnCheckRecordAction`, id);
       if(this.recordList.value.length === 0){
-        await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+        this.recordSelectPaging.value = 0;
         this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
       }
-    }, () => {}, false);
+    }, false);
   }
   
   /**
@@ -170,10 +157,10 @@ export class Grid extends Utils{
       await this.store.dispatch(`${this.Module}/setEmptyCheckBoxRecordAction`);
       await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
       if(this.recordList.value.length === 0){
-        await this.store.dispatch(`${this.Module}/setRecordSelectPagingAction`, 0); 
+        this.recordSelectPaging.value = 0; 
         this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
       }
-    }, ()=> {}, false);
+    }, false );
   }
 
   /**
@@ -195,18 +182,18 @@ export class Grid extends Utils{
     if(recordId){
       await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
         this.RecordEdit = response;
-      },() => {}, false);
+      },false );
     }
     if(stateForm === ActionTable.Add){
       this.RecordEdit = null;
-      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      this.isShowModal.value = true;
     }
     else if(stateForm === ActionTable.Edit){
       this.RecordCode = null;
-      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      this.isShowModal.value = true;
     }
     else if(stateForm === ActionTable.Replication){
-      await this.store.dispatch(`${this.Module}/setShowModalAction`, true);
+      this.isShowModal.value = true;
     }
   }
 
@@ -215,7 +202,7 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public closeModal = () => {
-    this.store.dispatch(`${this.Module}/setShowModalAction`, false);
+    this.isShowModal.value = false;
   }
 
   /**
@@ -223,7 +210,7 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public setStateForm = (state: string) => {
-    this.store.dispatch(`${this.Module}/setStateFormAction`, state);
+    this.StateForm.value = state;
   }
 
   /**
@@ -231,7 +218,7 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public downloadFromUrl = (url: any) => {
-    window.open(url,)
+    window.open(url,);
   }
 
   /** 
@@ -242,7 +229,7 @@ export class Grid extends Utils{
     try{
       const columnSelect = this.columns.value.reduce((acc: any, cur: any) => {
         if(cur.IsShow){
-          return [...acc, cur.Field.charAt(0).toUpperCase() + cur.Field.slice(1)];
+          return [...acc, cur.FieldSelect];
         }
       },[])
       this.apiService.callApi(this.api.getExportExcel, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 

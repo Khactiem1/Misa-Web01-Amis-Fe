@@ -1,12 +1,16 @@
 import { UtilsComponents } from './utils_components';
 import { EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
 import { useStore } from "vuex";
+import { ref } from "vue";
 
 /**
  * Chứa các hàm base đã xây dựng
  * Khắc Tiềm - 08.03.2023
  */
 export class Utils extends UtilsComponents{
+  /** Store vuex */
+  public store = useStore();
+
   /** Bản ghi được sửa hoặc nhân bản */
   public RecordEdit: any;
 
@@ -16,11 +20,26 @@ export class Utils extends UtilsComponents{
   /** Module đang hoạt động kế thừa lớp */
   public Module: string;
 
-  /** Store vuex */
-  public store = useStore();
-
   /** Số lượng bản ghi trên 1 trang */
   public PageSize: number;
+
+  /** Có setup check column */
+  public OptionCheck: any = ref(true);
+
+  /** Biến chứa trạng thái ẩn hiện setting table */
+  public isShowSettingTable:any = ref(false);
+
+  /** Biến trạng thái ẩn hiện modal thêm sửa */
+  public isShowModal:any = ref(false);
+
+  /** trạng thái form */
+  public StateForm: any = ref('');
+
+  /** biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0 */
+  public recordSelectPaging:any = ref(0);
+
+  /** Biến chứa trạng thái ẩn hiện loader table */
+  public isShowLoaderTable:any = ref(false);
 
   /**
   * lưu lại giá trị các phím bấm tắt không ngắt quãng
@@ -33,12 +52,6 @@ export class Utils extends UtilsComponents{
   * NK Tiềm 08.03.2023
   */
   public EventCtrlShiftS: any [] = [];
-
-  /**
-   * Biến lưu trạng thái ẩn hiện hành động hàng loạt
-   * Khắc Tiềm - 08.03.2023
-   */
-  public showActionAll = false;
 
   /**
    * Hàm khởi tạo lấy ra page size

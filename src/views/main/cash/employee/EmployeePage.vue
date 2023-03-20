@@ -11,20 +11,30 @@
       <div class="action-table">
         <div class="btn-add">
 					<button @click="customHandleOpenModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
-					<button :title="$t('common.import')" class="import"><i class="icon"></i></button>
+					<button class="import toggle-list">
+            <i class="icon"></i>
+            <div class="table-list_action">
+              <div class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
+              <hr>
+              <div class="list_action-title">{{ $t('common.reference_data') }}</div>
+              <div class="list_action-item"><i class="i excel"></i> {{ $t('common.reference_data') }}</div>
+              <hr>
+              <div :title="$t('common.import')" class="list_action-item"><i class="i excel"></i> {{ $t('common.import') }}</div>
+            </div>
+          </button>
         </div>
       </div>
     </div>
 		<div class="table-content">
 			<div class="table-function sticky">
 				<div class="form-fix">
-          <div ref="templateActionAll" @click="handleToggleActionAll" class="table-function_series">
+          <button class="table-function_series toggle-list">
             <span>{{ $t('common.batch_execution') }}</span>
             <div class="table-function_series-icon"></div>
-            <div v-show="Base.showActionAll && Base.checkShowActionSeries.length > 0" class="table-list_action">
+            <div v-show="Base.checkShowActionSeries.length > 0" class="table-list_action">
               <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
             </div>
-          </div>
+          </button>
           <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
         </div>
 				<div style="min-width: 350px;" class="table-function_search">
@@ -79,16 +89,10 @@ const api:EmployeeApi = new EmployeeApi();
 const apiDropdown:BranchApi = new BranchApi();
 
 /** Sử dụng base thư viện Grid đã viết */
-const Base: Grid = reactive(new Grid(ModuleName.Employee, api));
+const Base:Grid = reactive(new Grid(ModuleName.Employee, api));
 
 /** Dữ liệu dropdown đơn vị */
 const optionBranch: any = ref([]);
-
-/**
- * Biến chứa template thực hiện hành động hàng loạt
- * Khắc Tiềm - 3-03-2023
- */
-const templateActionAll: any = ref(null);
 
 function loadDropDown(){
   Base.apiService.callApi(apiDropdown.getAll, null, async (response: any) => { optionBranch.value = response;});
@@ -107,7 +111,7 @@ async function customHandleOpenModal(action: any, recordId: any = undefined){
   try {
     await Base.apiService.callApi(api.nextValue, null, (response: any) => { 
       Base.RecordCode = response;
-    }, () => {}, false);
+    }, false );
     Base.openModal(action, recordId);
   } catch (e) {
     console.log(e);
@@ -154,35 +158,6 @@ function handleQuestionDeleteAll() {
 	}
 }
 
-/**
- * Hàm xử lý sự kiện click không trúng templateActionAll thì sẽ ẩn hành động hàng loạt
- * Khắc Tiềm - 08.03.2023
- */
-const handleClickActionAll = (event: any) => {
-	const isClick = templateActionAll.value.contains(event.target);
-	if (!isClick) {
-		handleToggleActionAll();
-	}
-};
-
-/**
- * Hàm xử lý ẩn hành động thực hiện hàng loạt
- * Khắc Tiềm - 08.03.2023
- */
-function handleToggleActionAll() {
-	try {
-		if (!Base.showActionAll && Base.checkShowActionSeries.length > 0) {
-			Base.showActionAll = true;
-			window.addEventListener("click", handleClickActionAll);
-		} else {
-			window.removeEventListener("click", handleClickActionAll);
-			Base.showActionAll = false;
-		}
-	}catch (e) {
-		console.log(e);
-	}
-}
-
 function handleKey(event: any){
 	Base.handleEventCtrlAltA(event, customHandleOpenModal, ActionTable.Add)
 }
@@ -201,7 +176,6 @@ onMounted(() => {
  * Khắc Tiềm - 08.03.2023
  */
 onUnmounted(() =>{
-	window.removeEventListener("click", handleClickActionAll);
 	window.removeEventListener("keyup", Base.handleEventInterruptCtrlAltA);
 	window.removeEventListener("keydown", handleKey);
 })
@@ -263,8 +237,9 @@ onUnmounted(() =>{
 }
 /* Phần thực hiện nhiều chức năng */
 .table-function_series {
+  background-color: var(--while__color);
   border: 2px solid #3b3c3f;
-  padding: 0 16px;
+  padding: 0 16px !important;
   border-radius: 30px;
   height: 36px;
   cursor: pointer;
@@ -297,22 +272,37 @@ onUnmounted(() =>{
 .table-list_action {
   border: solid 1px var(--border__input);
   background-color: var(--while__color);
+  color: var(--text__color);
+  font-family: "notosans-regular";
   border-radius: 2px;
   padding: 3px 0;
   min-width: 100px;
-  top: calc(100% + 2px);
   right: 5px;
   position: absolute;
   z-index: 5;
   transition: all ease 0.15s;
+  top: calc(100% + 10px);
+  opacity: 0;
+  visibility: hidden;
+}
+.table-list_action hr {
+  margin: 0 10px;
 }
 .list_action-item {
   white-space: nowrap;
+  display: flex;
+  align-items: center;
   text-align: left;
   padding: 5px 10px;
   cursor: pointer;
   transition: all ease 0.15s;
   color: inherit;
+}
+.list_action-title{
+  color: inherit;
+  text-align: left;
+  cursor: default;
+  padding: 5px 10px;
 }
 .list_action-item:hover {
   background-color: #f5f5f5;
@@ -404,8 +394,15 @@ onUnmounted(() =>{
 }
 .btn-add{
 	display: flex;
+  position: relative;
 	align-items: center;
 	padding: 0;
+}
+.toggle-list:focus .table-list_action{
+  z-index: 10;
+  top: calc(100% + 2px);
+  opacity: 1;
+  visibility: visible;
 }
 .import,.add{
 	transition: all 0.15s ease-in-out;
@@ -447,17 +444,17 @@ onUnmounted(() =>{
 }
 .import{
 	border-radius: 0 30px 30px 0;
-	width: 47px;
-	padding: 0 12px;
+	width: 30px;
+	padding: 0 5px;
 }
 .import .icon{
 	display: block;
 	background: var(--url__icon) no-repeat;
-	background-position: -705px -203px;
-	width: 23px;
-  height: 18px;
-	background-color: var(--while__color);
-	border-radius: 3px;
+	background-position: -848px -359px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
 }
 .prev_page{
   display: flex;

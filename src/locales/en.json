@@ -63,6 +63,8 @@
     "all_report": "All report",
     "report": "Report",
     "import": "Import to excel",
+    "export_sample": "Export data sample",
+    "reference_data": "Reference table data",
     "batch_execution": "Batch execution",
     "total": "Total",
     "record": "Record",
@@ -84,11 +86,15 @@
     "id": "Id",
     "name": "Name",
     "email": "email",
-    "question_data_change": "Data has been instead. You have want to do not?"
+    "question_data_change": "Data has been instead. You have want to do not?",
+    "add_record": "Add {module}",
+    "edit_record": "Edit {module}",
+    "replication_record": "Replication {module}"
   },
   "module": {
     "cash": {
       "employee": "Employee",
+      "employee_small": "employee",
       "employeeCode" : "Employee code",
       "employeeName" : "Employee name",
       "branchBank" : "Branch bank",
@@ -118,8 +124,6 @@
       "production_progress_report": "Production progress report",
       "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred",
       "search_employee_code_name": "Search by code, name",
-      "add_employee": "Add employee",
-      "edit_employee": "Edit employee",
       "phoneNumber": "Mobile phone number",
       "phoneNumber_small": "Mobile phone",
       "fixed_phone": "Landline phone",
@@ -171,7 +175,8 @@
   "message": {
     "api": {
       "error_internet": "A network error has occurred.",
-      "exception": "Something went wrong, please contact Misa."
+      "exception": "Something went wrong, please contact Misa.",
+      "export_null": "No data to export files."
     },
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",

@@ -3,7 +3,9 @@
     <div class="form">
       <div class="form-header">
         <div class="modal-title">
-          <h2>{{ (Base.StateForm === ActionTable.Add || Base.StateForm === ActionTable.Replication ? $t('module.cash.add_employee') : $t('module.cash.edit_employee')) }}</h2>
+          <h2>{{ Base.StateForm === ActionTable.Add ? $t('common.add_record', {module: $t(`module.cash.${ModuleName.Employee}_small`) }) 
+          : Base.StateForm === ActionTable.Replication ? $t('common.replication_record', {module: $t(`module.cash.${ModuleName.Employee}_small`) }) 
+          : $t('common.edit_record', {module: $t(`module.cash.${ModuleName.Employee}_small`) }) }}</h2>
           <div class="form-header_checkbox">
             <div class="check form-checkbox_item">
               <base-checkbox
@@ -233,7 +235,7 @@
 
 <script setup lang="ts">
 import { BaseInput, BaseCalendar, BaseCombobox, BaseCheckbox, BaseRadio } from '@/core/public_component';
-import { ActionTable, Employee, ENotificationType, Gender, Grid } from '@/core/public_api';
+import { ActionTable, Employee, ENotificationType, Gender, Grid, ModuleName } from '@/core/public_api';
 import { onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -322,7 +324,7 @@ async function handleSaveData(closeModal: any) {
         await props.Base.apiService.callApi(props.Base.api.nextValue, null, (response: any) => { 
           employee.value.employeeCode = response;
           employeeComparison.value.employeeCode = response;
-        }, () => {}, false);
+        }, false );
         inputFocus.value.tagInput.focus(); 
       }
     }
@@ -347,7 +349,7 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     }
     errorApi.value = false;
     props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
-  },() => {}, false);
+  },false );
 }
 
 /** 

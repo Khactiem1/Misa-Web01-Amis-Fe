@@ -13,3 +13,5 @@ app.use(store);
 app.use(i18n);
 
 app.mount('#app');
+
+export default app;

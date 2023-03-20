@@ -77,75 +77,15 @@ export default class BaseStore {
            * Khắc Tiềm - 08.03.2023
            */
           filter: new Filter(),
-          /**
-          * Biến chứa trạng thái ẩn hiện setting table
-          */
-          isShowSettingTable: false,
-          /**
-            * biến theo dõi số bản ghi muốn lấy chuyển trang mặc định lấy từ bản ghi số 0
-            * Khắc Tiềm - 08.03.2023
-            */
-          recordSelectPaging: 0,
-          /**
-            * Trạng thái load table
-            * Khắc Tiềm - 08.03.2023
-            */
-          isShowLoaderTable: false,
-          /**
-            * Biến chứa trạng thái mở form
-            * Khắc Tiềm - 08.03.2023
-            */
-          isShowModal: false,
-
-          /**
-           * Biến chứa trạng thái form thêm, sửa, nhân bản
-           * Khắc Tiềm - 08.03.2023
-           */
-          stateForm: '',
         };
       },
       mutations: {
-        /**
-         * Set trạng thái form thêm, sửa, nhân bản
-         * Khắc Tiềm - 08.03.2023
-         */
-        setStateFormMutation(state: any, payload: any){
-          state.stateForm = payload;
-        },
-        /**
-         * Set trạng thái mở form
-         * Khắc Tiềm - 08.03.2023
-         */
-        setShowModalMutation(state: any, payload: any){
-          state.isShowModal = payload;
-        },
-        /**
-         * Set ShowSettingTable
-         * Khắc Tiềm - 08.03.2023
-         */
-        setShowSettingTableMutation(state: any){
-          state.isShowSettingTable = !state.isShowSettingTable;
-        },
         /**
          * Set Column
          * Khắc Tiềm - 08.03.2023
          */
         setColumnMutation(state: any, payload: any){
           state.columns = payload;
-        },
-        /**
-         * Set RecordSelectPaging
-         * Khắc Tiềm - 08.03.2023
-         */
-        setRecordSelectPagingMutation(state: any, payload: any){
-          state.recordSelectPaging = payload;
-        },
-        /**
-         * Set RecordSelectPaging
-         * Khắc Tiềm - 08.03.2023
-         */
-        setIsShowLoaderTableMutation(state: any, payload: any){
-          state.isShowLoaderTable = payload;
         },
 
         /**
@@ -304,45 +244,13 @@ export default class BaseStore {
       },
       actions: {
         /**
-         * Set trạng thái form thêm, sửa, nhân bản
-         * Khắc Tiềm - 08.03.2023
-         */
-        setStateFormAction(context: any, payload: any){
-          context.commit("setStateFormMutation", payload);
-        },
-        /**
-         * Set trạng thái mở form
-         * Khắc Tiềm - 08.03.2023
-         */
-        setShowModalAction(context: any, payload: any){
-          context.commit("setShowModalMutation", payload);
-        },
-        /**
-         * Set ShowSettingTable
-         * Khắc Tiềm - 08.03.2023
-         */
-        setShowSettingTableAction(context: any){
-          context.commit("setShowSettingTableMutation");
-        },
-        /**
          * Set Column
          * Khắc Tiềm - 08.03.2023
          */
         setColumnAction(context: any, payload: any){
           context.commit("setColumnMutation", payload);
         },
-        /**
-         * Set RecordSelectPaging
-         */
-        setRecordSelectPagingAction(context: any, payload: any){
-          context.commit("setRecordSelectPagingMutation", payload);
-        },
-        /**
-         * Set RecordSelectPaging
-         */
-        setIsShowLoaderTableAction(context: any, payload: any){
-          context.commit("setIsShowLoaderTableMutation", payload);
-        },
+
         /**
          * Hàm xử lý sắp xếp theo trường
          */

@@ -91,6 +91,9 @@ export class ComparisonTypeSearch {
 
   /** Trường hiển thị người dùng tự setup */
   public HeaderCustom?: string = '';
+
+  /** Lọc kết hợp join bảng */
+  public Join?: Join [] = [];
 }
 
 /**
@@ -176,16 +179,21 @@ export class ComparisonType {
  * Khắc Tiềm - 08.03.2023
  */
 export class Header {
-  constructor(field: string = '', header: string = '', width: string = '100', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
+  constructor(field: string = '',fieldSelect: string= '' , header: string = '', width: string = '100', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
     this.Field = field;
-    this.IsShow = isShow;
+    this.FieldSelect = fieldSelect;
     this.Header = header;
-    this.Filter = filter;
     this.Width = width;
+    this.Filter = filter;
+    this.IsShow = isShow;
     this.TypeFormat = typeFormat;
   }
+
   /** Tên field */
   public Field;
+
+  /** Tên cột select trong db */
+  public FieldSelect;
 
   /** Có hiển thị hay không */
   public IsShow;
@@ -266,4 +274,34 @@ export class FilterHeaderIn {
 
   /** Trường hiển thị người dùng tự setup */
   public headerCustom?: string = '';
+
+  /** Lọc kết hợp join bảng */
+  public join?: Join [] = [];
+}
+
+/**
+ * Option join
+ * Khắc Tiềm - 08.03.2023
+ */
+export class Join {
+  /** Kiểu join bảng */
+  public TypeJoin: TypeJoin;
+
+  /** Key join trong bảng */
+  public KeyJoin: string;
+
+  /** Key join trong bảng */
+  public TableJoin: string;
+}
+
+/** 
+ * Kiểu join bảng 
+ * Khắc Tiềm - 08.03.2023
+*/
+export class TypeJoin {
+  /** Kiểu inner join */
+  public static InnerJoin = 1;
+
+  /** KiểU Left Join */
+  public static LeftJoin = 2;
 }

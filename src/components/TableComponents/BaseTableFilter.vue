@@ -200,15 +200,15 @@ export default defineComponent({
      */
     function handleSearchData(){
       if(dataFilter.value.typeFilter === TypeFilter.Radio){
-        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType, Join: dataFilter.value.join};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       else if(dataFilter.value.typeFilter === TypeFilter.Combobox){
-        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueLabel.value, LabelSearch: dataFilter.value.headerSearch, ComparisonType: dataFilter.value.comparisonType, Join: dataFilter.value.join};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       else{
-        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType};
+        const dataSearch: ComparisonTypeSearch = { HeaderCustom: dataFilter.value.headerCustom ,TypeSearch: dataFilter.value.typeSearch, ColumnSearch: dataFilter.value.columnSearch, ValueSearch: valueSearch.value, HeaderSearch: valueSearch.value, LabelSearch: dataFilter.value.headerSearch + ' ' + selectComparison.value[comparisonType.value].header, ComparisonType: selectComparison.value[comparisonType.value].comparisonType, Join: dataFilter.value.join};
         context.emit("handle-filter-data", { [dataFilter.value.columnSearch]:{...dataSearch} });
       }
       handleShowFilter.value();

@@ -63,6 +63,8 @@
     "all_report": "Tất cả báo cáo",
     "report": "Báo cáo",
     "import": "Nhập từ Excel",
+    "export_sample": "Xuất dữ liệu mẫu",
+    "reference_data": "Dữ liệu bảng tham chiếu",
     "batch_execution": "Thực hiện hàng loạt",
     "total": "Tổng số",
     "record": "bản ghi",
@@ -84,11 +86,15 @@
     "id": "Mã",
     "name": "Tên",
     "email": "email",
-    "question_data_change": "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?"
+    "question_data_change": "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
+    "add_record": "Thêm thông tin {module}",
+    "edit_record": "Sửa thông tin {module}",
+    "replication_record": "Nhân bản thông tin {module}"
   },
   "module": {
     "cash": {
       "employee": "Nhân viên",
+      "employee_small": "nhân viên",
       "employeeCode" : "Mã nhân viên",
       "employeeName" : "Tên nhân viên",
       "branchBank" : "Chi nhánh ngân hàng",
@@ -118,8 +124,6 @@
       "production_progress_report": "Báo cáo tiến độ sản xuất",
       "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho",
       "search_employee_code_name": "Tìm theo mã, tên nhân viên",
-      "add_employee": "Thêm thông tin nhân viên",
-      "edit_employee": "Sửa thông tin nhân viên",
       "phoneNumber": "Số điện thoại di động",
       "phoneNumber_small": "ĐT di động",
       "fixed_phone": "Điện thoại cố định",
@@ -171,7 +175,8 @@
   "message": {
     "api": {
       "error_internet": "Đã xảy ra lỗi mạng.",
-      "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa."
+      "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa.",
+      "export_null": "Không có dữ liệu để xuất file."
     },
     "crud": {
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",

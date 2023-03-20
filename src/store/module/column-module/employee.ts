@@ -1,4 +1,4 @@
-import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable } from "@/core/public_api";
+import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable, TypeJoin } from "@/core/public_api";
 
 /**
  * Chứa các column nhân viên
@@ -7,18 +7,21 @@ import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, Idb
 let columns: Header [] = [
   new Header(
     "employeeCode",
+    "employee.EmployeeCode",
     'module.cash.employeeCode',
     "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeCode" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeCode'}
   ),
   new Header(
     "employeeName",
+    "employee.EmployeeName",
     'module.cash.employeeName',
     "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeName'},
   ),
   new Header(
     "gender",
+    "employee.Gender",
     'common.gender',
     "120",
     { typeSearch: TypeSearch.Number, columnSearch: "Gender" , typeFilter: TypeFilter.Combobox, module: ModuleName.Employee, headerSearch: 'common.gender', data: [
@@ -30,84 +33,100 @@ let columns: Header [] = [
   ),
   new Header(
     "dateOfBirth",
+    "employee.DateOfBirth",
     'common.dateOfBirth',
     "150",
     { typeSearch: TypeSearch.Date, columnSearch: "DateOfBirth" , typeFilter: TypeFilter.Date, module: ModuleName.Employee, headerSearch: 'common.dateOfBirth'},
   ),
   new Header(
     "branchBank",
+    "employee.BranchBank",
     'module.cash.branchBank',
     "230",
     { typeSearch: TypeSearch.Text, columnSearch: "BranchBank" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchBank'},
   ),
   new Header(
     "identityCard",
+    "employee.IdentityCard",
     'module.cash.identityCard',
     "200",
     { typeSearch: TypeSearch.Text, columnSearch: "IdentityCard" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.identityCard'},
   ),
   new Header(
     "employeeTitle",
+    "employee.EmployeeTitle",
     'module.cash.employeeTitle',
     "150",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeTitle" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeTitle'},
   ),
   new Header(
     "branchName",
+    "employee.BranchName",
     'module.cash.branchName',
     "200",
-    { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName'},
+    { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.branchName', 
+      join: [{ TypeJoin: TypeJoin.InnerJoin, KeyJoin: "BranchID" , TableJoin: "branch"}],
+    },
   ),
   new Header(
     "bankAccount",
+    "employee.BankAccount",
     'module.cash.bankAccount',
     "150",
     { typeSearch: TypeSearch.Text, columnSearch: "BankAccount" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.bankAccount'},
   ),
   new Header(
     "nameBank",
+    "employee.NameBank",
     'module.cash.nameBank',
     "180",
     { typeSearch: TypeSearch.Text, columnSearch: "NameBank" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.nameBank'},
   ),
   new Header(
     "dayForIdentity",
+    "employee.DayForIdentity",
     'module.cash.dayForIdentity',
     "220",
     { typeSearch: TypeSearch.Date, columnSearch: "DayForIdentity" , typeFilter: TypeFilter.Date, module: ModuleName.Employee, headerSearch: 'module.cash.dayForIdentity'},
   ),
   new Header(
     "grantAddressIdentity",
+    "employee.GrantAddressIdentity",
     'module.cash.grantAddressIdentity',
     "230",
     { typeSearch: TypeSearch.Text, columnSearch: "GrantAddressIdentity" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.grantAddressIdentity'},
   ),
   new Header(
     "phoneNumber",
+    "employee.PhoneNumber",
     'common.phoneNumber',
     "230",
     { typeSearch: TypeSearch.Text, columnSearch: "PhoneNumber" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'common.phoneNumber'},
   ),
   new Header(
     "landlinePhone",
+    "employee.LandlinePhone",
     'module.cash.landlinePhone',
     "230",
     { typeSearch: TypeSearch.Text, columnSearch: "LandlinePhone" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.landlinePhone'},
   ),
   new Header(
     "employeeEmail",
+    "employee.EmployeeEmail",
     'module.cash.employeeEmail',
     "230",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeEmail" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'module.cash.employeeEmail'},
   ),
   new Header(
     "employeeAddress",
+    "employee.EmployeeAddress",
     'common.address',
     "200",
     { typeSearch: TypeSearch.Text, columnSearch: "EmployeeAddress" , typeFilter: TypeFilter.Text, module: ModuleName.Employee, headerSearch: 'common.address'},
   ),
   new Header(
     "isCustomer",
+    "employee.IsCustomer",
     'module.cash.isCustomer',
     "170",
     { typeSearch: TypeSearch.Number, columnSearch: "IsCustomer" , typeFilter: TypeFilter.Radio, data: [
@@ -117,6 +136,7 @@ let columns: Header [] = [
   ),
   new Header(
     "isVendor",
+    "employee.IsVendor",
     'module.cash.isVendor',
     "170",
     { typeSearch: TypeSearch.Number, columnSearch: "IsVendor" , typeFilter: TypeFilter.Radio, data: [
@@ -126,6 +146,7 @@ let columns: Header [] = [
   ),
   new Header(
     "isActive",
+    "employee.IsActive",
     'common.status',
     "150",
     { typeSearch: TypeSearch.Number, columnSearch: "IsActive" , typeFilter: TypeFilter.Combobox, data: [
