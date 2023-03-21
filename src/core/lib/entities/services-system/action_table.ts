@@ -93,7 +93,7 @@ export class ComparisonTypeSearch {
   public HeaderCustom?: string = '';
 
   /** Lọc kết hợp join bảng */
-  public Join?: Join [] = [];
+  public Join?: Join;
 }
 
 /**
@@ -276,7 +276,7 @@ export class FilterHeaderIn {
   public headerCustom?: string = '';
 
   /** Lọc kết hợp join bảng */
-  public join?: Join [] = [];
+  public join?: Join;
 }
 
 /**
@@ -285,13 +285,13 @@ export class FilterHeaderIn {
  */
 export class Join {
   /** Kiểu join bảng */
-  public TypeJoin: TypeJoin;
+  public TypeJoin?: TypeJoin;
 
   /** Key join trong bảng */
-  public KeyJoin: string;
+  public KeyJoin?: string;
 
   /** Key join trong bảng */
-  public TableJoin: string;
+  public TableJoin?: string;
 }
 
 /** 

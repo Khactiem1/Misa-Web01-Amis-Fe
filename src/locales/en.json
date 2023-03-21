@@ -89,7 +89,8 @@
     "question_data_change": "Data has been instead. You have want to do not?",
     "add_record": "Add {module}",
     "edit_record": "Edit {module}",
-    "replication_record": "Replication {module}"
+    "replication_record": "Replication {module}",
+    "chose_file": "Please chose file"
   },
   "module": {
     "cash": {
@@ -176,7 +177,8 @@
     "api": {
       "error_internet": "A network error has occurred.",
       "exception": "Something went wrong, please contact Misa.",
-      "export_null": "No data to export files."
+      "export_null": "No data to export files.",
+      "notFoundData": "Requested data not found, Please reload data."
     },
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",

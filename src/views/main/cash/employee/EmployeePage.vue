@@ -14,12 +14,13 @@
 					<button class="import toggle-list">
             <i class="icon"></i>
             <div class="table-list_action">
-              <div class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
+              <div @click="Base.downloadFromUrl('/src/upload/template/employee.xlsx')" class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
               <hr>
               <div class="list_action-title">{{ $t('common.reference_data') }}</div>
-              <div class="list_action-item"><i class="i excel"></i> {{ $t('common.reference_data') }}</div>
+              <div class="list_action-item"><i class="i excel"></i> {{ $t('module.cash.branch') }} (BranchID)</div>
+              <div @click="Base.downloadFromUrl('/src/upload/template/gender.xlsx')" class="list_action-item"><i class="i excel"></i> {{ $t('common.gender') }} (Gender)</div>
               <hr>
-              <div :title="$t('common.import')" class="list_action-item"><i class="i excel"></i> {{ $t('common.import') }}</div>
+              <div @click="Base.showDialog()" :title="$t('common.import')" class="list_action-item"><i class="i excel"></i> {{ $t('common.import') }}</div>
             </div>
           </button>
         </div>
@@ -62,6 +63,12 @@
           :optionBranch="optionBranch">
         </form-employee>
       </base-modal-form>
+      <base-modal-form v-if="Base.isShowDialog">
+        <div style="display: flex; justify-content: right;">
+          <input accept=".xlsx" name="file" id="file" class="input" @change="Base.choseExcel($event)" type="file">
+          <button @click="Base.uploadExcel()" class="button"> send </button>
+        </div>
+      </base-modal-form>
       <base-setting
         v-if="Base.isShowSettingTable"
         :columns="Base.columnSetting"
@@ -94,6 +101,10 @@ const Base:Grid = reactive(new Grid(ModuleName.Employee, api));
 /** Dữ liệu dropdown đơn vị */
 const optionBranch: any = ref([]);
 
+/**
+ * Hàm load dữ liệu đổ vào dropdowns combobox
+ * NK Tiềm 08.03.2023
+ */
 function loadDropDown(){
   Base.apiService.callApi(apiDropdown.getAll, null, async (response: any) => { optionBranch.value = response;});
 }
@@ -107,6 +118,10 @@ onBeforeMount(() => {
   loadDropDown();
 });
 
+/**
+ * Hàm mở modal và lấy mã tự sinh
+ * Khắc Tiềm - 08.03.2023
+ */
 async function customHandleOpenModal(action: any, recordId: any = undefined){
   try {
     await Base.apiService.callApi(api.nextValue, null, (response: any) => { 
@@ -270,6 +285,7 @@ onUnmounted(() =>{
   min-height: 16px;
 }
 .table-list_action {
+  width: 210px;
   border: solid 1px var(--border__input);
   background-color: var(--while__color);
   color: var(--text__color);
@@ -302,6 +318,7 @@ onUnmounted(() =>{
   color: inherit;
   text-align: left;
   cursor: default;
+  white-space: nowrap;
   padding: 5px 10px;
 }
 .list_action-item:hover {

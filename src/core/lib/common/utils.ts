@@ -41,6 +41,15 @@ export class Utils extends UtilsComponents{
   /** Biến chứa trạng thái ẩn hiện loader table */
   public isShowLoaderTable:any = ref(false);
 
+  /** Biến lưu trạng thái show dialog */
+  public isShowDialog: any = ref(false);
+
+  /** File excel */
+  public fileExcel: any;
+
+  /** Name file excel */
+  public fileNameExcel: any;
+
   /**
   * lưu lại giá trị các phím bấm tắt không ngắt quãng
   * NK Tiềm 08.03.2023
@@ -198,5 +207,29 @@ export class Utils extends UtilsComponents{
         elm.focus();
       }
     }, 100);
+  }
+
+  /** 
+   * Hàm mở dialog
+   * NK Tiềm 08.03.2023
+   */
+  public showDialog = () => {
+    this.isShowDialog.value = true;
+  }
+
+  /** 
+   * Hàm đóng dialog
+   * NK Tiềm 08.03.2023
+   */
+  public closeDialog = () => {
+    this.isShowDialog.value = false;
+  }
+
+  /**
+   * Hàm mở download file từ url
+   * Khắc Tiềm - 08.03.2023
+   */
+  public downloadFromUrl = (url: any) => {
+    window.open(url,);
   }
 }

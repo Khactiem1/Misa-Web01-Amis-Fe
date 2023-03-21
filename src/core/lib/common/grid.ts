@@ -65,8 +65,6 @@ export class Grid extends Utils{
           return [...acc, cur.FieldSelect];
         }
       },[])
-      console.log(this.store.state[`${this.Module}`].filter);
-      console.log(columnSelect);
       await this.apiService.callApi(this.api.getRecordList, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
         this.store.dispatch(`${this.Module}/getRecordListAction`, response); 
       });
@@ -181,18 +179,15 @@ export class Grid extends Utils{
     this.setStateForm(stateForm);
     if(recordId){
       await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
+        if(stateForm === ActionTable.Edit){
+          this.RecordCode = null;
+        }
         this.RecordEdit = response;
+        this.isShowModal.value = true;
       },false );
     }
-    if(stateForm === ActionTable.Add){
+    else if(stateForm === ActionTable.Add){
       this.RecordEdit = null;
-      this.isShowModal.value = true;
-    }
-    else if(stateForm === ActionTable.Edit){
-      this.RecordCode = null;
-      this.isShowModal.value = true;
-    }
-    else if(stateForm === ActionTable.Replication){
       this.isShowModal.value = true;
     }
   }
@@ -213,14 +208,6 @@ export class Grid extends Utils{
     this.StateForm.value = state;
   }
 
-  /**
-   * Hàm mở download file từ url
-   * Khắc Tiềm - 08.03.2023
-   */
-  public downloadFromUrl = (url: any) => {
-    window.open(url,);
-  }
-
   /** 
    * Hàm export excel theo điều kiện 
    * Khắc Tiềm - 08.03.2023
@@ -238,6 +225,32 @@ export class Grid extends Utils{
     }
     catch(e){
       console.log(e);
+    }
+  }
+
+  /** 
+   * Hàm nhập excel
+   * NK Tiềm 08.03.2023
+   */
+  public choseExcel = (event: any) => {
+    if (event.target.files && event.target.files.length > 0) {
+      this.fileExcel = event.target.files[0];
+      this.fileNameExcel = this.fileExcel.name;
+    }
+  }
+
+  /**
+   * Hàm xử lý uploadExcel
+   * NK Tiềm 08.03.2023
+   */
+  public uploadExcel = () => {
+    if (this.fileExcel) {
+      this.apiService.callApi(this.api.uploadExcel, this.fileExcel, (response: any) => { 
+        console.log(response);
+      }, false);
+    } 
+    else {
+      this.addNotification(ENotificationType.Wanning, i18n.global.t('common.chose_file'));
     }
   }
 }

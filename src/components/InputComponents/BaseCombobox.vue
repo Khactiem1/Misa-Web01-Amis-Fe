@@ -10,7 +10,7 @@
       <div v-if="selectMultiple && modelValue.length > 0" class="select-multiple_list">
         <div class="selected-item" v-for="(item, index) in modelValue" :key="index">
           <div class="selected-text">
-            {{ options.find((v: any) => v[value || ''] === item)[headerSelectMultiple] || '' }}
+            {{ options.find((v) => v[value || ''] === item)[headerSelectMultiple] || '' }}
           </div>
           <div class="selected-icon" @click="preventClose($event); handleSaveData(item)"></div>
         </div>
@@ -319,9 +319,11 @@ export default defineComponent({
         }
         if(modelValue.value || modelValue.value === 0){
           context.emit("update:textField", options.value.find((item: any) => item[value.value] === modelValue.value)[header.value]);
+          context.emit("update:textCode", options.value.find((item: any) => item[value.value] === modelValue.value)[headerCode.value]);
         }
         else{
           context.emit("update:textField", '');
+          context.emit("update:textCode", '');
         }
       }
       else{

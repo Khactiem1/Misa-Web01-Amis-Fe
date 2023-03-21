@@ -74,6 +74,7 @@
                 :required="true"
                 :headerCode = "'branchCode'"
                 v-model:textField="employee.branchName"
+                v-model:textCode="employee.branchCode"
                 :messageValid="t('validate.empty_data_cbx', { field: t('module.cash.branchName') })"
                 v-model="employee.branchID"
                 :class="{ 'is-valid': isValid && !employee.branchID }"

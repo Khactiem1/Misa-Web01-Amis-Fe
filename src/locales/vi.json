@@ -89,7 +89,8 @@
     "question_data_change": "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
     "add_record": "Thêm thông tin {module}",
     "edit_record": "Sửa thông tin {module}",
-    "replication_record": "Nhân bản thông tin {module}"
+    "replication_record": "Nhân bản thông tin {module}",
+    "chose_file": "Hãy chọn file"
   },
   "module": {
     "cash": {
@@ -176,7 +177,8 @@
     "api": {
       "error_internet": "Đã xảy ra lỗi mạng.",
       "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa.",
-      "export_null": "Không có dữ liệu để xuất file."
+      "export_null": "Không có dữ liệu để xuất file.",
+      "notFoundData": "Không tìm thấy dữ liệu yêu cầu. Hãy tải lại dữ liệu"
     },
     "crud": {
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
