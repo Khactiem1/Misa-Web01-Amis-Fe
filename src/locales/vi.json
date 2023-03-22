@@ -178,7 +178,9 @@
       "error_internet": "Đã xảy ra lỗi mạng.",
       "exception": "Có lỗi xảy ra, vui lòng liên hệ Misa.",
       "export_null": "Không có dữ liệu để xuất file.",
-      "notFoundData": "Không tìm thấy dữ liệu yêu cầu. Hãy tải lại dữ liệu"
+      "notFoundData": "Không tìm thấy dữ liệu yêu cầu. Hãy tải lại dữ liệu",
+      "import_fail": "Nhập từ tệp thất bại, kiểm tra lại tệp",
+      "import_success": "Nhập dữ liệu từ tệp thành công"
     },
     "crud": {
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",

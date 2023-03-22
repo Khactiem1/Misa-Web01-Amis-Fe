@@ -45,10 +45,10 @@ export class Utils extends UtilsComponents{
   public isShowDialog: any = ref(false);
 
   /** File excel */
-  public fileExcel: any;
+  public fileExcel: any = ref(null);
 
   /** Name file excel */
-  public fileNameExcel: any;
+  public fileNameExcel: any = ref<string>('');
 
   /**
   * lưu lại giá trị các phím bấm tắt không ngắt quãng

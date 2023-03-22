@@ -178,7 +178,9 @@
       "error_internet": "A network error has occurred.",
       "exception": "Something went wrong, please contact Misa.",
       "export_null": "No data to export files.",
-      "notFoundData": "Requested data not found, Please reload data."
+      "notFoundData": "Requested data not found, Please reload data.",
+      "import_fail": "Import from file failed, check file again",
+      "import_success": "Import data from file successfully"
     },
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",

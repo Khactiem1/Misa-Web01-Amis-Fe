@@ -234,8 +234,8 @@ export class Grid extends Utils{
    */
   public choseExcel = (event: any) => {
     if (event.target.files && event.target.files.length > 0) {
-      this.fileExcel = event.target.files[0];
-      this.fileNameExcel = this.fileExcel.name;
+      this.fileExcel.value = event.target.files[0];
+      this.fileNameExcel.value = this.fileExcel.value.name;
     }
   }
 
@@ -244,9 +244,16 @@ export class Grid extends Utils{
    * NK Tiềm 08.03.2023
    */
   public uploadExcel = () => {
-    if (this.fileExcel) {
-      this.apiService.callApi(this.api.uploadExcel, this.fileExcel, (response: any) => { 
-        console.log(response);
+    if (this.fileExcel.value) {
+      this.apiService.callApi(this.api.uploadExcel, this.fileExcel.value, () => { 
+        this.fileExcel.value = null;
+        this.fileNameExcel.value = null;
+        const elm:any = document.getElementById("fileExcel");
+        elm.value = null;
+        this.closeDialog();
+        this.addNotification(ENotificationType.Success, i18n.global.t('message.api.import_success'));
+        this.recordSelectPaging.value = 0; 
+        this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
       }, false);
     } 
     else {
