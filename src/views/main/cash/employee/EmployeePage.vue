@@ -44,60 +44,20 @@
         </div>
 			</div>
 			<!-- Table -->
-			<base-table
-				:BaseComponent="Base"
-				:handleClickActionColumTable="handleClickActionColumTable"
-			>
+			<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
 			</base-table>
 			<!-- End Table -->
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-employee 
-          :Base="Base" 
-          :optionBranch="optionBranch">
+        <form-employee  :Base="Base" :optionBranch="optionBranch">
         </form-employee>
       </base-modal-form>
       <base-modal-form v-if="Base.isShowDialog">
-        <div class="modal-body modal-body_import">
-          <div class="form">
-            <div class="form-header">
-              <div class="modal-title">
-                <h2>
-                  {{ $t('common.import') }}
-                </h2>
-              </div>
-              <div class="modal-close">
-                <div @click="Base.closeDialog()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
-                ></div>
-              </div>
-            </div>
-            <div class="form-container">
-              <div style="display: flex; justify-content: right;">
-                <input accept=".xlsx" name="file" id="fileExcel" class="input" @change="Base.choseExcel($event)" type="file">
-              </div>
-            </div>
-            <div class="form-action">
-              <div class="form-action_container">
-                <div class="form-action_item">
-                  <button @click="Base.uploadExcel()" class="btn btn-success modal-icon btn-form_cat" :content="$t('common.add_form') + ' (Ctrl + S)'">
-                    {{ $t('common.add_form') }}
-                  </button>
-                </div>
-                <div class="form-action_item">
-                  <button @click="Base.closeDialog()" class="btn" :content="$t('common.cancel_form')">
-                    {{ $t('common.cancel_form') }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <base-import-excel :Base="Base">
+        </base-import-excel>
       </base-modal-form>
-      <base-setting
-        v-if="Base.isShowSettingTable"
-        :columns="Base.columnSetting"
-        :handleShowSettingTable="Base.handleShowSettingTable"
+      <base-setting v-if="Base.isShowSettingTable" :columns="Base.columnSetting" :handleShowSettingTable="Base.handleShowSettingTable"
       ></base-setting>
     </teleport>
   </div>
@@ -105,7 +65,7 @@
 
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
-import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm } from '@/core/public_component';
+import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel } from '@/core/public_component';
 import FormEmployee from './FormEmployee.vue';
 import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -511,20 +471,5 @@ onUnmounted(() =>{
   min-width: 16px;
   min-height: 16px;
   background-position: -224px -360px;
-}
-
-
-
-
-
-
-
-
-
-
-.modal-body_import {
-  max-width: 500px !important;
-  width: 500px !important;
-  left: calc(50vw - 250px) !important;
 }
 </style>

@@ -5,7 +5,7 @@
     role="alert"
   >
     <div class="top-message_icon-content" :class="typeClass">
-      <div class="top-message_icon" :content="typeClass=='alert-success' ? $t('common.success')+'!' : typeClass == 'alert-error'? $t('common.error')+'!' : $t('common.wanning')+'!'"></div>
+      <div class="top-message_icon" :class="lang" :content="typeClass=='alert-success' ? $t('common.success')+'!' : typeClass == 'alert-error'? $t('common.error')+'!' : $t('common.wanning')+'!'"></div>
       <div class="top-message_content">
         {{ notificationScreen }}
       </div>
@@ -19,10 +19,14 @@
 <script lang="ts">
 import { useStore } from "vuex";
 import { computed, onMounted, onBeforeMount, onBeforeUnmount, ref, toRefs, defineComponent } from 'vue';
+import i18n from '@/locales/i18n';
 
 export default defineComponent({
   props: ["notification"],
   setup(props){
+    /** Lấy ra ngôn ngữ đang sử dụng */
+    const lang = computed(() => i18n.global.locale.value);
+
     /**
      * Sử dụng store của vuex
      * Khắc Tiềm - 15.09.2022
@@ -119,6 +123,7 @@ export default defineComponent({
       typeClass,
       animation,
       notificationScreen,
+      lang,
       handleCloseNotification,
     }
   },
@@ -206,5 +211,8 @@ export default defineComponent({
   top: 50%;
   transform: translateY(-50%);
   left: 115%;
+}
+.top-message_icon.en {
+  margin-right: 70px;
 }
 </style>

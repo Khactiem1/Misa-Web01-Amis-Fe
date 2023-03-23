@@ -236,7 +236,7 @@
 
 <script setup lang="ts">
 import { BaseInput, BaseCalendar, BaseCombobox, BaseCheckbox, BaseRadio } from '@/core/public_component';
-import { ActionTable, Employee, ENotificationType, Gender, Grid, ModuleName } from '@/core/public_api';
+import { ActionTable, Employee, ENotificationType, Gender, Grid, ModuleName, ServiceResponse } from '@/core/public_api';
 import { onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -350,7 +350,14 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     }
     errorApi.value = false;
     props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
-  },false );
+  },false , (res: ServiceResponse) => {
+    if(res.data.userMsg === 'validate.unique') {
+      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("module.cash.employeeCode"), value: employee.value.employeeCode}))
+    }
+    else {
+      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("common.data")}))
+    }
+  });
 }
 
 /** 

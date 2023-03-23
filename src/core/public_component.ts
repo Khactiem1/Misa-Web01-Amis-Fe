@@ -22,6 +22,7 @@ const BaseTable = defineAsyncComponent(() => import('@/components/TableComponent
 const BaseTableFilter = defineAsyncComponent(() => import('@/components/TableComponents/BaseTableFilter.vue'))
 const BaseTableListAction = defineAsyncComponent(() => import('@/components/TableComponents/BaseTableListAction.vue'))
 const BaseTableLoader = defineAsyncComponent(() => import('@/components/TableComponents/BaseTableLoader.vue'))
+const BaseImportExcel = defineAsyncComponent(() => import('@/components/TableComponents/BaseImportExcel.vue'))
 
 /** The */
 const BaseModalForm = defineAsyncComponent(() => import('@/components/BaseModalForm.vue'))
@@ -37,5 +38,5 @@ export {
   BaseCalendar, BaseCheckbox, BaseCombobox, BaseInput, BaseRadio, BaseModalForm,
   NotificationError, NotificationModal, NotificationQuestion, NotificationWanning, ListNotification,
   TheFooter, TheHeader, TheLoader, TheSidebar, TheTopMessage, TheTopMessageList, TheChangeLanguage,
-  BaseTableEmpty, BaseFormKeySearch, BasePaging, BaseSetting, BaseTable, BaseTableFilter, BaseTableListAction, BaseTableLoader,
+  BaseTableEmpty, BaseFormKeySearch, BasePaging, BaseSetting, BaseTable, BaseTableFilter, BaseTableListAction, BaseTableLoader,BaseImportExcel,
 }

@@ -90,7 +90,9 @@
     "add_record": "Thêm thông tin {module}",
     "edit_record": "Sửa thông tin {module}",
     "replication_record": "Nhân bản thông tin {module}",
-    "chose_file": "Hãy chọn file"
+    "select_file": "Chọn file",
+    "chose_file": "Hãy chọn file",
+    "data": "Dữ liệu"
   },
   "module": {
     "cash": {
@@ -142,7 +144,8 @@
     "empty": "{field} không được để trống.",
     "empty_data_cbx": "Dữ liệu < {field} > không có trong danh mục.",
     "max_date_now": "{field} phải nhỏ hơn ngày hiện tại.",
-    "malformed": "Không đúng định dạng {field}."
+    "malformed": "Không đúng định dạng {field}.",
+    "unique": "{field} <{value}> đã tồn tại trong hệ thống."
   },
   "calendar": {
     "year": "Năm",
@@ -180,6 +183,7 @@
       "export_null": "Không có dữ liệu để xuất file.",
       "notFoundData": "Không tìm thấy dữ liệu yêu cầu. Hãy tải lại dữ liệu",
       "import_fail": "Nhập từ tệp thất bại, kiểm tra lại tệp",
+      "data_change": "Dữ liệu đã bị thay đổi, hãy tải lại dữ liệu và thử lại",
       "import_success": "Nhập dữ liệu từ tệp thành công"
     },
     "crud": {

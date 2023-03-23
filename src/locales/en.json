@@ -90,7 +90,9 @@
     "add_record": "Add {module}",
     "edit_record": "Edit {module}",
     "replication_record": "Replication {module}",
-    "chose_file": "Please chose file"
+    "select_file": "Select file",
+    "chose_file": "Please chose file",
+    "data": "Data"
   },
   "module": {
     "cash": {
@@ -142,7 +144,8 @@
     "empty": "{field} cannot be left blank.",
     "empty_data_cbx": "Data < {field} > not in the list.",
     "max_date_now": "{field} must be less than the current date.",
-    "malformed": "Malformed {field}."
+    "malformed": "Malformed {field}.",
+    "unique": "{field} <{value}> already exist in the system."
   },
   "calendar": {
     "year": "Year",
@@ -180,6 +183,7 @@
       "export_null": "No data to export files.",
       "notFoundData": "Requested data not found, Please reload data.",
       "import_fail": "Import from file failed, check file again",
+      "data_change": "The data has been changed, download the data and try again",
       "import_success": "Import data from file successfully"
     },
     "crud": {
