@@ -180,7 +180,6 @@ onUnmounted(() =>{
 	window.removeEventListener("keyup", Base.handleEventInterruptCtrlAltA);
 	window.removeEventListener("keydown", handleKey);
 })
-
 </script>
 
 <style scoped>

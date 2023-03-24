@@ -19,9 +19,9 @@
             >
             <template #item="{ element }">
               <th :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
-                <span style="display: flex;" :class="element.TypeFormat.TextAlign" @click="handleSetSortColumn(element.Field)">
+                <span style="display: flex;" :class="element.TypeFormat.TextAlign" @click="handleSetSortColumn(element.FieldSelect)">
                   <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
-                  <div v-if="element.Field.charAt(0).toUpperCase() + element.Field.slice(1) === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
+                  <div v-if="element.FieldSelect === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
                 </span>
                 <div v-if="element.Filter" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
               </th>
@@ -276,7 +276,7 @@ export default defineComponent({
      */
     async function handleSetSortColumn (field: any){
       try {
-        await store.dispatch(`${BaseComponent.value.Module}/setFilterCustomSearchSortAction`, field.charAt(0).toUpperCase() + field.slice(1)).then((res: any)=> {
+        await store.dispatch(`${BaseComponent.value.Module}/setFilterCustomSearchSortAction`, field).then((res: any)=> {
           if(res){
             sortBy.value = res;
           }
