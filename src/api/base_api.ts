@@ -8,12 +8,19 @@ export default class BaseApi{
     this.Module = module;
   }
   /**
-   * API lấy tất cả danh sách bản ghi tìm kiếm và phân trang
-   * @returns Danh sách bản ghi và tổng số lượng
+   * API lấy tất cả danh sách bản ghi
    * Khắc Tiềm - 08.03.2023
    */
   public getAll = () => {
     return axiosAPI.get(`/${this.Module}`);
+  }
+
+  /**
+   * API lấy tất cả danh sách bản ghi đổ vào dropdown list
+   * Khắc Tiềm - 08.03.2023
+   */
+  public getDropdown = () => {
+    return axiosAPI.get(`/${this.Module}/dropdown`);
   }
 
   /**
@@ -100,15 +107,6 @@ export default class BaseApi{
    */
   public deleteMultipleApi = (listID: string []) => {
     return axiosAPI.post(`/${this.Module}/bulk_delete`, listID);
-  }
-
-  /**
-   * API export data 
-   * @returns file bản ghi excel
-   * Khắc Tiềm - 08.03.2023
-   */
-  public exportDataApi = () => {
-    return axiosAPI.get(`/${this.Module}/export_data`);
   }
 
   /**

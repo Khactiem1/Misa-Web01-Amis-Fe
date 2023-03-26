@@ -411,7 +411,10 @@ const handleCloseModal = () => {
   try {
     if (JSON.stringify(employee.value) != JSON.stringify(employeeComparison.value)) {
       unListenEvent();
-      props.Base.showNotificationAction(saveDataAndCloseForm, props.Base.closeModal, t('common.question_data_change'), listenEvent);
+      props.Base.showNotificationAction(saveDataAndCloseForm, props.Base.closeModal, t('common.question_data_change'), () => {
+        listenEvent();
+        handleLoopFocus();
+      });
     } else {
       props.Base.closeModal();
     }

@@ -1,6 +1,6 @@
 import { ActionTable, InfoTable, ModuleName } from '@/core/public_api';
 import BaseStore from '../base_store';
-import { employee } from './column-module/index'
+import { depot } from './column-module/index'
 
 /**
  * Các mutation
@@ -25,8 +25,8 @@ let actions: any = {
 const actionTable: InfoTable = {
   actionDefault: ActionTable.Edit,
 	actionList: [ActionTable.Replication, ActionTable.Delete, ActionTable.StopUsing],
-	fieldId: "employeeID",
-	fieldCode: "employeeCode",
+	fieldId: "depotID",
+	fieldCode: "depotCode",
 	fieldActive: "isActive",
 };
 
@@ -34,7 +34,7 @@ const actionTable: InfoTable = {
  * Khai báo store với việc khởi tạo store viết base với các action, mutation được xây dựng trước đó
  * Khắc Tiềm - 08.03.2023
  */
-const employees: BaseStore = new BaseStore(ModuleName.Employee, employee, mutations, actions, actionTable);
+const depots: BaseStore = new BaseStore(ModuleName.Depot, depot, mutations, actions, actionTable);
 
 /**
  * Giải phóng bộ nhớ
@@ -44,4 +44,4 @@ setTimeout(() => {
   actions = null;
 }, 0);
 
-export default employees.store;
+export default depots.store;

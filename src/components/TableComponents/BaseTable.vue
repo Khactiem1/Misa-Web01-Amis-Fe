@@ -44,8 +44,8 @@
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])"
-              :class="col.TypeFormat.TextAlign" :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
+            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="index === 0 ? 'position: unset;' : ''" :class="col.TypeFormat.TextAlign"
+               :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
                 {{ formatData(col.TypeFormat, row[col.Field]) }}
               <div v-if="col.TypeFormat.IsImage === true" class="image-table">

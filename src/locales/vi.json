@@ -17,7 +17,9 @@
     "fixed_assets": "Tài sản cố định",
     "salary": "Tiền lương",
     "tax": "Thuế",
-    "price": "Giá thành"
+    "price": "Giá thành",
+    "branch": "Đơn vị",
+    "depot": "Kho"
   },
   "gender": {
     "male": "Nam",
@@ -92,7 +94,9 @@
     "replication_record": "Nhân bản thông tin {module}",
     "select_file": "Chọn file",
     "chose_file": "Hãy chọn file",
-    "data": "Dữ liệu"
+    "data": "Dữ liệu",
+    "description": "Mô tả",
+    "delivery": "Địa chỉ"
   },
   "module": {
     "cash": {
@@ -127,17 +131,28 @@
       "production_progress_report": "Báo cáo tiến độ sản xuất",
       "inventory_report_according_import": "Báo cáo tồn theo chứng từ nhập chưa chuyển kho",
       "search_employee_code_name": "Tìm theo mã, tên nhân viên",
+      "search_branch_code_name": "Tìm theo mã, tên đơn vị",
       "phoneNumber": "Số điện thoại di động",
       "phoneNumber_small": "ĐT di động",
       "fixed_phone": "Điện thoại cố định",
-      "fixed_phone_small": "ĐT cố định"
+      "fixed_phone_small": "ĐT cố định",
+      "branch_small": "đơn vị"
     },
     "inventory": {
       "goods": "Hàng hoá",
       "service": "Dịch vụ",
       "materials": "Nguyên vật liệu",
       "finished_product": "Thành phẩm",
-      "tool_tools": "Dụng cụ công cụ"
+      "tool_tools": "Dụng cụ công cụ",
+      "depot": "Kho",
+      "depot_small": "kho",
+      "inventory_item": "Vật tư hàng hoá",
+      "unit": "Đơn vị tính",
+      "inventory_business": "Nghiệp vụ kho",
+      "Group_materials_services": "Nhóm vật tư, hàng hóa, dịch vụ",
+      "depotCode": "Mã kho",
+      "depotName": "Tên kho",
+      "search_depot_code_name": "Tìm theo mã, tên kho"
     }
   },
   "validate": {
@@ -145,7 +160,8 @@
     "empty_data_cbx": "Dữ liệu < {field} > không có trong danh mục.",
     "max_date_now": "{field} phải nhỏ hơn ngày hiện tại.",
     "malformed": "Không đúng định dạng {field}.",
-    "unique": "{field} <{value}> đã tồn tại trong hệ thống."
+    "unique": "{field} <{value}> đã tồn tại trong hệ thống.",
+    "foreign_key": "Đã có dữ liệu phát sinh với bản ghi này. Bạn phải xóa các phát sinh liên quan trước khi xóa."
   },
   "calendar": {
     "year": "Năm",

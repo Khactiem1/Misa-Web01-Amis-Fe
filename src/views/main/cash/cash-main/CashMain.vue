@@ -16,12 +16,12 @@
 								{{ $t('module.cash.customer') }}
               </div>
             </a>
-            <a class="footer-page_item">
+            <router-link to="/cash/branch" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -928px -200px;"></div>
               <div class="footer-page_text">
-								{{ $t('module.cash.vendor') }}
+								{{ $t('module.cash.branch') }}
               </div>
-            </a>
+            </router-link>
             <router-link to="/cash/employee" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -984px -200px;"></div>
               <div class="footer-page_text">

@@ -8,4 +8,5 @@ export class ModuleName {
   public static Branch: string = 'branch';
 
   /** Inventory */
+  public static Depot: string = 'depot';
 }

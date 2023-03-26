@@ -17,7 +17,9 @@
     "fixed_assets": "Fixed Assets",
     "salary": "Salary",
     "tax": "Tax",
-    "price": "Price"
+    "price": "Price",
+    "branch": "Branch",
+    "depot": "Depot"
   },
   "gender": {
     "male": "Male",
@@ -92,7 +94,9 @@
     "replication_record": "Replication {module}",
     "select_file": "Select file",
     "chose_file": "Please chose file",
-    "data": "Data"
+    "data": "Data",
+    "description": "Description",
+    "delivery": "Delivery"
   },
   "module": {
     "cash": {
@@ -127,17 +131,28 @@
       "production_progress_report": "Production progress report",
       "inventory_report_according_import": "Inventory report according to import documents that have not yet been transferred",
       "search_employee_code_name": "Search by code, name",
+      "search_branch_code_name": "Search by code, name",
       "phoneNumber": "Mobile phone number",
       "phoneNumber_small": "Mobile phone",
       "fixed_phone": "Landline phone",
-      "fixed_phone_small": "Fixed phone"
+      "fixed_phone_small": "Fixed phone",
+      "branch_small": "branch"
     },
     "inventory": {
       "goods": "Goods",
       "service": "Service",
       "materials": "Materials",
       "finished_product": "Finished Product",
-      "tool_tools": "Tool Tools"
+      "tool_tools": "Tool Tools",
+      "depot": "Depot",
+      "depot_small": "depot",
+      "inventory_item": "Inventory Item",
+      "unit": "Unit",
+      "inventory_business": "Nghiệp vụ kho",
+      "Group_materials_services": "Group of materials, goods and services",
+      "depotCode": "Depot code",
+      "depotName": "Depot name",
+      "search_depot_code_name": "Search by code, name"
     }
   },
   "validate": {
@@ -145,7 +160,8 @@
     "empty_data_cbx": "Data < {field} > not in the list.",
     "max_date_now": "{field} must be less than the current date.",
     "malformed": "Malformed {field}.",
-    "unique": "{field} <{value}> already exist in the system."
+    "unique": "{field} <{value}> already exist in the system.",
+    "foreign_key": "There is already data generated with this record. You must delete related derivatives before deleting."
   },
   "calendar": {
     "year": "Year",

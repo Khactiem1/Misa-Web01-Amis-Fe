@@ -1,4 +1,4 @@
-import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable, TypeJoin } from "@/core/public_api";
+import { ModuleName, TypeFilter, TypeSearch, Header, Gender, ComparisonType, IdbDataTable } from "@/core/public_api";
 
 /**
  * Chứa các column nhân viên

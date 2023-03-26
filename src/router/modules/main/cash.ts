@@ -17,6 +17,15 @@ const router: any = [
     component: () => import('../../../views/main/cash/employee/EmployeePage.vue'),
     meta: { title: 'page.employee' }
   },
+  {
+    /** 
+     * Trang đơn vị
+     * Khắc Tiềm - 08.03.2023
+     *  */
+    path: '/cash/branch',
+    component: () => import('../../../views/main/cash/branch/BranchPage.vue'),
+    meta: { title: 'page.branch' }
+  },
 ]
 
 export default router;

@@ -1,7 +1,7 @@
 import { Utils } from './utils';
 import { computed } from "vue";
 import { environment } from '@/environments/environment.prod';
-import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header } from '@/core/public_api';
+import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header, ServiceResponse } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 import type BaseApi from '@/api/base_api';
 
@@ -66,7 +66,7 @@ export class Grid extends Utils{
         }
       },[])
       await this.apiService.callApi(this.api.getRecordList, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
-        this.store.dispatch(`${this.Module}/getRecordListAction`, response); 
+        this.store.dispatch(`${this.Module}/getRecordListAction`, response);
       });
       this.isShowLoaderTable.value = false;
     }
@@ -143,7 +143,9 @@ export class Grid extends Utils{
         this.recordSelectPaging.value = 0;
         this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });
       }
-    }, false);
+    }, false, (res: ServiceResponse) => {
+      this.showNotificationError(i18n.global.t(res.data.userMsg));
+    });
   }
   
   /**
@@ -151,7 +153,7 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public deleteAll = () => {
-    this.apiService.callApi(this.api.deleteMultipleApi, this.checkShowActionSeries.value, async (res: any) => { 
+    this.apiService.callApi(this.api.deleteMultipleApi, this.checkShowActionSeries.value, async () => { 
       await this.store.dispatch(`${this.Module}/setEmptyCheckBoxRecordAction`);
       await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
       if(this.recordList.value.length === 0){
@@ -259,5 +261,16 @@ export class Grid extends Utils{
     else {
       this.addNotification(ENotificationType.Wanning, i18n.global.t('common.chose_file'));
     }
+  }
+
+  /**
+   * Set trống danh sách
+   * NK Tiềm 08.03.2023
+   */
+  public setEmptyData(){
+    this.store.dispatch(`${this.Module}/getRecordListAction`, {
+      recordList: [],
+      totalCount: 0,
+    });
   }
 }

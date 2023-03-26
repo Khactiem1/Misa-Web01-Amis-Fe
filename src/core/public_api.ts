@@ -27,8 +27,10 @@ export * from './lib/entities/services-system/service_response';
 
 // Cash
 export * from './lib/entities/cash/employee';
+export * from './lib/entities/cash/branch';
 
 // Inventory
+export * from './lib/entities/inventory/depot';
 
 /**
  * services
