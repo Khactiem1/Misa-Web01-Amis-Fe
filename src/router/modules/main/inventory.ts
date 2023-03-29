@@ -5,7 +5,7 @@ const router: any = [
      * Khắc Tiềm - 08.03.2023
      * */
     path: '/inventory',
-    component: () => import('../../../views/main/inventory/inventory-main/InventoryMain.vue'),
+    component: () => import('../../../views/main/inventory/inventoryMain/InventoryMain.vue'),
     meta: { title: 'page.inventory_main' }
   },
   {
@@ -14,7 +14,7 @@ const router: any = [
      * Khắc Tiềm - 08.03.2023
      * */
     path: '/inventory/inventory-item',
-    component: () => import('../../../views/main/inventory/inventory-item/InventoryItemPage.vue'),
+    component: () => import('../../../views/main/inventory/inventoryItem/InventoryItemPage.vue'),
     meta: { title: 'page.inventory_item' }
   },
   {
@@ -25,6 +25,24 @@ const router: any = [
     path: '/inventory/depot',
     component: () => import('../../../views/main/inventory/depot/DepotPage.vue'),
     meta: { title: 'page.depot' }
+  },
+  {
+    /** 
+     * Trang đơn vị tính
+     * Khắc Tiềm - 08.03.2023
+     * */
+    path: '/inventory/unitCalculation',
+    component: () => import('../../../views/main/inventory/unitCalculation/UnitCalculationPage.vue'),
+    meta: { title: 'page.unitCalculation' }
+  },
+  {
+    /** 
+     * Trang đơn vị tính
+     * Khắc Tiềm - 08.03.2023
+     * */
+    path: '/inventory/commodityGroup',
+    component: () => import('../../../views/main/inventory/commodityGroup/CommodityGroupPage.vue'),
+    meta: { title: 'page.commodityGroup' }
   },
 ]
 

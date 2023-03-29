@@ -19,7 +19,9 @@
     "tax": "Thuế",
     "price": "Giá thành",
     "branch": "Đơn vị",
-    "depot": "Kho"
+    "depot": "Nhà kho",
+    "unitCalculation": "Đơn vị tính",
+    "commodityGroup": "Nhóm vật tư, hàng hoá, dịch vụ"
   },
   "gender": {
     "male": "Nam",
@@ -149,10 +151,22 @@
       "inventory_item": "Vật tư hàng hoá",
       "unit": "Đơn vị tính",
       "inventory_business": "Nghiệp vụ kho",
-      "Group_materials_services": "Nhóm vật tư, hàng hóa, dịch vụ",
       "depotCode": "Mã kho",
       "depotName": "Tên kho",
-      "search_depot_code_name": "Tìm theo mã, tên kho"
+      "search_depot_code_name": "Tìm theo mã, tên kho",
+      "search_unitCalculation_name": "Tìm theo tên đơn vị tính",
+      "search_commodityGroup_code_name": "Tìm theo mã, tên nhóm vật tư",
+      "unitCalculationName": "Đơn vị tính",
+      "unitCalculationDetail": "Mô tả",
+      "unitCalculation": "Đơn vị tính",
+      "unitCalculation_small": "đơn vị tính",
+      "commodityGroup": "Nhóm vật tư, hàng hoá, dịch vụ",
+      "commodityGroup_small": "nhóm vật tư, hàng hoá, dịch vụ",
+      "commodityCode": "Mã nhóm vật tư, hàng hoá, dịch vụ",
+      "commodityName": "Tên nhóm vật tư, hàng hoá, dịch vụ",
+      "commodityCode_small": "Mã nhóm",
+      "commodityName_small": "Tên nhóm",
+      "parentID": "Thuộc"
     }
   },
   "validate": {
@@ -161,6 +175,7 @@
     "max_date_now": "{field} phải nhỏ hơn ngày hiện tại.",
     "malformed": "Không đúng định dạng {field}.",
     "unique": "{field} <{value}> đã tồn tại trong hệ thống.",
+    "commoditygroup_not_itself": "Nhóm vật tư hàng hoá không thể thuộc chính nó.",
     "foreign_key": "Đã có dữ liệu phát sinh với bản ghi này. Bạn phải xóa các phát sinh liên quan trước khi xóa."
   },
   "calendar": {
@@ -205,6 +220,7 @@
     "crud": {
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",
       "delete_success": "Bản ghi đã bị xoá.",
+      "statue_of_liberty": "Đang chọn",
       "question_wanning_delete": "Bạn có thực sự muốn xoá {module} <{code}> không?"
     }
   }

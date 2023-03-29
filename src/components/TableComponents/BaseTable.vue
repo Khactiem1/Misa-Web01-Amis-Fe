@@ -36,7 +36,7 @@
         <base-table-empty v-if="!BaseComponent.isShowLoaderTable && BaseComponent.recordList.length === 0" ></base-table-empty>
         <tbody v-if="!BaseComponent.isShowLoaderTable">
           <tr v-for="(row) in BaseComponent.recordList"
-            :class="{ active: BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false, parent: row.bindHTMLChild === '' && listTree}"
+            :class="{ active: BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false, parent: row.bindHTMLChild === '' && BaseComponent.tree}"
             :key="row[BaseComponent.actionTable.fieldId]"
           >
             <td v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck" class="column-sticky">
@@ -72,18 +72,18 @@
             </td>
           </tr>
         </tbody>
-        <thead v-if="showTotalColumn && BaseComponent.recordList.length !== 0" class="thead-light table-footer">
+        <thead v-if="BaseComponent.showTotalColumn && BaseComponent.recordList.length !== 0" class="thead-light table-footer">
           <tr>
-            <th style="text-transform: none;" v-if="BaseComponent.checkShowActionSeries">
+            <th class="fix" style="text-transform: none; border-right: none;" v-if="BaseComponent.checkShowActionSeries">
               {{ $t('common.sum') }}
             </th>
-            <th v-for="(item) in BaseComponent.columns" :class="item.TypeFormat.TextAlign"
+            <th v-for="(item) in BaseComponent.columns" style="text-align: right; border-right: none;"
               :style="{ 'min-width': `${item.Width}px`, width: `${item.Width}px`, }"
               :key="item.Field"
             >
               {{ item.Data ?  Base.Comma(item.Data) : "" }}
             </th>
-            <th style="width: 120px; min-width: 120px" class="text-center">
+            <th style="width: 120px; min-width: 120px; border-right: none;" class="text-center fix">
             </th>
           </tr>
         </thead>
@@ -135,7 +135,7 @@
 
 <script lang="ts">
 import { BaseCheckbox, BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction, BaseCombobox, BasePaging } from "@/core/public_component";
-import { UtilsComponents, Gender, TypeFormat } from "@/core/public_api";
+import { UtilsComponents, Gender, TypeFormat, Nature } from "@/core/public_api";
 import { environment } from '@/environments/environment.prod';
 import { watch, ref, toRefs, computed, defineComponent, type PropType } from "vue";
 import { useStore } from "vuex";
@@ -165,8 +165,6 @@ export default defineComponent({
       type: Function,
       default: ()=> {}
     },
-    showTotalColumn: {},
-    listTree: {},
   },
   setup(props) {
     const Base: UtilsComponents = new UtilsComponents();
@@ -344,15 +342,15 @@ export default defineComponent({
     }
 
     function formatNature(nature: any){
-      if (nature == 1) {
+      if (nature == Nature.Goods) {
         return t('module.inventory.goods');
-      } else if (nature == 2) {
+      } else if (nature == Nature.Service) {
         return t('module.inventory.service');
-      } else if (nature == 3) {
+      } else if (nature == Nature.Materials) {
         return t('module.inventory.materials');
-      }else if (nature == 4) {
+      }else if (nature == Nature.FinishedProduct) {
         return t('module.inventory.finished_product');
-      }else if (nature == 5) {
+      }else if (nature == Nature.ToolTools) {
         return t('module.inventory.tool_tools');
       }
     }

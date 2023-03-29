@@ -66,7 +66,12 @@ export class Grid extends Utils{
         }
       },[])
       await this.apiService.callApi(this.api.getRecordList, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
-        this.store.dispatch(`${this.Module}/getRecordListAction`, response);
+        if(!this.tree){
+          this.store.dispatch(`${this.Module}/getRecordListAction`, response);
+        }
+        else{
+          this.store.dispatch(`${this.Module}/getRecordListAction`, { recordList: this.listToTree(response.recordList, this.tree), totalCount: response.totalCount });
+        }
       });
       this.isShowLoaderTable.value = false;
     }

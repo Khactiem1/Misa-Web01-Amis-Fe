@@ -2,7 +2,7 @@
 	<div class="container-table">
 		<div class="container-table_header">
       <div class="name-table">
-        <h1>{{ $t('page.depot') }}</h1>
+        <h1>{{ $t('page.unitCalculation') }}</h1>
 				<router-link to="/inventory" class="prev_page">
 					<div class="prev_page-icon"></div>
 					<div class="prev_page-text">{{ $t('common.back') }}</div>
@@ -14,7 +14,7 @@
 					<button class="import toggle-list">
             <i class="icon"></i>
             <div class="table-list_action">
-              <div @click="Base.downloadFromUrl(`${environment.IMAGE_API}/Excel/Template/depot.xlsx`)" class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
+              <div @click="Base.downloadFromUrl(`${environment.IMAGE_API}/Excel/Template/unitCalculation.xlsx`)" class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
               <div @click="Base.showDialog()" :title="$t('common.import')" class="list_action-item"><i class="i excel"></i> {{ $t('common.import') }}</div>
             </div>
           </button>
@@ -25,10 +25,10 @@
 			<div class="table-function sticky">
 				<div class="form-fix">
           <div class="search-table">
-            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_depot_code_name')"/>
+            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_unitCalculation_name')"/>
             <div class="icon-search"></div>
           </div>
-          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Depot"></base-form-key-search>
+          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.UnitCalculation"></base-form-key-search>
         </div>
 				<div style="min-width: 350px;" class="table-function_search">
           <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
@@ -43,8 +43,8 @@
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-depot :Base="Base">
-        </form-depot>
+        <form-unit-calculation :Base="Base">
+        </form-unit-calculation>
       </base-modal-form>
       <base-modal-form v-if="Base.isShowDialog">
         <base-import-excel :Base="Base">
@@ -59,21 +59,21 @@
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
 import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel } from '@/core/public_component';
-import FormDepot from './FormDepot.vue';
+import FormUnitCalculation from './FormUnitCalculation.vue';
 import { reactive, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { environment } from '@/environments/environment.prod';
-import DepotApi from '@/api/module/depot';
+import UnitCalculationApi from '@/api/module/unitCalculation';
 
 const { t } = useI18n();
 /**
  * Khai báo các api của module
  * Khắc Tiềm 13-03-2023
  */
-const api:DepotApi = new DepotApi();
+const api:UnitCalculationApi = new UnitCalculationApi();
 
 /** Sử dụng base thư viện Grid đã viết */
-const Base:Grid = reactive(new Grid(ModuleName.Depot, api));
+const Base:Grid = reactive(new Grid(ModuleName.UnitCalculation, api));
 
 /**
  * Trước khi mounted sẽ load dữ liệu 1 lần
@@ -112,6 +112,10 @@ function questionDeleteRecordApi(recordId: any, recordCode:any ){
   Base.showNotificationWanning(Base.deleteRecord, t('message.crud.question_wanning_delete', { module: t(`module.inventory.${Base.Module}`), code: recordCode ? recordCode : t('message.crud.statue_of_liberty') }), recordId);
 }
 
+/**
+ * Hàm xử lý các event nút bấm tắt
+ * NK Tiềm 08.03.2023
+ */
 function handleKey(event: any){
 	Base.handleEventCtrlAltA(event, Base.openModal, ActionTable.Add)
 }

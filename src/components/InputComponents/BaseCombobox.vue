@@ -33,9 +33,9 @@
       <div class="icon-add" @click="handleAddIcon()" v-if="addIcon">
         <div class="select_icon-add"></div>
       </div>
-      <div v-show="isShow" class="combobox-combobox_select" :style:="{width : widthOptionSelect}">
+      <div v-show="isShow" class="combobox-combobox_select" :style="{width : widthOptionSelect}">
         <div v-if="labelCode && labelName" class="combobox-labelName">
-          <div v-if="labelCode" class="label-item label-code" :style:="{width: widthLabelCode}">
+          <div v-if="labelCode" class="label-item label-code" :style="{width: widthLabelCode}">
             {{ labelCode }}
           </div>
           <div class="label-item label-name">
@@ -56,7 +56,7 @@
               hover: valueClick == item[value || ''] && selectMultiple,
             }"
           >
-            <div v-if="labelCode" class="label-item label-code" :style:="{width: widthLabelCode}">
+            <div v-if="labelCode" class="label-item label-code" :style="{width: widthLabelCode}">
               <span v-html="item.bindHTMLChild"></span>
               {{ item[headerCode || ''] }}
             </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <span class="message-valid" :style:="{left : leftMessage}">{{ messageValid }}</span>
+    <span class="message-valid" :style="{left : leftMessage}">{{ messageValid }}</span>
   </div>
 </template>
 
@@ -80,7 +80,10 @@ export default defineComponent({
     /**
      * Độ dài của option select
      */
-    widthOptionSelect: {},
+    widthOptionSelect: {
+      type: String,
+      default: ''
+    },
     /**
      * giá trị v-model
      */
@@ -125,7 +128,10 @@ export default defineComponent({
     /**
      * Độ dài của trường hiển thị code
      */
-    widthLabelCode: {},
+    widthLabelCode: {
+      type: String,
+      default: ''
+    },
     /**
      * Giá trị hiển thị phần tên
      */
@@ -177,7 +183,10 @@ export default defineComponent({
     /**
      * Hiển thị thông báo bên left
      */
-    leftMessage:{},
+    leftMessage:{
+      type: String,
+      default: ''
+    },
     /**
      * xử lý khi bấm nút addIcon
      */

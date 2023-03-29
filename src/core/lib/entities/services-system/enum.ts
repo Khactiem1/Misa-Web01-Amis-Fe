@@ -69,3 +69,36 @@ export enum KeyCode {
   /** Phím F1 */
   F1 = 112,
 }
+
+export enum Nature {
+  /// <summary>
+  /// Hàng hoá
+  /// Created by : Khắc Tiềm 21.09.2022
+  /// </summary>
+  Goods = 1,
+
+  /// <summary>
+  /// Dịch vụ
+  /// Created by : Khắc Tiềm 21.09.2022
+  /// </summary>
+
+  Service = 2,
+
+  /// <summary>
+  /// Nguyên vật liệu
+  /// Created by : Khắc Tiềm 21.09.2022
+  /// </summary>
+  Materials = 3,
+
+  /// <summary>
+  /// Thành phẩm
+  /// Created by : Khắc Tiềm 21.09.2022
+  /// </summary>
+  FinishedProduct = 4,
+
+  /// <summary>
+  /// Dụng cụ công cụ
+  /// Created by : Khắc Tiềm 21.09.2022
+  /// </summary>
+  ToolTools = 5,
+}

@@ -22,18 +22,18 @@
 								{{ $t('module.inventory.inventory_item') }}
               </div>
             </a>
-            <a class="footer-page_item">
+            <router-link to="/inventory/unitCalculation" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -872px -256px;"></div>
               <div class="footer-page_text">
 								{{ $t('module.inventory.unit') }}
               </div>
-            </a>
-						<a class="footer-page_item">
+            </router-link>
+						<router-link to="/inventory/commodityGroup" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -1040px -200px;"></div>
               <div class="footer-page_text">
-                {{ $t('module.inventory.Group_materials_services') }}
+                {{ $t('module.inventory.commodityGroup') }}
               </div>
-            </a>
+            </router-link>
             <a class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -648px -200px;"></div>
               <div class="footer-page_text">

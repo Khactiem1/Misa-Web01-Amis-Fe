@@ -144,7 +144,7 @@ function handleClickActionColumTable(action: any, recordId: any, recordCode: any
  * Khắc Tiềm - 08.03.2023
 */
 function questionDeleteRecordApi(recordId: any, recordCode:any ){
-  Base.showNotificationWanning(Base.deleteRecord, t('message.crud.question_wanning_delete', { module: t(`module.cash.${Base.Module}`), code: recordCode }), recordId);
+  Base.showNotificationWanning(Base.deleteRecord, t('message.crud.question_wanning_delete', { module: t(`module.cash.${Base.Module}`), code: recordCode ? recordCode : t('message.crud.statue_of_liberty') }), recordId);
 }
 
 /** 
@@ -159,6 +159,10 @@ function handleQuestionDeleteAll() {
 	}
 }
 
+/**
+ * Hàm xử lý các event nút bấm tắt
+ * NK Tiềm 08.03.2023
+ */
 function handleKey(event: any){
 	Base.handleEventCtrlAltA(event, customHandleOpenModal, ActionTable.Add)
 }

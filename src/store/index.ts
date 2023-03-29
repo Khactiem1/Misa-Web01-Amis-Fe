@@ -3,6 +3,8 @@ import config from './module/config';
 import employee from './module/employee';
 import branch from './module/branch';
 import depot from './module/depot';
+import unitCalculation from './module/unitCalculation';
+import commodityGroup from './module/commodityGroup';
 
 const store = createStore({
   modules: {
@@ -10,6 +12,8 @@ const store = createStore({
     employee,
     branch,
     depot,
+    unitCalculation,
+    commodityGroup,
   },
 });
 

@@ -19,7 +19,9 @@
     "tax": "Tax",
     "price": "Price",
     "branch": "Branch",
-    "depot": "Depot"
+    "depot": "Depot",
+    "unitCalculation": "Unit calculation",
+    "commodityGroup": "Group of materials, goods and services"
   },
   "gender": {
     "male": "Male",
@@ -149,10 +151,22 @@
       "inventory_item": "Inventory Item",
       "unit": "Unit",
       "inventory_business": "Nghiệp vụ kho",
-      "Group_materials_services": "Group of materials, goods and services",
       "depotCode": "Depot code",
       "depotName": "Depot name",
-      "search_depot_code_name": "Search by code, name"
+      "search_depot_code_name": "Search by code, name",
+      "search_unitCalculation_name": "Search by name",
+      "search_commodityGroup_code_name": "Search by code, group name of supplies",
+      "unitCalculationName": "Unit calculation",
+      "unitCalculationDetail": "Describe",
+      "unitCalculation": "Unit calculation",
+      "unitCalculation_small": "unit calculation",
+      "commodityGroup": "Group of materials, goods and services",
+      "commodityGroup_small": "group of materials, goods and services",
+      "commodityCode": "Group code of materials, goods and services",
+      "commodityName": "Group name of materials, goods and services",
+      "commodityCode_small": "Group code",
+      "commodityName_small": "Group name",
+      "parentID": "Belonging to"
     }
   },
   "validate": {
@@ -161,6 +175,7 @@
     "max_date_now": "{field} must be less than the current date.",
     "malformed": "Malformed {field}.",
     "unique": "{field} <{value}> already exist in the system.",
+    "commoditygroup_not_itself": "The commodity group cannot belong to itself.",
     "foreign_key": "There is already data generated with this record. You must delete related derivatives before deleting."
   },
   "calendar": {
@@ -205,6 +220,7 @@
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",
       "delete_success": "Record has been deleted.",
+      "statue_of_liberty": "Statue of Liberty",
       "question_wanning_delete": "Do you really want to remove {module} <{code}>?"
     }
   }

@@ -2,7 +2,7 @@
 	<div class="container-table">
 		<div class="container-table_header">
       <div class="name-table">
-        <h1>{{ $t('page.depot') }}</h1>
+        <h1>{{ $t('page.commodityGroup') }}</h1>
 				<router-link to="/inventory" class="prev_page">
 					<div class="prev_page-icon"></div>
 					<div class="prev_page-text">{{ $t('common.back') }}</div>
@@ -14,7 +14,7 @@
 					<button class="import toggle-list">
             <i class="icon"></i>
             <div class="table-list_action">
-              <div @click="Base.downloadFromUrl(`${environment.IMAGE_API}/Excel/Template/depot.xlsx`)" class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
+              <div @click="Base.downloadFromUrl(`${environment.IMAGE_API}/Excel/Template/commodityGroup.xlsx`)" class="list_action-item"><i class="i excel"></i> {{ $t('common.export_sample') }}</div>
               <div @click="Base.showDialog()" :title="$t('common.import')" class="list_action-item"><i class="i excel"></i> {{ $t('common.import') }}</div>
             </div>
           </button>
@@ -25,10 +25,10 @@
 			<div class="table-function sticky">
 				<div class="form-fix">
           <div class="search-table">
-            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_depot_code_name')"/>
+            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_commodityGroup_code_name')"/>
             <div class="icon-search"></div>
           </div>
-          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Depot"></base-form-key-search>
+          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.CommodityGroup"></base-form-key-search>
         </div>
 				<div style="min-width: 350px;" class="table-function_search">
           <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
@@ -43,8 +43,8 @@
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-depot :Base="Base">
-        </form-depot>
+        <form-commodity-group :Base="Base" :optionCommodityGroup="optionCommodityGroup">
+        </form-commodity-group>
       </base-modal-form>
       <base-modal-form v-if="Base.isShowDialog">
         <base-import-excel :Base="Base">
@@ -59,21 +59,35 @@
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
 import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel } from '@/core/public_component';
-import FormDepot from './FormDepot.vue';
-import { reactive, onBeforeMount, onUnmounted, onMounted } from 'vue';
+import FormCommodityGroup from './FormCommodityGroup.vue';
+import { reactive, onBeforeMount, onUnmounted, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { environment } from '@/environments/environment.prod';
-import DepotApi from '@/api/module/depot';
+import CommodityGroupApi from '@/api/module/commodityGroup';
 
 const { t } = useI18n();
+
 /**
  * Khai báo các api của module
  * Khắc Tiềm 13-03-2023
  */
-const api:DepotApi = new DepotApi();
+const api:CommodityGroupApi = new CommodityGroupApi();
 
 /** Sử dụng base thư viện Grid đã viết */
-const Base:Grid = reactive(new Grid(ModuleName.Depot, api));
+const Base:Grid = reactive(new Grid(ModuleName.CommodityGroup, api));
+
+/** Dữ liệu dropdown nhóm vật tư hàng hoá, dịch vuh */
+const optionCommodityGroup: any = ref([]);
+
+/**
+ * Hàm load dữ liệu đổ vào dropdowns combobox
+ * NK Tiềm 08.03.2023
+ */
+ function loadDropDown(){
+  Base.apiService.callApi(api.getDropdown, null, async (response: any) => { 
+    optionCommodityGroup.value = Base.listToTree(response, "commodityGroupID");
+  });
+}
 
 /**
  * Trước khi mounted sẽ load dữ liệu 1 lần
@@ -82,6 +96,8 @@ const Base:Grid = reactive(new Grid(ModuleName.Depot, api));
 onBeforeMount(() => {
 	Base.loadData({ v_Offset: Base.recordSelectPaging, v_Limit: Base.PageSize, v_Where: Base.keyword });
   Base.OptionCheck = false;
+  Base.tree = 'commodityGroupID';
+  loadDropDown();
 });
 
 /**
@@ -105,7 +121,7 @@ function handleClickActionColumTable(action: any, recordId: any, recordCode: any
 }
 
 /**
- *  Hàm thực hiện hỏi xoá một bản ghi 
+ * Hàm thực hiện hỏi xoá một bản ghi 
  * Khắc Tiềm - 08.03.2023
 */
 function questionDeleteRecordApi(recordId: any, recordCode:any ){

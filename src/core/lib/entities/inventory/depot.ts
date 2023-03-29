@@ -1,7 +1,7 @@
 import { BaseEntity } from "../base_entities";
 
 /**
- * đơn vị
+ * Kho
  */
 export class Depot extends BaseEntity{
 

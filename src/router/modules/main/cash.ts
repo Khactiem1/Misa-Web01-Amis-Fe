@@ -5,7 +5,7 @@ const router: any = [
      * Khắc Tiềm - 08.03.2023
      * */
     path: '/cash',
-    component: () => import('../../../views/main/cash/cash-main/CashMain.vue'),
+    component: () => import('../../../views/main/cash/cashMain/CashMain.vue'),
     meta: { title: 'page.cash_main' }
   },
   {

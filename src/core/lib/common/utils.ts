@@ -50,6 +50,12 @@ export class Utils extends UtilsComponents{
   /** Name file excel */
   public fileNameExcel: any = ref<string>('');
 
+  /**Chia cây */
+  public tree: any = undefined;
+
+  /**Chia cây */
+  public showTotalColumn: boolean = false;
+
   /**
   * lưu lại giá trị các phím bấm tắt không ngắt quãng
   * NK Tiềm 08.03.2023
