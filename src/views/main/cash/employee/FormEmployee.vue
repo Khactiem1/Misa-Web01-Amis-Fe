@@ -83,6 +83,7 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
+                :maxLength="100"
                 :label="$t('module.cash.employeeTitle')"
                 v-model="employee.employeeTitle"
               ></base-input>
@@ -124,6 +125,7 @@
               <div class="form-group ms-big">
                 <base-input
                   :type="'text'"
+                  :maxLength="80"
                   :label="$t('module.cash.identityCard_small')"
                   :toolTip="$t('module.cash.identityCard')"
                   v-model="employee.identityCard"
@@ -141,6 +143,7 @@
             </div>
             <div class="form-group">
               <base-input
+                :maxLength="255"
                 :type="'text'"
                 :label="$t('module.cash.grantAddressIdentity_small')"
                 v-model="employee.grantAddressIdentity"
@@ -152,6 +155,7 @@
           <div class="form-group">
             <base-input
               :type="'text'"
+              :maxLength="255"
               :label="$t('common.address')"
               v-model="employee.employeeAddress"
             ></base-input>
@@ -162,6 +166,7 @@
                 :type="'text'"
                 :label="$t('module.cash.phoneNumber_small')"
                 :toolTip="$t('module.cash.phoneNumber')"
+                :maxLength="50"
                 :isPhone="true"
                 :messageValid="t('validate.malformed', { field: t('common.phoneNumber') })"
                 v-model="employee.phoneNumber"
@@ -173,6 +178,7 @@
                 :label="$t('module.cash.fixed_phone_small')"
                 :toolTip="$t('module.cash.fixed_phone')"
                 :isPhone="true"
+                :maxLength="50"
                 :messageValid="t('validate.malformed', { field: t('module.cash.landlinePhone') })"
                 v-model="employee.landlinePhone"
               ></base-input>
@@ -182,6 +188,7 @@
                 :type="'text'"
                 :label="$t('common.email')"
                 :isEmail="true"
+                :maxLength="100"
                 :messageValid="t('validate.malformed', { field: t('module.cash.employeeEmail') })"
                 v-model="employee.employeeEmail"
               ></base-input>
@@ -191,6 +198,7 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
+                :maxLength="80"
                 :label="$t('module.cash.bankAccount')"
                 v-model="employee.bankAccount"
               ></base-input>
@@ -198,6 +206,7 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
+                :maxLength="100"
                 :label="$t('module.cash.nameBank')"
                 v-model="employee.nameBank"
               ></base-input>
@@ -205,6 +214,7 @@
             <div class="form-group">
               <base-input
                 :type="'text'"
+                :maxLength="255"
                 :label="$t('module.cash.branchBank_small')"
                 v-model="employee.branchBank"
               ></base-input>

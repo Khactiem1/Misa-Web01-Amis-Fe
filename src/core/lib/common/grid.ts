@@ -47,7 +47,8 @@ export class Grid extends Utils{
    */
 
   /** Hàm load dữ liệu lên table 
-   * Khắc Tiềm - 08.03.2023*/
+   * Khắc Tiềm - 08.03.2023
+   * */
   public loadData = async (filter: any = undefined) => {
     try{
       if(filter && filter.resetPage){
@@ -256,7 +257,9 @@ export class Grid extends Utils{
         this.fileExcel.value = null;
         this.fileNameExcel.value = null;
         const elm:any = document.getElementById("fileExcel");
-        elm.value = null;
+        if(elm){
+          elm.value = null;
+        }
         this.closeDialog();
         this.addNotification(ENotificationType.Success, i18n.global.t('message.api.import_success'));
         this.recordSelectPaging.value = 0; 
