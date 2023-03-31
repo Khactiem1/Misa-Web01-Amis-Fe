@@ -98,7 +98,15 @@
     "chose_file": "Hãy chọn file",
     "data": "Dữ liệu",
     "description": "Mô tả",
-    "delivery": "Địa chỉ"
+    "delivery": "Địa chỉ",
+    "illegal": "Không hợp lệ",
+    "line_number": "Dòng số",
+    "detailed_error": "Chi tiết lỗi",
+    "import_result_from_file": "Kết quả nhập từ tệp",
+    "valid": "Hợp lệ",
+    "valid_record": "Hợp lệ {record} bản ghi",
+    "illegal_record": "Không hợp lệ {record} bản ghi",
+    "all_record": "Tất cả {record} bản ghi"
   },
   "module": {
     "cash": {
@@ -166,7 +174,8 @@
       "commodityName": "Tên nhóm vật tư, hàng hoá, dịch vụ",
       "commodityCode_small": "Mã nhóm",
       "commodityName_small": "Tên nhóm",
-      "parentID": "Thuộc"
+      "parentID": "Thuộc",
+      "depotDelivery": "Địa chỉ"
     }
   },
   "validate": {
@@ -175,8 +184,10 @@
     "max_date_now": "{field} phải nhỏ hơn ngày hiện tại.",
     "malformed": "Không đúng định dạng {field}.",
     "unique": "{field} <{value}> đã tồn tại trong hệ thống.",
+    "unique_import": "{field} <{value}> bị trùng lặp trong tệp.",
     "commoditygroup_not_itself": "Nhóm vật tư hàng hoá không thể thuộc chính nó.",
-    "foreign_key": "Đã có dữ liệu phát sinh với bản ghi này. Bạn phải xóa các phát sinh liên quan trước khi xóa."
+    "foreign_key": "Đã có dữ liệu phát sinh với bản ghi này. Bạn phải xóa các phát sinh liên quan trước khi xóa.",
+    "max_length": "Độ dài {field} không được vượt quá ký {value} ký tự"
   },
   "calendar": {
     "year": "Năm",
@@ -215,7 +226,7 @@
       "notFoundData": "Không tìm thấy dữ liệu yêu cầu. Hãy tải lại dữ liệu",
       "import_fail": "Nhập từ tệp thất bại, kiểm tra lại tệp",
       "data_change": "Dữ liệu đã bị thay đổi, hãy tải lại dữ liệu và thử lại",
-      "import_success": "Nhập dữ liệu từ tệp thành công"
+      "import_success": "Đã nhập tệp, hãy xem chi tiết kết quả nhập tệp"
     },
     "crud": {
       "wanning_delete_all": "Bạn có thực sự muốn xoá toàn bộ bản ghi được chọn?",

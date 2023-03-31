@@ -1,4 +1,4 @@
-import type { Filter } from "@/core/public_api";
+import { ActionTable, type Filter } from "@/core/public_api";
 import axiosAPI from ".";
 
 export default class BaseApi{
@@ -70,7 +70,7 @@ export default class BaseApi{
    * @returns Chi tiết bản ghi
    * Khắc Tiềm - 08.03.2023
    */
-  public getRecordApi = (id: string) => {
+  public getRecordApi = (id: string, type: string = ActionTable.Edit) => {
     return axiosAPI.get(`/${this.Module}/${id}`);
   }
 

@@ -1,5 +1,5 @@
 import { UtilsComponents } from './utils_components';
-import { EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
+import { ENotificationType, EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
 import { useStore } from "vuex";
 import { ref } from "vue";
 
@@ -32,6 +32,9 @@ export class Utils extends UtilsComponents{
   /** Biến trạng thái ẩn hiện modal thêm sửa */
   public isShowModal:any = ref(false);
 
+  /** Biến lưu trạng thái hiển thị form result excel */
+  public isShowResultExcel:any = ref(false);
+
   /** trạng thái form */
   public StateForm: any = ref('');
 
@@ -55,6 +58,12 @@ export class Utils extends UtilsComponents{
 
   /**Chia cây */
   public showTotalColumn: boolean = false;
+
+  /** Kết quả nhập tệp */
+  public resultExcel: any = ref({
+    listFail: [],
+    listPass: [],
+  });
 
   /**
   * lưu lại giá trị các phím bấm tắt không ngắt quãng
@@ -231,11 +240,43 @@ export class Utils extends UtilsComponents{
     this.isShowDialog.value = false;
   }
 
+  /** 
+   * Hàm mở dialog
+   * NK Tiềm 08.03.2023
+   */
+  public showResultExcel = () => {
+    this.isShowResultExcel.value = true;
+  }
+
+  /** 
+   * Hàm đóng dialog
+   * NK Tiềm 08.03.2023
+   */
+  public closeResultExcel = () => {
+    this.isShowResultExcel.value = false;
+  }
+
   /**
    * Hàm mở download file từ url
    * Khắc Tiềm - 08.03.2023
    */
   public downloadFromUrl = (url: any) => {
     window.open(url,);
+  }
+
+  /**
+   * Hàm chuyển chữ cái đầu thành chữ thường
+   * Khắc Tiềm - 08.03.2023
+   */
+  public lowercaseFirstLetter = (str: string): string => {
+    return str.charAt(0).toLowerCase() + str.slice(1);
+  }
+
+  /** Hàm thực hiện set dữ liệu excel sau khi import */
+  public setResultExcel = (data: any = {
+    listFail: [],
+    listPass: [],
+  }) => {
+    this.resultExcel.value = data;
   }
 }

@@ -177,9 +177,9 @@
                 :type="'text'"
                 :label="$t('module.cash.fixed_phone_small')"
                 :toolTip="$t('module.cash.fixed_phone')"
-                :isPhone="true"
-                :maxLength="50"
                 :messageValid="t('validate.malformed', { field: t('module.cash.landlinePhone') })"
+                :maxLength="50"
+                :isPhone="true"
                 v-model="employee.landlinePhone"
               ></base-input>
             </div>
@@ -187,9 +187,9 @@
               <base-input
                 :type="'text'"
                 :label="$t('common.email')"
-                :isEmail="true"
-                :maxLength="100"
                 :messageValid="t('validate.malformed', { field: t('module.cash.employeeEmail') })"
+                :maxLength="100"
+                :isEmail="true"
                 v-model="employee.employeeEmail"
               ></base-input>
             </div>
@@ -288,15 +288,9 @@ onBeforeMount(() => {
     employee.value.employeeCode = props.Base.RecordCode;
     employeeComparison.value.employeeCode = props.Base.RecordCode;
   }
-  else if(props.Base.StateForm === ActionTable.Edit){
-    employee.value = {...props.Base.RecordEdit};
-    employeeComparison.value = {...props.Base.RecordEdit};
-  }
   else{
     employee.value = {...props.Base.RecordEdit};
-    employee.value.employeeCode = props.Base.RecordCode;
     employeeComparison.value = {...props.Base.RecordEdit};
-    employeeComparison.value.employeeCode = props.Base.RecordCode;
   }
 })
 
@@ -361,11 +355,11 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     errorApi.value = false;
     props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
   },false , (res: ServiceResponse) => {
-    if(res.data.userMsg === 'validate.unique') {
+    if(res.data.userMsg && res.data.userMsg === 'validate.unique') {
       props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("module.cash.employeeCode"), value: employee.value.employeeCode}))
     }
-    else {
-      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("common.data")}))
+    else{
+      props.Base.addNotificationCRUD(res.data.userMsg, 'module.cash');
     }
   });
 }

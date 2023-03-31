@@ -19,15 +19,15 @@
             >
             <template #item="{ element }">
               <th :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
-                <span style="display: flex;" :class="element.TypeFormat.TextAlign" @click="handleSetSortColumn(element.FieldSelect)">
+                <span style="display: flex;" :class="`${element.TypeFormat.TextAlign}`" @click="handleSetSortColumn(element.FieldSelect)">
                   <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
-                  <div v-if="element.FieldSelect === sortBy.split(' ')[0]" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
+                  <div v-if="element.FieldSelect === sortBy.split(' ')[0] && BaseComponent.hideFilter !== true" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
                 </span>
-                <div v-if="element.Filter" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
+                <div v-if="element.Filter && BaseComponent.hideFilter !== true" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
               </th>
             </template>
             </draggable>
-            <th style="width: 120px; min-width: 120px" class="text-center fix">
+            <th v-if="BaseComponent.hideAction !== true" style="width: 120px; min-width: 120px" class="text-center fix">
               {{ $t('common.function') }}
             </th>
           </tr>
@@ -44,7 +44,7 @@
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="index === 0 ? 'position: unset;' : ''" :class="col.TypeFormat.TextAlign"
+            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="index === 0 ? 'position: unset;' : ''" :class="`${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''}`"
                :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
                 {{ formatData(col.TypeFormat, row[col.Field]) }}
@@ -55,7 +55,7 @@
                   <base-checkbox :checked="row[col.Field]" :lockCheckBox="col.TypeFormat.LockCheckBox"> </base-checkbox>
               </div>
             </td>
-            <td class="text-center">
+            <td v-if="BaseComponent.hideAction !== true" class="text-center fix">
               <div class="action-colum_table">
                 <button @click=" handleCloseAction(); handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId]);"
                   class="action-table action-table_left" >
@@ -101,7 +101,7 @@
       </table>
     </div>
   </div>
-  <div v-if="BaseComponent.recordList.length !== 0" class="paging-container sticky">
+  <div v-if="BaseComponent.recordList.length !== 0 && BaseComponent.totalCount" class="paging-container sticky">
     <div class="total-record">
       {{ $t('common.total') }}: <strong>{{ BaseComponent.totalCount }}</strong> {{ $t('common.record') }}
     </div>
@@ -223,7 +223,10 @@ export default defineComponent({
       : typeFormat.CheckBox === true
       ? ''
       : typeFormat.IsImage === true
-      ? '' :data
+      ? '' 
+      :typeFormat.FormatServiceResponseI18n === true
+      ? BaseComponent.value.formatServiceResponse(data, BaseComponent.value.ModuleI18n)
+      :data
     }
     
     /**
@@ -274,13 +277,15 @@ export default defineComponent({
      */
     async function handleSetSortColumn (field: any){
       try {
-        await store.dispatch(`${BaseComponent.value.Module}/setFilterCustomSearchSortAction`, field).then((res: any)=> {
-          if(res){
-            sortBy.value = res;
-          }
-          else sortBy.value = '';
-        });
-        BaseComponent.value.loadData(true);
+        if(BaseComponent.value.hideFilter !== true){
+          await store.dispatch(`${BaseComponent.value.Module}/setFilterCustomSearchSortAction`, field).then((res: any)=> {
+            if(res){
+              sortBy.value = res;
+            }
+            else sortBy.value = '';
+          });
+          BaseComponent.value.loadData(true);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -470,6 +475,9 @@ table {
   text-transform: uppercase;
   vertical-align: middle;
 }
+.table .thead-light th span span{
+  color: var(--text__color) !important;
+}
 .table .thead-light th span{
   cursor: pointer;
   display: flex;
@@ -530,8 +538,8 @@ tbody tr.active,
   z-index: 3;
 }
 .table .thead-light th.fix:last-child,
-.table tbody th:last-child,
-.table tbody td:last-child {
+.table tbody th.fix:last-child,
+.table tbody td.fix:last-child {
   right: 15px !important;
 }
 .table .thead-light th.fix:last-child::before,
@@ -563,15 +571,15 @@ tbody tr.active,
 }
 .table .thead-light th.fix:last-child,
 .table .thead-light th.fix:first-child,
-.table tbody th:last-child,
+.table tbody th.fix:last-child,
 .table tbody th:first-child,
-.table tbody td:last-child,
+.table tbody td.fix:last-child,
 .table tbody td:first-child {
   position: -webkit-sticky;
   position: sticky;
 }
-.table tbody th:last-child,
-.table tbody td:last-child{
+.table tbody th.fix:last-child,
+.table tbody td.fix:last-child{
   background-color: aliceblue;
 }
 .column-sticky{
@@ -710,5 +718,11 @@ tbody tr.active,
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.common-illegal{
+  color: red;
+}
+.common-valid{
+  color: var(--primary__color);
 }
 </style>

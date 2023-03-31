@@ -98,7 +98,15 @@
     "chose_file": "Please chose file",
     "data": "Data",
     "description": "Description",
-    "delivery": "Delivery"
+    "delivery": "Delivery",
+    "illegal": "Illegal",
+    "line_number": "Line number",
+    "detailed_error": "Detailed error",
+    "import_result_from_file": "Import result from file",
+    "valid": "Valid",
+    "valid_record": "Valid {record} record",
+    "illegal_record": "Illegal {record} record",
+    "all_record": "All {record} record"
   },
   "module": {
     "cash": {
@@ -166,7 +174,8 @@
       "commodityName": "Group name of materials, goods and services",
       "commodityCode_small": "Group code",
       "commodityName_small": "Group name",
-      "parentID": "Belonging to"
+      "parentID": "Belonging to",
+      "depotDelivery": "Delivery"
     }
   },
   "validate": {
@@ -175,8 +184,10 @@
     "max_date_now": "{field} must be less than the current date.",
     "malformed": "Malformed {field}.",
     "unique": "{field} <{value}> already exist in the system.",
+    "unique_import": "{field} <{value}> duplicate in file.",
     "commoditygroup_not_itself": "The commodity group cannot belong to itself.",
-    "foreign_key": "There is already data generated with this record. You must delete related derivatives before deleting."
+    "foreign_key": "There is already data generated with this record. You must delete related derivatives before deleting.",
+    "max_length": "The length of {field} cannot exceed the character {value}"
   },
   "calendar": {
     "year": "Year",
@@ -215,7 +226,7 @@
       "notFoundData": "Requested data not found, Please reload data.",
       "import_fail": "Import from file failed, check file again",
       "data_change": "The data has been changed, download the data and try again",
-      "import_success": "Import data from file successfully"
+      "import_success": "Imported file, see file import result details"
     },
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",

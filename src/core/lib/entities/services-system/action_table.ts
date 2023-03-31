@@ -244,6 +244,9 @@ export class TypeFormat {
 
   /** Hình ảnh */
   public IsImage?: boolean = false;
+
+  /** Kiểu dữ liệu trả về từ backend cần format hiển thị */
+  public FormatServiceResponseI18n?: boolean = false;
 }
 
 /**

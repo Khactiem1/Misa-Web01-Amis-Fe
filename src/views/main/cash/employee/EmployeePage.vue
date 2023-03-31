@@ -50,12 +50,13 @@
 		</div>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-employee  :Base="Base" :optionBranch="optionBranch">
-        </form-employee>
+        <form-employee  :Base="Base" :optionBranch="optionBranch"> </form-employee>
       </base-modal-form>
       <base-modal-form v-if="Base.isShowDialog">
-        <base-import-excel :Base="Base">
-        </base-import-excel>
+        <base-import-excel :Base="Base"> </base-import-excel>
+      </base-modal-form>
+      <base-modal-form v-if="Base.isShowResultExcel">
+        <base-form-excel-result :ModuleI18n="'module.cash'" :Base="Base"></base-form-excel-result>
       </base-modal-form>
       <base-setting v-if="Base.isShowSettingTable" :columns="Base.columnSetting" :handleShowSettingTable="Base.handleShowSettingTable"
       ></base-setting>
@@ -65,7 +66,7 @@
 
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
-import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel } from '@/core/public_component';
+import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel, BaseFormExcelResult } from '@/core/public_component';
 import FormEmployee from './FormEmployee.vue';
 import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -125,10 +126,8 @@ async function customHandleOpenModal(action: any, recordId: any = undefined){
  */
 function handleClickActionColumTable(action: any, recordId: any, recordCode: any) {
 	try {
-		if (action == ActionTable.Edit) {
+		if (action == ActionTable.Edit || action ==  ActionTable.Replication) {
 			Base.openModal(action, recordId);
-		} else if (action == ActionTable.Replication) {
-      customHandleOpenModal(action, recordId);
 		} else if (action == ActionTable.Delete) {
 			questionDeleteRecordApi(recordId, recordCode);
 		} else if(action === ActionTable.StopUsing){

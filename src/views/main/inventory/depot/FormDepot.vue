@@ -176,8 +176,8 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     if(res.data.userMsg === 'validate.unique') {
       props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("module.inventory.depotCode"), value: depot.value.depotCode}))
     }
-    else {
-      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("common.data")}))
+    else{
+      props.Base.addNotificationCRUD(res.data.userMsg, 'module.inventory');
     }
   });
 }

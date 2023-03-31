@@ -187,7 +187,7 @@ export class Grid extends Utils{
     this.setStateForm(stateForm);
     if(recordId){
       await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
-        if(stateForm === ActionTable.Edit){
+        if(stateForm === ActionTable.Edit || stateForm === ActionTable.Replication){
           this.RecordCode = null;
         }
         this.RecordEdit = response;
@@ -253,7 +253,11 @@ export class Grid extends Utils{
    */
   public uploadExcel = () => {
     if (this.fileExcel.value) {
-      this.apiService.callApi(this.api.uploadExcel, this.fileExcel.value, () => { 
+      this.apiService.callApi(this.api.uploadExcel, this.fileExcel.value, (res: any) => { 
+        if(res){
+          this.setResultExcel(res);
+          this.showResultExcel();
+        }
         this.fileExcel.value = null;
         this.fileNameExcel.value = null;
         const elm:any = document.getElementById("fileExcel");
@@ -280,5 +284,42 @@ export class Grid extends Utils{
       recordList: [],
       totalCount: 0,
     });
+  }
+
+  /**
+   * Hàm xử lý show thông báo khi có lỗi xảy ra thêm sửa xoá
+   * Khắc Tiềm - 08.03.2023
+   */
+  public addNotificationCRUD = (message: any, module: string = 'common') => {
+    this.addNotification(ENotificationType.Error, this.formatServiceResponse(message, module));
+  }
+
+  /**
+   * Hàm xử lý format dữ liệu trả về từ backend
+   * Khắc Tiềm - 08.03.2023
+   */
+  public formatServiceResponse = (message: any, module: string = 'common') => {
+    const label = 0;
+    const field = 1;
+    const value = 2;
+    if(message && message != ''){
+      const data = message.split(' MESSAGE.VALID.SPLIT ');
+      if(data.length === 2){
+        const messField = !(i18n.global.t(`${module}.${this.lowercaseFirstLetter(data[field])}`) === `${module}.${this.lowercaseFirstLetter(data[field])}`) ?
+         `${module}.${this.lowercaseFirstLetter(data[field])}` : `common.${this.lowercaseFirstLetter(data[field])}`
+        return i18n.global.t(data[label], {field: i18n.global.t(messField)});
+      }
+      else if(data.length === 3){
+        const messField = !(i18n.global.t(`${module}.${this.lowercaseFirstLetter(data[field])}`) === `${module}.${this.lowercaseFirstLetter(data[field])}`) ?
+         `${module}.${this.lowercaseFirstLetter(data[field])}` : `common.${this.lowercaseFirstLetter(data[field])}`
+        return i18n.global.t(data[label], {field: i18n.global.t(messField), value: data[value]});
+      }
+      else{
+        return i18n.global.t(message);
+      }
+    }
+    else{
+      return ''
+    }
   }
 }
