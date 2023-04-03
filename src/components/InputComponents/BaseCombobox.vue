@@ -321,7 +321,7 @@ export default defineComponent({
         });
         if (checkModelValueCoincideValue === false) {
           inputEvent.value = '';
-          valueClick.value = null;
+          valueClick.value = undefined;
         }
         if (required.value) {
           isValid.value = false;
@@ -337,7 +337,7 @@ export default defineComponent({
       }
       else{
         inputEvent.value = '';
-        valueClick.value = null;
+        valueClick.value = undefined;
       }
     });
 
@@ -717,6 +717,7 @@ export default defineComponent({
   border: solid 1px var(--border__input);
   display: flex;
   flex-wrap: wrap;
+  border-radius: 2px;
   padding: 0 37px 0px 10px;
 }
 .combobox-select.add-icon{

@@ -68,37 +68,49 @@ export enum KeyCode {
 
   /** Phím F1 */
   F1 = 112,
+
+  /** Phím Delete */
+  Delete = 46,
+
+  /** Phím 1 */
+  Num1 = 49,
+
+  /** Phím 1 */
+  NumLock1 = 97,
 }
 
+/**
+ * Các loại kiểu vật tư hàng hoá
+ * Khắc Tiềm - 08.03.2023
+ */
 export enum Nature {
-  /// <summary>
-  /// Hàng hoá
-  /// Created by : Khắc Tiềm 21.09.2022
-  /// </summary>
+  /** Hàng hoá */
   Goods = 1,
 
-  /// <summary>
-  /// Dịch vụ
-  /// Created by : Khắc Tiềm 21.09.2022
-  /// </summary>
-
+  /** Dịch vụ */
   Service = 2,
 
-  /// <summary>
-  /// Nguyên vật liệu
-  /// Created by : Khắc Tiềm 21.09.2022
-  /// </summary>
+  /** Nguyên vật liệu */
   Materials = 3,
 
-  /// <summary>
-  /// Thành phẩm
-  /// Created by : Khắc Tiềm 21.09.2022
-  /// </summary>
+  /** Thành phẩm */
   FinishedProduct = 4,
 
-  /// <summary>
-  /// Dụng cụ công cụ
-  /// Created by : Khắc Tiềm 21.09.2022
-  /// </summary>
+  /** Dụng cụ công cụ */
   ToolTools = 5,
+}
+
+/**
+ * Giảm thuế
+ * Khắc Tiềm - 08.03.2023
+ */
+export enum DepreciatedTax {
+  /** Không xác định */
+  undefined = 1,
+
+  /** Không giảm thuế */
+  no_tax_reduction = 2,
+
+  /** Giảm thuế */
+  tax_reduction = 3
 }

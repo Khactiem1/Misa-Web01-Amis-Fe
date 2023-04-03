@@ -10,7 +10,7 @@
       </div>
       <div class="action-table">
         <div class="btn-add">
-					<button @click="customHandleOpenModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
+					<button @click="customHandleOpenModal(ActionTable.Add)" title="Ctrl + 1" class="add">{{ $t('common.add') }}</button>
 					<button class="import toggle-list">
             <i class="icon"></i>
             <div class="table-list_action">
@@ -66,13 +66,12 @@
 
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
-import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel, BaseFormExcelResult } from '@/core/public_component';
-import FormEmployee from './FormEmployee.vue';
-import { reactive , ref, onBeforeMount, onUnmounted, onMounted } from 'vue';
+import { reactive , ref, onBeforeMount, onUnmounted, onMounted, defineAsyncComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { environment } from '@/environments/environment.prod';
 import EmployeeApi from '@/api/module/employee';
 import BranchApi from '@/api/module/branch';
+const FormEmployee = defineAsyncComponent(() => import('./FormEmployee.vue'))
 
 const { t } = useI18n();
 /**
@@ -80,7 +79,7 @@ const { t } = useI18n();
  * Khắc Tiềm 13-03-2023
  */
 const api:EmployeeApi = new EmployeeApi();
-const apiDropdown:BranchApi = new BranchApi();
+const apiDropdown = new BranchApi().getDropdown;
 
 /** Sử dụng base thư viện Grid đã viết */
 const Base:Grid = reactive(new Grid(ModuleName.Employee, api));
@@ -93,7 +92,7 @@ const optionBranch: any = ref([]);
  * NK Tiềm 08.03.2023
  */
 function loadDropDown(){
-  Base.apiService.callApi(apiDropdown.getDropdown, null, async (response: any) => { optionBranch.value = response;});
+  Base.apiService.callApi(apiDropdown, null, async (response: any) => { optionBranch.value = response;});
 }
 
 /**
@@ -152,7 +151,9 @@ function questionDeleteRecordApi(recordId: any, recordCode:any ){
 */
 function handleQuestionDeleteAll() {
 	try {
-    Base.showNotificationWanning(Base.deleteAll, t('message.crud.wanning_delete_all'));
+    if(Base.checkShowActionSeries.length > 0){
+      Base.showNotificationWanning(Base.deleteAll, t('message.crud.wanning_delete_all'));
+    }
 	} catch (e) {
 		console.log(e);
 	}
@@ -163,7 +164,8 @@ function handleQuestionDeleteAll() {
  * NK Tiềm 08.03.2023
  */
 function handleKey(event: any){
-	Base.handleEventCtrlAltA(event, customHandleOpenModal, ActionTable.Add)
+	Base.handleEventCtrlNum1(event, customHandleOpenModal, ActionTable.Add)
+	Base.handleEventShiftDelete(event, handleQuestionDeleteAll)
 }
 
 /** 
@@ -172,7 +174,8 @@ function handleKey(event: any){
  */
 onMounted(() => {
 	window.addEventListener("keydown", handleKey);
-	window.addEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+	window.addEventListener("keyup", Base.handleEventInterruptCtrlNum1);
+	window.addEventListener("keyup", Base.handleEventInterruptShiftDelete);
 })
 
 /** 
@@ -180,7 +183,8 @@ onMounted(() => {
  * Khắc Tiềm - 08.03.2023
  */
 onUnmounted(() =>{
-	window.removeEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+	window.removeEventListener("keyup", Base.handleEventInterruptCtrlNum1);
+	window.removeEventListener("keyup", Base.handleEventInterruptShiftDelete);
 	window.removeEventListener("keydown", handleKey);
   Base.setEmptyData();
 })

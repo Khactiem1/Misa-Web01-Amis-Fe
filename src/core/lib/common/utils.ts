@@ -53,6 +53,12 @@ export class Utils extends UtilsComponents{
   /** Name file excel */
   public fileNameExcel: any = ref<string>('');
 
+  /** Name size excel */
+  public fileSize: any = ref<number>();
+
+  /** Name size tối đa có thể chọn, mặc định là 20mb */
+  public fileSizeMax: any = ref<number>(20971520);
+
   /**Chia cây */
   public tree: any = undefined;
 
@@ -76,6 +82,18 @@ export class Utils extends UtilsComponents{
   * NK Tiềm 08.03.2023
   */
   public EventCtrlShiftS: any [] = [];
+
+  /**
+  * lưu lại giá trị các phím bấm tắt không ngắt quãng
+  * NK Tiềm 08.03.2023
+  */
+  public EventShiftDelete: any [] = [];
+
+  /**
+  * lưu lại giá trị các phím bấm tắt không ngắt quãng
+  * NK Tiềm 08.03.2023
+  */
+  public EventCtrlNum1: any [] = [];
 
   /**
    * Hàm khởi tạo lấy ra page size
@@ -106,18 +124,12 @@ export class Utils extends UtilsComponents{
       if (!this.EventCtrlAltA.includes(event.keyCode)) {
         this.EventCtrlAltA.push(event.keyCode);
         if (this.EventCtrlAltA.length === 3) {
+          event.preventDefault(); 
           // Khi bấm đủ 3 phím sẽ kích hoạt hành động nhấn
           this.EventCtrlAltA.length = 0;
           handle(dataHandle);
         }
       }
-    }
-  }
-
-  /** Hàm xử lý bấm phím F1 */
-  public handleEventF1 = (event: any, handle: Function, dataHandle: any = undefined) => {
-    if ( event.keyCode === KeyCode.F1){
-      handle(dataHandle);
     }
   }
 
@@ -134,17 +146,87 @@ export class Utils extends UtilsComponents{
   }
 
   /**
+  * Hàm xử lý các event nút bấm tắt Ctrl Num1
+  * NK Tiềm 08.03.2023
+  */
+  public handleEventCtrlNum1 = (event: any, handle: Function, dataHandle: any = undefined) => {
+    if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Num1 || event.keyCode === KeyCode.NumLock1 ) {
+      if (!this.EventCtrlNum1.includes(event.keyCode)) {
+        this.EventCtrlNum1.push(event.keyCode);
+        if (this.EventCtrlNum1.length === 2) {
+          event.preventDefault(); 
+          // Khi bấm đủ 2 phím sẽ kích hoạt hành động nhấn
+          this.EventCtrlNum1.length = 0;
+          handle(dataHandle);
+        }
+      }
+    }
+  }
+
+  /**
+  * Hàm xử lý khi các phím tắt bấm bị ngắt quãng thì hành động sẽ k đc thực hiện Ctrl Num1
+  * NK Tiềm 08.03.2023
+  */
+  public handleEventInterruptCtrlNum1 = (event: any) => {
+    if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Num1 || event.keyCode === KeyCode.NumLock1 ) {
+      if (this.EventCtrlNum1.includes(event.keyCode)) {
+        this.EventCtrlNum1.length = 0;
+      }
+    }
+  }
+
+  /**
+  * Hàm xử lý các event nút bấm tắt shift delete
+  * NK Tiềm 08.03.2023
+  */
+  public handleEventShiftDelete = (event: any, handle: Function, dataHandle: any = undefined) => {
+    if ( event.keyCode === KeyCode.Shift || event.keyCode === KeyCode.Delete ) {
+      if (!this.EventShiftDelete.includes(event.keyCode)) {
+        this.EventShiftDelete.push(event.keyCode);
+        if (this.EventShiftDelete.length === 2) {
+          event.preventDefault(); 
+          // Khi bấm đủ 2 phím sẽ kích hoạt hành động nhấn
+          this.EventShiftDelete.length = 0;
+          handle(dataHandle);
+        }
+      }
+    }
+  }
+
+  /**
+  * Hàm xử lý khi các phím tắt bấm bị ngắt quãng thì hành động sẽ k đc thực hiện Shift delete
+  * NK Tiềm 08.03.2023
+  */
+  public handleEventInterruptShiftDelete = (event: any) => {
+    if ( event.keyCode === KeyCode.Shift || event.keyCode === KeyCode.Delete) {
+      if (this.EventShiftDelete.includes(event.keyCode)) {
+        this.EventShiftDelete.length = 0;
+      }
+    }
+  }
+
+  /** Hàm xử lý bấm phím F1 */
+  public handleEventF1 = (event: any, handle: Function, dataHandle: any = undefined) => {
+    if ( event.keyCode === KeyCode.F1){
+      event.preventDefault(); 
+      handle(dataHandle);
+    }
+  }
+
+  /**
   * Hàm xử lý các event nút bấm tắt Ctrl Shift S
   * NK Tiềm 08.03.2023
   */
   public handleEventFormCtrlShiftS = (event: any, handleEsc: Function, dataEsc: any, handleCtrlShiftS: Function, dataCtrlShiftS: any, handleCtrlS: Function, dataCtrlS: any) => {
     if (event.keyCode === KeyCode.Esc) {
+      event.preventDefault(); 
       handleEsc(dataEsc);
     } 
     else if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Shift || event.keyCode === KeyCode.S ) {
       if (!this.EventCtrlShiftS.includes(event.keyCode)) {
         this.EventCtrlShiftS.push(event.keyCode);
         if (this.EventCtrlShiftS.length === 3) {
+          event.preventDefault(); 
           // Khi bấm đủ 3 phím sẽ kích hoạt hành động nhấn
           this.EventCtrlShiftS.length = 0;
           handleCtrlShiftS(dataCtrlShiftS);
@@ -272,11 +354,49 @@ export class Utils extends UtilsComponents{
     return str.charAt(0).toLowerCase() + str.slice(1);
   }
 
-  /** Hàm thực hiện set dữ liệu excel sau khi import */
+  /** 
+   * Hàm thực hiện set dữ liệu excel sau khi import 
+   * Khắc Tiềm - 08.03.2023
+  */
   public setResultExcel = (data: any = {
     listFail: [],
     listPass: [],
   }) => {
     this.resultExcel.value = data;
+  }
+
+  /** 
+   * Hàm thực hiện tính kích thước file
+   * Khắc Tiềm - 08.03.2023
+  */
+  public calcFile = (fileSize: any) => {
+    if (fileSize < 1024) { // nếu dung lượng < 1KB
+      return fileSize + ' bytes'
+    } else if (fileSize >= 1024 && fileSize < 1024 * 1024) { // nếu dung lượng < 1MB
+      return (fileSize / 1024).toFixed(2) + ' KB'
+    } else { // nếu dung lượng >= 1MB
+      return (fileSize / (1024 * 1024)).toFixed(2) + ' MB'
+    }
+  }
+
+  /**
+   * Xoá file excel đã chọn
+   * Khắc Tiềm - 08.03.2023
+   */
+  public removeFileExcel = () => {
+    this.fileExcel.value = null;
+    this.fileNameExcel.value = null;
+    const elm:any = document.getElementById("fileExcel");
+    if(elm){
+      elm.value = null;
+    }
+  }
+
+  /**
+   * Hàm set kích thước file tối đa có thể nhận từ excel
+   * Khắc Tiềm - 08.03.2023
+   */
+  public setFileSizeMax = (value: number) => {
+    this.fileSizeMax.value = value;
   }
 }

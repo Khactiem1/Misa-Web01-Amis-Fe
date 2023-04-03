@@ -10,28 +10,28 @@ let columns: Header [] = [
     "depot.DepotCode",
     'module.inventory.depotCode',
     "300",
-    { typeSearch: TypeSearch.Text, columnSearch: "DepotCode" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'module.inventory.depotCode'}
+    { typeSearch: TypeSearch.Text, columnSearch: "depot.DepotCode" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'module.inventory.depotCode'}
   ),
   new Header(
     "depotName",
     "depot.DepotName",
     'module.inventory.depotName',
     "400",
-    { typeSearch: TypeSearch.Text, columnSearch: "DepotName" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'module.inventory.depotName'},
+    { typeSearch: TypeSearch.Text, columnSearch: "depot.DepotName" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'module.inventory.depotName'},
   ),
   new Header(
     "depotDelivery",
     "depot.DepotDelivery",
     'common.delivery',
     "545",
-    { typeSearch: TypeSearch.Text, columnSearch: "DepotDelivery" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'common.delivery',},
+    { typeSearch: TypeSearch.Text, columnSearch: "depot.DepotDelivery" , typeFilter: TypeFilter.Text, module: ModuleName.Depot, headerSearch: 'common.delivery',},
   ),
   new Header(
     "isActive",
     "depot.IsActive",
     'common.status',
     "300",
-    { typeSearch: TypeSearch.Number, columnSearch: "IsActive" , typeFilter: TypeFilter.Combobox, data: [
+    { typeSearch: TypeSearch.Number, columnSearch: "depot.IsActive" , typeFilter: TypeFilter.Combobox, data: [
       { value: '', header: 'common.all' },
       { value: 'true', header: 'common.using' },
       { value: 'false', header: 'common.stopUsing' },

@@ -15,7 +15,7 @@ export class Employee extends BaseEntity{
   public employeeName: string = '';
 
   /** ID đơn vị */
-  public branchID: string = '';
+  public branchID?: string = undefined;
 
   /** Mã đơn vị */
   public branchCode: string = '';

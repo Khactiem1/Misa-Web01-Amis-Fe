@@ -10,21 +10,21 @@ let columns: Header [] = [
     "commoditygroup.CommodityCode",
     'module.inventory.commodityCode',
     "400",
-    { typeSearch: TypeSearch.Text, columnSearch: "CommodityCode" , typeFilter: TypeFilter.Text, module: ModuleName.CommodityGroup, headerSearch: 'module.inventory.commodityCode'}
+    { typeSearch: TypeSearch.Text, columnSearch: "commoditygroup.CommodityCode" , typeFilter: TypeFilter.Text, module: ModuleName.CommodityGroup, headerSearch: 'module.inventory.commodityCode'}
   ),
   new Header(
     "commodityName",
     "commoditygroup.CommodityName",
     'module.inventory.commodityName',
     "843",
-    { typeSearch: TypeSearch.Text, columnSearch: "CommodityName" , typeFilter: TypeFilter.Text, module: ModuleName.CommodityGroup, headerSearch: 'module.inventory.commodityName'},
+    { typeSearch: TypeSearch.Text, columnSearch: "commoditygroup.CommodityName" , typeFilter: TypeFilter.Text, module: ModuleName.CommodityGroup, headerSearch: 'module.inventory.commodityName'},
   ),
   new Header(
     "isActive",
     "commoditygroup.IsActive",
     'common.status',
     "300",
-    { typeSearch: TypeSearch.Number, columnSearch: "IsActive" , typeFilter: TypeFilter.Combobox, data: [
+    { typeSearch: TypeSearch.Number, columnSearch: "commoditygroup.IsActive" , typeFilter: TypeFilter.Combobox, data: [
       { value: '', header: 'common.all' },
       { value: 'true', header: 'common.using' },
       { value: 'false', header: 'common.stopUsing' },

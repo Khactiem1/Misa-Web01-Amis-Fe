@@ -20,12 +20,19 @@ export default class BaseStore {
   /** Các hành động của table */
   public ActionTable: any = {};
 
-  constructor(module: string = '', columns: Header [] = [], mutations: object = {}, actions: object = {}, actionTable: object = {}){
+  /**
+   * Hàm custom tham số filter nhận được từ api
+   * Khắc Tiềm - 08.03.2023
+   */
+  public SetRecordList?: Function = undefined;
+
+  constructor(module: string = '', columns: Header [] = [], mutations: object = {}, actions: object = {}, actionTable: object = {}, setRecordList: any = undefined){
     this.Module = module;
     this.Columns = columns;
     this.Mutations = mutations;
     this.Actions = actions;
     this.ActionTable = actionTable;
+    this.SetRecordList = setRecordList;
 
     /** Sau khi gán khởi tạo xong thì giải phóng bộ nhớ */
     setTimeout(() => {
@@ -93,9 +100,12 @@ export default class BaseStore {
          * @param {danh sách} payload 
          * Khắc Tiềm - 08.03.2023
          */
-        setRecordListMutation(state: any, payload: any) {
+        setRecordListMutation: (state: any, payload: any) => {
           state.recordList = [...payload.recordList];
           state.totalCount = payload.totalCount;
+          if(this.SetRecordList) {
+            this.SetRecordList(state, payload, state.columns);
+          }
         },
 
         /**

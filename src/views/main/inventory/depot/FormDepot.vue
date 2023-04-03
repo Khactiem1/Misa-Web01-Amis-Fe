@@ -72,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { BaseInput } from '@/core/public_component';
 import { ActionTable, Depot, ENotificationType, Grid, ModuleName, ServiceResponse } from '@/core/public_api';
 import { onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -173,12 +172,7 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     errorApi.value = false;
     props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
   },false , (res: ServiceResponse) => {
-    if(res.data.userMsg === 'validate.unique') {
-      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("module.inventory.depotCode"), value: depot.value.depotCode}))
-    }
-    else{
-      props.Base.addNotificationCRUD(res.data.userMsg, 'module.inventory');
-    }
+    props.Base.addNotificationCRUD(res.data.userMsg, 'module.inventory');
   });
 }
 

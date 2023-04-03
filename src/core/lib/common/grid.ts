@@ -3,7 +3,6 @@ import { computed } from "vue";
 import { environment } from '@/environments/environment.prod';
 import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header, ServiceResponse } from '@/core/public_api';
 import i18n from '@/locales/i18n';
-import type BaseApi from '@/api/base_api';
 
 /** 
  * Chứa toàn bộ các base thêm sửa xoá được xây dựng
@@ -11,12 +10,12 @@ import type BaseApi from '@/api/base_api';
  */
 export class Grid extends Utils{
   /** Api được truyền vào từ lớp khởi tạo */
-  public api: BaseApi;
+  public api: any;
 
   /** Key word tìm kiếm mặc định */
   public keyword:string = '';
 
-  constructor(module: string, api: BaseApi){
+  constructor(module: string, api: any){
     super(module);
     this.api = api;
   }
@@ -186,7 +185,7 @@ export class Grid extends Utils{
   public openModal = async (stateForm: any, recordId: any = undefined) => {
     this.setStateForm(stateForm);
     if(recordId){
-      await this.apiService.callApi(this.api.getRecordApi, recordId, (response: any) => { 
+      await this.apiService.callApi(this.api.getRecordApi, {recordId: recordId, stateForm: stateForm}, (response: any) => { 
         if(stateForm === ActionTable.Edit || stateForm === ActionTable.Replication){
           this.RecordCode = null;
         }
@@ -237,13 +236,27 @@ export class Grid extends Utils{
   }
 
   /** 
-   * Hàm nhập excel
+   * Hàm nhập chọn file excel
    * NK Tiềm 08.03.2023
    */
   public choseExcel = (event: any) => {
-    if (event.target.files && event.target.files.length > 0) {
-      this.fileExcel.value = event.target.files[0];
-      this.fileNameExcel.value = this.fileExcel.value.name;
+    let file = null;
+    if (event.type === 'change' && event.target.files && event.target.files.length > 0) {
+      file = event.target.files[0];
+    }
+    else if(event){
+      file = event;
+    }
+    if(file){
+      if(file.size <= this.fileSizeMax.value){
+        this.fileExcel.value = file;
+        this.fileNameExcel.value = file.name;
+        this.fileSize.value = this.calcFile(file.size);
+        return;
+      }
+      else if (file.size > this.fileSizeMax.value){
+        this.addNotification(ENotificationType.Error, i18n.global.t('common.chose_file_correct_size',{value: this.calcFile(this.fileSizeMax.value) }));
+      }
     }
   }
 
@@ -258,12 +271,7 @@ export class Grid extends Utils{
           this.setResultExcel(res);
           this.showResultExcel();
         }
-        this.fileExcel.value = null;
-        this.fileNameExcel.value = null;
-        const elm:any = document.getElementById("fileExcel");
-        if(elm){
-          elm.value = null;
-        }
+        this.removeFileExcel();
         this.closeDialog();
         this.addNotification(ENotificationType.Success, i18n.global.t('message.api.import_success'));
         this.recordSelectPaging.value = 0; 
@@ -299,17 +307,19 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public formatServiceResponse = (message: any, module: string = 'common') => {
-    const label = 0;
-    const field = 1;
-    const value = 2;
+    const label = 0; // Tách message ra thành mảng lấy phần tử thứ 0
+    const field = 1; // Tách message ra thành mảng lấy phần tử thứ 1
+    const value = 2; // Tách message ra thành mảng lấy phần tử thứ 2
+    const messAndField = 2; // Tách được 2 giá trị hiển thị theo kiểu 2 giá trị
+    const messAndFieldAndValue = 3; // Tách được 3 giá trị hiển thị theo kiểu 3 giá trị
     if(message && message != ''){
       const data = message.split(' MESSAGE.VALID.SPLIT ');
-      if(data.length === 2){
+      if(data.length === messAndField){
         const messField = !(i18n.global.t(`${module}.${this.lowercaseFirstLetter(data[field])}`) === `${module}.${this.lowercaseFirstLetter(data[field])}`) ?
          `${module}.${this.lowercaseFirstLetter(data[field])}` : `common.${this.lowercaseFirstLetter(data[field])}`
         return i18n.global.t(data[label], {field: i18n.global.t(messField)});
       }
-      else if(data.length === 3){
+      else if(data.length === messAndFieldAndValue){
         const messField = !(i18n.global.t(`${module}.${this.lowercaseFirstLetter(data[field])}`) === `${module}.${this.lowercaseFirstLetter(data[field])}`) ?
          `${module}.${this.lowercaseFirstLetter(data[field])}` : `common.${this.lowercaseFirstLetter(data[field])}`
         return i18n.global.t(data[label], {field: i18n.global.t(messField), value: data[value]});

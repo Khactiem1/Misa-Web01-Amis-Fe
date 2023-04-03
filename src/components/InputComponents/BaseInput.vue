@@ -109,7 +109,9 @@ export default defineComponent({
     onMounted(() => {
       if (focus.value === true) {
         setTimeout(() => {
-          tagInput.value.focus();
+          if(tagInput.value){
+            tagInput.value.focus();
+          }
         }, 150);
       }
     });
@@ -137,7 +139,7 @@ export default defineComponent({
       }
       else if(isNumber.value){
         const number = CommaToNumber(event.target.value);
-        if(checkNumber(number) || number === ''){
+        if(checkNumber(number) || number === '' || number === null || number === undefined){
           if((event.data === '.' || event.data === ',')){
             valueHeader.value = Base.Comma(modelValue.value) + ',';
           }
@@ -184,7 +186,7 @@ export default defineComponent({
 
     function CommaToNumber(number:any){
       const ToNumber = number.replace(/\./g,'').replace(/,/g, '.');
-      return ToNumber ? ToNumber : '';
+      return ToNumber ? ToNumber : undefined;
     }
     /**
      * hàm xử lý validate điện thoại và email

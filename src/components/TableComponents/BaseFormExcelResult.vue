@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import { Grid, Header, KeyCode } from '@/core/public_api';
-import { BaseTable, BaseCombobox } from '@/core/public_component';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 
 /**
@@ -64,13 +63,13 @@ const columns: Header [] = [
     "lineExcel",
     "",
     'common.line_number',
-    "150",
+    "100",
   ),
   new Header(
     "statusImportExcel",
     "",
     'common.status',
-    "200",
+    "150",
   ),
   new Header(
     "errorDetail",
@@ -85,6 +84,7 @@ const columns: Header [] = [
 columns.forEach((item: Header, index)=> {
   if(item.Field === 'lineExcel'){
     columns[index].TypeFormat.TextAlign = "center";
+    columns[index].TypeFormat.FixFirstColumn = true;
   }
   else if(item.Field === 'statusImportExcel'){
     columns[index].TypeFormat.FormatServiceResponseI18n = true;
@@ -103,7 +103,7 @@ const BaseComponent = ref(
     OptionCheck : false,
     ModuleI18n: props.ModuleI18n,
     columns: columns.filter((item: Header) => {
-      return item.FieldSelect.split('.')[0].toLowerCase() === props.Base.Module.toLowerCase() || item.Field.slice(-4) === 'Code' || item.Field === 'lineExcel' || item.Field === 'statusImportExcel' || item.Field === 'errorDetail';
+      return item.Field !== 'avatar' && (item.FieldSelect.split('.')[0].toLowerCase() === props.Base.Module.toLowerCase() || item.Field.slice(-4) === 'Code' || item.Field === 'lineExcel' || item.Field === 'statusImportExcel' || item.Field === 'errorDetail' || item.Field === 'unitCalculationName');
     }),
     recordList: [...props.Base.resultExcel.listFail, ...props.Base.resultExcel.listPass],
     actionTable: props.Base.actionTable,

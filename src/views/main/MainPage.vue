@@ -12,8 +12,5 @@ import { TheSidebar, TheHeader } from '@/core/public_component';
 </script>
 
 <style scoped>
-h1{
-    text-align: center;
-    margin-top: 20px;
-}
+
 </style>

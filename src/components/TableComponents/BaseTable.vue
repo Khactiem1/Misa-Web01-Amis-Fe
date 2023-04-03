@@ -18,12 +18,12 @@
               @end="dragging = false"
             >
             <template #item="{ element }">
-              <th :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
+              <th :class="`${element.TypeFormat.FixFirstColumn === true ? 'fix' : ''}`" :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
                 <span style="display: flex;" :class="`${element.TypeFormat.TextAlign}`" @click="handleSetSortColumn(element.FieldSelect)">
                   <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
                   <div v-if="element.FieldSelect === sortBy.split(' ')[0] && BaseComponent.hideFilter !== true" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
                 </span>
-                <div v-if="element.Filter && BaseComponent.hideFilter !== true" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
+                <div v-if="element.Filter && element.Filter.columnSearch && element.Filter.columnSearch !== '' && BaseComponent.hideFilter !== true" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
               </th>
             </template>
             </draggable>
@@ -44,7 +44,7 @@
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="index === 0 ? 'position: unset;' : ''" :class="`${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''}`"
+            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="(index === 0 && !col.TypeFormat.FixFirstColumn) ? 'position: unset;' : ''" :class="`${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''} ${col.TypeFormat.FixFirstColumn === true ? 'column-sticky': ''}`"
                :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
                 {{ formatData(col.TypeFormat, row[col.Field]) }}
@@ -73,7 +73,7 @@
           </tr>
         </tbody>
         <thead v-if="BaseComponent.showTotalColumn && BaseComponent.recordList.length !== 0" class="thead-light table-footer">
-          <tr>
+          <tr style="z-index: 1;">
             <th class="fix" style="text-transform: none; border-right: none;" v-if="BaseComponent.checkShowActionSeries">
               {{ $t('common.sum') }}
             </th>
@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { BaseCheckbox, BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction, BaseCombobox, BasePaging } from "@/core/public_component";
+import { BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction, BasePaging } from "@/core/public_component";
 import { UtilsComponents, Gender, TypeFormat, Nature } from "@/core/public_api";
 import { environment } from '@/environments/environment.prod';
 import { watch, ref, toRefs, computed, defineComponent, type PropType } from "vue";
@@ -143,12 +143,10 @@ import { useI18n } from 'vue-i18n'
 import draggable from "vuedraggable";
 export default defineComponent({
   components: {
-    BaseCheckbox,
     BaseTableEmpty,
     BaseTableLoader,
     BaseTableListAction,
     BaseTableFilter,
-    BaseCombobox,
     BasePaging,
     draggable
   },
@@ -364,7 +362,7 @@ export default defineComponent({
       if(isActive === true){
         return t('common.using');
       }
-      else{
+      else if (isActive === false){
         return t('common.stopUsing');
       }
     }

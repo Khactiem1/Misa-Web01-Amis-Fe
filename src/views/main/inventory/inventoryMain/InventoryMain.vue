@@ -16,12 +16,12 @@
 								{{ $t('module.inventory.depot') }}
               </div>
             </router-link>
-            <a class="footer-page_item">
+            <router-link to="/inventory/inventoryItem" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -1152px -200px;"></div>
               <div class="footer-page_text">
 								{{ $t('module.inventory.inventory_item') }}
               </div>
-            </a>
+            </router-link>
             <router-link to="/inventory/unitCalculation" class="footer-page_item">
               <div class="footer-page_icon" style="background-position: -872px -256px;"></div>
               <div class="footer-page_text">

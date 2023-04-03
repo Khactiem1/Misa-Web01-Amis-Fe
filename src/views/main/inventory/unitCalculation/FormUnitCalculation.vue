@@ -21,7 +21,7 @@
               :focus="true"
               :required="true"
               :type="'text'"
-              :maxLength="20"
+              :maxLength="100"
               :messageValid="$t('validate.empty', { field: $t('module.inventory.unitCalculationName') })"
               :label="$t('module.inventory.unitCalculationName')" 
               v-model="unitCalculation.unitCalculationName"
@@ -61,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { BaseInput } from '@/core/public_component';
 import { ActionTable, UnitCalculation, ENotificationType, Grid, ModuleName, ServiceResponse } from '@/core/public_api';
 import { onUnmounted, onMounted, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -162,12 +161,7 @@ const callApiForm = async (api: any, stateForm: string = '') => {
     errorApi.value = false;
     props.Base.addNotification(ENotificationType.Success, `${t(`common.${stateForm}`)} ${t(`common.success`)}`);
   },false , (res: ServiceResponse) => {
-    if(res.data.userMsg === 'validate.unique') {
-      props.Base.addNotification(ENotificationType.Error, t(res.data.userMsg, {field: t("module.inventory.unitCalculationName"), value: unitCalculation.value.unitCalculationName}))
-    }
-    else{
-      props.Base.addNotificationCRUD(res.data.userMsg, 'module.inventory');
-    }
+    props.Base.addNotificationCRUD(res.data.userMsg, 'module.inventory');
   });
 }
 

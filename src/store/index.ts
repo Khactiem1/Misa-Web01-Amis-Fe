@@ -5,6 +5,7 @@ import branch from './module/branch';
 import depot from './module/depot';
 import unitCalculation from './module/unitCalculation';
 import commodityGroup from './module/commodityGroup';
+import inventoryItem from './module/inventoryItem';
 
 const store = createStore({
   modules: {
@@ -14,6 +15,7 @@ const store = createStore({
     depot,
     unitCalculation,
     commodityGroup,
+    inventoryItem,
   },
 });
 

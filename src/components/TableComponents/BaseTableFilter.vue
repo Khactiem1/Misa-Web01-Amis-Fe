@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="filter-value">
-          <base-input v-if="dataFilter.typeFilter === TypeFilter.Number || dataFilter.typeFilter === TypeFilter.Text" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === TypeFilter.Number" ></base-input>
+          <base-input v-if="dataFilter.typeFilter === TypeFilter.Number || dataFilter.typeFilter === TypeFilter.Text" :focus="true" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === TypeFilter.Number" ></base-input>
           <base-calendar v-if="dataFilter.typeFilter === TypeFilter.Date" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
           <base-combobox 
             v-if="dataFilter.typeFilter === TypeFilter.Combobox" 
@@ -56,7 +56,6 @@
 </template>
 
 <script lang="ts">
-import { BaseInput, BaseCombobox, BaseCalendar, BaseRadio } from "@/core/public_component";
 import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent } from 'vue';
 import { useStore } from "vuex";
 import { ComparisonType, ComparisonTypeSearch, FilterHeaderIn, KeyCode, TypeFilter } from '@/core/public_api';
@@ -93,12 +92,6 @@ export default defineComponent({
      oldSearch: {
 
      },
-  },
-  components: {
-    BaseInput,
-    BaseCombobox,
-    BaseCalendar,
-    BaseRadio,
   },
   setup(props, context){
     const store = useStore();
@@ -162,6 +155,9 @@ export default defineComponent({
           isDisableInput.value = true;
         }
         valueSearch.value = oldSearch.value.ValueSearch;
+        if(oldSearch.value.ColumnSearch === 'inventoryitem.QuantityTock'){
+          valueSearch.value = Number.isNaN(oldSearch.value.ValueSearch) ? oldSearch.value.ValueSearch : '';
+        }
         if(oldSearch.value.TypeSearch === TypeFilter.Text){
           const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
           comparisonType.value = index;
@@ -248,6 +244,7 @@ export default defineComponent({
         return;
       }
     };
+    
     /**
      * Hàm xử lý sự kiện khi nhấn enter
      */
@@ -306,6 +303,7 @@ export default defineComponent({
   font-size: 13px;
   border-radius: 2px;
   box-shadow: 3px 3px 6px #ddd;
+  border-radius: 3px;
 }
 .condition-container .lock{
   position: relative;

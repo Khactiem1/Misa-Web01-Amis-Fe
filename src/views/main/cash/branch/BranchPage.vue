@@ -10,7 +10,7 @@
       </div>
       <div class="action-table">
         <div class="btn-add">
-					<button @click="Base.openModal(ActionTable.Add)" title="Ctrl + Alt + A" class="add">{{ $t('common.add') }}</button>
+					<button @click="Base.openModal(ActionTable.Add)" title="Ctrl + 1" class="add">{{ $t('common.add') }}</button>
 					<button class="import toggle-list">
             <i class="icon"></i>
             <div class="table-list_action">
@@ -61,12 +61,11 @@
 
 <script setup lang="ts">
 import { Grid, ModuleName, ActionTable } from '@/core/public_api';
-import { BaseTable, BaseSetting, BaseFormKeySearch, BaseModalForm, BaseImportExcel, BaseFormExcelResult } from '@/core/public_component';
-import FormBranch from './FormBranch.vue';
-import { reactive, onBeforeMount, onUnmounted, onMounted } from 'vue';
+import { reactive, onBeforeMount, onUnmounted, onMounted, defineAsyncComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { environment } from '@/environments/environment.prod';
 import BranchApi from '@/api/module/branch';
+const FormBranch = defineAsyncComponent(() => import('./FormBranch.vue'))
 
 const { t } = useI18n();
 /**
@@ -118,7 +117,7 @@ function questionDeleteRecordApi(recordId: any, recordCode:any ){
  * NK Tiềm 08.03.2023
  */
 function handleKey(event: any){
-	Base.handleEventCtrlAltA(event, Base.openModal, ActionTable.Add)
+	Base.handleEventCtrlNum1(event, Base.openModal, ActionTable.Add)
 }
 
 /** 
@@ -127,7 +126,7 @@ function handleKey(event: any){
  */
 onMounted(() => {
 	window.addEventListener("keydown", handleKey);
-	window.addEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+	window.addEventListener("keyup", Base.handleEventInterruptCtrlNum1);
 })
 
 /** 
@@ -135,7 +134,7 @@ onMounted(() => {
  * Khắc Tiềm - 08.03.2023
  */
 onUnmounted(() =>{
-	window.removeEventListener("keyup", Base.handleEventInterruptCtrlAltA);
+	window.removeEventListener("keyup", Base.handleEventInterruptCtrlNum1);
 	window.removeEventListener("keydown", handleKey);
   Base.setEmptyData();
 })

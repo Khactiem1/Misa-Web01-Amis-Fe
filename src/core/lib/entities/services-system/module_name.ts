@@ -11,4 +11,5 @@ export class ModuleName {
   public static Depot: string = 'depot';
   public static UnitCalculation: string = 'unitCalculation';
   public static CommodityGroup: string = 'commodityGroup';
+  public static InventoryItem: string = 'inventoryItem';
 }

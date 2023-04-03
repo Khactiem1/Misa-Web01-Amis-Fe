@@ -61,7 +61,6 @@
 </template>
 
 <script lang="ts">
-import { BaseCheckbox } from "@/core/public_component";
 import { Header, KeyCode } from "@/core/public_api";
 import draggable from "vuedraggable";
 
@@ -86,7 +85,6 @@ export default defineComponent({
   },
   components: {
     draggable,
-    BaseCheckbox,
   },
   setup(props) {
     /**

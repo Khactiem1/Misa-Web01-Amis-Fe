@@ -24,7 +24,7 @@ export class StorageService {
 		this.setItem(SystemConstants.get(key), data);
 	}
 
-	public static getItemWithSystemConstants(key: string){
+	public static getItemWithSystemConstants(key: string): any{
 		return this.getItem(SystemConstants.get(key));
 	}
 

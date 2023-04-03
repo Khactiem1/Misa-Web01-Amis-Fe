@@ -10,28 +10,28 @@ let columns: Header [] = [
     "branch.BranchCode",
     'module.cash.branchCode',
     "300",
-    { typeSearch: TypeSearch.Text, columnSearch: "BranchCode" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'module.cash.branchCode'}
+    { typeSearch: TypeSearch.Text, columnSearch: "branch.BranchCode" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'module.cash.branchCode'}
   ),
   new Header(
     "branchName",
     "branch.BranchName",
     'module.cash.branchName',
     "400",
-    { typeSearch: TypeSearch.Text, columnSearch: "BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'module.cash.branchName'},
+    { typeSearch: TypeSearch.Text, columnSearch: "branch.BranchName" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'module.cash.branchName'},
   ),
   new Header(
     "description",
     "branch.Description",
     'common.description',
     "552",
-    { typeSearch: TypeSearch.Text, columnSearch: "Description" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'common.description',},
+    { typeSearch: TypeSearch.Text, columnSearch: "branch.Description" , typeFilter: TypeFilter.Text, module: ModuleName.Branch, headerSearch: 'common.description',},
   ),
   new Header(
     "isActive",
     "branch.IsActive",
     'common.status',
     "300",
-    { typeSearch: TypeSearch.Number, columnSearch: "IsActive" , typeFilter: TypeFilter.Combobox, data: [
+    { typeSearch: TypeSearch.Number, columnSearch: "branch.IsActive" , typeFilter: TypeFilter.Combobox, data: [
       { value: '', header: 'common.all' },
       { value: 'true', header: 'common.using' },
       { value: 'false', header: 'common.stopUsing' },

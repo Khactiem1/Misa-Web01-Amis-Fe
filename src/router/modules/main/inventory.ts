@@ -13,7 +13,7 @@ const router: any = [
      * Trang vật tư hàng hoá 
      * Khắc Tiềm - 08.03.2023
      * */
-    path: '/inventory/inventory-item',
+    path: '/inventory/inventoryItem',
     component: () => import('../../../views/main/inventory/inventoryItem/InventoryItemPage.vue'),
     meta: { title: 'page.inventory_item' }
   },

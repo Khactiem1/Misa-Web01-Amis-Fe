@@ -33,6 +33,7 @@ export * from './lib/entities/cash/branch';
 export * from './lib/entities/inventory/depot';
 export * from './lib/entities/inventory/unitCalculation';
 export * from './lib/entities/inventory/commodityGroup';
+export * from './lib/entities/inventory/inventoryItem';
 
 /**
  * services

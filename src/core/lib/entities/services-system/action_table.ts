@@ -210,7 +210,7 @@ export class Header {
   /** kiểu dữ liệu so format lên table */
   public TypeFormat: TypeFormat;
 
-  /** Data tìm kiếm với combobox, radio */
+  /** Hiển thị dữ liệu fix dưới column */
   public Data?: any;
 
   /** Trường hiển thị người dùng tự setup */
@@ -247,6 +247,9 @@ export class TypeFormat {
 
   /** Kiểu dữ liệu trả về từ backend cần format hiển thị */
   public FormatServiceResponseI18n?: boolean = false;
+
+  /** Cố định cột đầu tiên không */
+  public FixFirstColumn?: boolean = false;
 }
 
 /**

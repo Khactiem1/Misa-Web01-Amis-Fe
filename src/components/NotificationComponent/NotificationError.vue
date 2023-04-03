@@ -2,7 +2,7 @@
   <div class="modal-notification_content">
     <div class="modal-notification_body">
       <div class="modal-notification_icon icon-error"></div>
-      <div v-html="displayMessage" class="modal-notification_mess"></div>
+      <div class="modal-notification_mess">{{ displayMessage }}</div>
     </div>
     <div class="mess-line_notification"></div>
     <div class="modal-notification_action">
