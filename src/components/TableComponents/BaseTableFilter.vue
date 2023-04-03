@@ -156,7 +156,7 @@ export default defineComponent({
         }
         valueSearch.value = oldSearch.value.ValueSearch;
         if(oldSearch.value.ColumnSearch === 'inventoryitem.QuantityTock'){
-          valueSearch.value = Number.isNaN(oldSearch.value.ValueSearch) ? oldSearch.value.ValueSearch : '';
+          valueSearch.value = checkNumber(oldSearch.value.ValueSearch) ? oldSearch.value.ValueSearch : '';
         }
         if(oldSearch.value.TypeSearch === TypeFilter.Text){
           const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
@@ -168,6 +168,7 @@ export default defineComponent({
         }
       }
     })
+    function checkNumber(n:any) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
     /**
      * Dữ liệu select
      */
