@@ -24,7 +24,7 @@
         @input="handleInput"
         @blur="handleBlur"
         type="text"
-        :readonly="disabled"
+        :readonly="disabled || i18n"
         :tabindex="tab"
       />
       <div class="combobox-select_icon" @click="handleClickOpenCombobox">

@@ -17,8 +17,8 @@
               @start="dragging = true"
               @end="dragging = false"
             >
-            <template #item="{ element }">
-              <th :class="`${element.TypeFormat.FixFirstColumn === true ? 'fix' : ''}`" :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
+            <template #item="{ element, index }">
+              <th :class="`${index === columnCustom.length - 1 ? 'header-content-end' : ''} ${element.TypeFormat.FixFirstColumn === true ? 'fix' : ''}`" :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
                 <span style="display: flex;" :class="`${element.TypeFormat.TextAlign}`" @click="handleSetSortColumn(element.FieldSelect)">
                   <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
                   <div v-if="element.FieldSelect === sortBy.split(' ')[0] && BaseComponent.hideFilter !== true" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
@@ -27,7 +27,7 @@
               </th>
             </template>
             </draggable>
-            <th v-if="BaseComponent.hideAction !== true" style="width: 120px; min-width: 120px" class="text-center fix">
+            <th v-if="BaseComponent.hideAction !== true" style="width: 120px; min-width: 120px" class="text-center fix column-end">
               {{ $t('common.function') }}
             </th>
           </tr>
@@ -44,7 +44,7 @@
                 @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
               ></base-checkbox>
             </td>
-            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="(index === 0 && !col.TypeFormat.FixFirstColumn) ? 'position: unset;' : ''" :class="`${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''} ${col.TypeFormat.FixFirstColumn === true ? 'column-sticky': ''}`"
+            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="(index === 0 && !col.TypeFormat.FixFirstColumn) ? 'position: unset;' : ''" :class="`${index === columnCustom.length - 1 ? 'header-content-end':''} ${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''} ${col.TypeFormat.FixFirstColumn === true ? 'column-sticky': ''}`"
                :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
               <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
                 {{ formatData(col.TypeFormat, row[col.Field]) }}
@@ -55,7 +55,7 @@
                   <base-checkbox :checked="row[col.Field]" :lockCheckBox="col.TypeFormat.LockCheckBox"> </base-checkbox>
               </div>
             </td>
-            <td v-if="BaseComponent.hideAction !== true" class="text-center fix">
+            <td v-if="BaseComponent.hideAction !== true" class="text-center fix column-end">
               <div class="action-colum_table">
                 <button @click=" handleCloseAction(); handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId]);"
                   class="action-table action-table_left" >
@@ -452,7 +452,7 @@ export default defineComponent({
 
 <style scoped>
 table {
-  border-collapse: collapse;
+  border-spacing: 0;
   width: 100%;
   background-color: var(--while__color);
 }
@@ -486,15 +486,15 @@ table {
 }
 .mi-header-option{
   height: fit-content;
-    position: absolute;
-    display: none;
-    right: 3px;
-    background: var(--url__icon) no-repeat;
-    cursor: pointer;
-    top: calc(50% - 8px);
-    min-width: 16px;
-    min-height: 16px;
-    background-position: -1687px -564px;
+  position: absolute;
+  display: none;
+  right: 3px;
+  background: var(--url__icon) no-repeat;
+  cursor: pointer;
+  top: calc(50% - 8px);
+  min-width: 16px;
+  min-height: 16px;
+  background-position: -1687px -564px;
 }
 tbody tr td:first-child {
   z-index: 1;
@@ -579,9 +579,11 @@ tbody tr.active,
 .table tbody th.fix:last-child,
 .table tbody td.fix:last-child{
   background-color: aliceblue;
+  /* background-color: var(--while__color); */
 }
 .column-sticky{
   background-color: aliceblue;
+  /* background-color: var(--while__color); */
 }
 .table tbody td:last-child {
   border-right: none;
@@ -722,5 +724,14 @@ tbody tr.active,
 }
 .common-valid{
   color: var(--primary__color);
+}
+.column-end{
+  border-left: 1px dotted #c7c7c7;
+}
+thead .column-end{
+  border-left: 1px solid #c7c7c7;
+}
+.header-content-end{
+  border-right: unset !important;
 }
 </style>

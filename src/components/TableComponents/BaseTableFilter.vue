@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="filter-value">
-          <base-input v-if="dataFilter.typeFilter === TypeFilter.Number || dataFilter.typeFilter === TypeFilter.Text" :focus="true" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === TypeFilter.Number" ></base-input>
-          <base-calendar v-if="dataFilter.typeFilter === TypeFilter.Date" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
+          <base-input v-if="dataFilter.typeFilter === TypeFilter.Number || dataFilter.typeFilter === TypeFilter.Text" ref="inputFocus" :focus="true" :disabled="isDisableInput" :placeholder="$t('common.enter_filter')" v-model="valueSearch" :isNumber="dataFilter.typeFilter === TypeFilter.Number" ></base-input>
+          <base-calendar v-if="dataFilter.typeFilter === TypeFilter.Date" ref="inputCalendarFocus" :disabled="isDisableInput" v-model="valueSearch"></base-calendar>
           <base-combobox 
             v-if="dataFilter.typeFilter === TypeFilter.Combobox" 
             :placeholder="$t('common.enter_filter')"
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent } from 'vue';
+import { ref, onUnmounted, toRefs, onBeforeMount, defineComponent, onMounted } from 'vue';
 import { useStore } from "vuex";
 import { ComparisonType, ComparisonTypeSearch, FilterHeaderIn, KeyCode, TypeFilter } from '@/core/public_api';
 
@@ -155,9 +155,6 @@ export default defineComponent({
           isDisableInput.value = true;
         }
         valueSearch.value = oldSearch.value.ValueSearch;
-        if(oldSearch.value.ColumnSearch === 'inventoryitem.QuantityTock'){
-          valueSearch.value = checkNumber(oldSearch.value.ValueSearch) ? oldSearch.value.ValueSearch : '';
-        }
         if(oldSearch.value.TypeSearch === TypeFilter.Text){
           const index = selectComparisonTypeText.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
           comparisonType.value = index;
@@ -165,10 +162,36 @@ export default defineComponent({
         else if(oldSearch.value.TypeSearch === TypeFilter.Number || oldSearch.value.TypeSearch === TypeFilter.Date){
           const index = selectComparisonTypeNumber.findIndex(item => item.comparisonType === oldSearch.value.ComparisonType);
           comparisonType.value = index;
+          if(oldSearch.value.ColumnSearch === 'inventoryitem.QuantityTock'){
+            const comparisonDefault = 4;
+            valueSearch.value = checkNumber(oldSearch.value.ValueSearch) ? oldSearch.value.ValueSearch : '';
+            comparisonType.value = comparisonDefault;
+          }
         }
       }
     })
     function checkNumber(n:any) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+    /**
+     * Element input và các button ẩn đi bắt sự kiện focus vào tạo vòng lặp vào khi mở from
+     * NK Tiềm 08.03.2023
+     */
+    const inputFocus:any = ref(null);
+    const inputCalendarFocus:any = ref(null);
+    /**
+     * Hàm xử lý lặp khi tab focus
+     * NK Tiềm 08.03.2023
+     */
+    const handleLoopFocus = function () {
+      setTimeout(() => {
+        if(dataFilter.value.typeFilter === TypeFilter.Date && inputCalendarFocus.value.elementInput){
+          inputCalendarFocus.value.elementInput.focus();
+        } 
+        else if(inputFocus.value.tagInput){
+          inputFocus.value.tagInput.focus();
+        }
+      });
+    };
+
     /**
      * Dữ liệu select
      */
@@ -190,6 +213,7 @@ export default defineComponent({
         isDisableInput.value = false;
       }
       comparisonType.value = index;
+      handleLoopFocus();
     }
 
     /**
@@ -258,6 +282,13 @@ export default defineComponent({
       window.addEventListener("click", handleClickTemplate)
       window.addEventListener("keydown", keyEnter);
     }, 100)
+    onMounted(() => {
+      setTimeout(() => {
+        if(dataFilter.value.typeFilter === TypeFilter.Date && inputCalendarFocus.value.elementInput){
+          inputCalendarFocus.value.elementInput.focus();
+        } 
+      }, 150);
+    })
     /**
      * xoá bỏ sự kiện lắng nghe
      * Khắc Tiềm - 15.09.2022
@@ -276,6 +307,8 @@ export default defineComponent({
       selectComparison,
       valueLabel,
       valueSearch,
+      inputCalendarFocus,
+      inputFocus,
       handleClickTemplate,
       handleSelectComparisonType,
       handleDeleteFilterItem,
