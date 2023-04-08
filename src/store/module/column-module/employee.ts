@@ -25,7 +25,7 @@ let columns: Header [] = [
     'common.gender',
     "120",
     { typeSearch: TypeSearch.Number, columnSearch: "employee.Gender" , typeFilter: TypeFilter.Combobox, module: ModuleName.Employee, headerSearch: 'common.gender', data: [
-      { value: '', header: 'common.gender' },
+      { value: '', header: 'common.all' },
       { value: Gender.Male, header: 'gender.male' },
       { value: Gender.Female, header: 'gender.female' },
       { value: Gender.Other, header: 'gender.other' },

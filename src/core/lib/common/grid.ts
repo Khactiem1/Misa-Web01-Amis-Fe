@@ -41,6 +41,24 @@ export class Grid extends Utils{
   /** Lấy danh sách columns hiển thị cài đặt */
   public columnSetting:any = computed(() => this.store.state[`${this.Module}`].columns);
 
+  /** Lấy ra các cột được cố định */
+  public columnFix = computed(() => {
+    return this.columns.value.map((item: Header, index: number) => {
+      if(item.FixColumn){
+        let width = 16;
+        if(this.OptionCheck.value === true){
+          width = width + 40;
+        }
+        for(let number = 0; number < index ; number++){
+          width += Number(this.columns.value[number].Width);
+        }
+        return {
+          Width: width,
+        };
+      }
+    })
+  });
+
   /**
    * Các Method
    */
@@ -137,6 +155,33 @@ export class Grid extends Utils{
   }
 
   /**
+   * Hàm fix column trên thanh header
+   * Khắc Tiềm - 08.03.2023
+   */
+  public handleFixColumn = (name: string) => {
+    const columns: Header [] = JSON.parse(JSON.stringify(this.columnSetting.value));
+    this.columnSetting.value.forEach(async (item: Header, index: number) => {
+      if(item.FieldSelect === name){
+        columns[index].FixColumn = !columns[index].FixColumn;
+        await columns.sort((a: Header, b: Header) => (a.FixColumn === b.FixColumn) ? 0 : a.FixColumn ? -1 : 1);
+        const dataTable: IdbDataTable = new IdbDataTable(this.Module);
+        dataTable.set(JSON.parse(JSON.stringify(columns)));
+        this.store.dispatch(`${this.Module}/setColumnAction`, columns);
+      }
+    })
+  }
+
+  /**
+   * Hàm fix column khi người dùng kéo những column bị fix
+   * Khắc Tiềm - 08.03.2023
+   */
+  public setupColumns = async () => {
+    const columns: Header [] = JSON.parse(JSON.stringify(this.columns.value));
+    await columns.sort((a: Header, b: Header) => (a.FixColumn === b.FixColumn) ? 0 : a.FixColumn ? -1 : 1);
+    this.store.dispatch(`${this.Module}/setColumnAction`, columns);
+  }
+
+  /**
    * Hàm xử lý xoá 1 bản ghi đã chọn
    * Khắc Tiềm - 08.03.2023
    */
@@ -182,16 +227,20 @@ export class Grid extends Utils{
    * Hàm mở form thêm, sửa 
    * Khắc Tiềm - 08.03.2023
    * */
-  public openModal = async (stateForm: any, recordId: any = undefined) => {
+  public openModal = async (stateForm: any = ActionTable.Add, recordId: any = undefined) => {
     this.setStateForm(stateForm);
     if(recordId){
-      await this.apiService.callApi(this.api.getRecordApi, {recordId: recordId, stateForm: stateForm}, (response: any) => { 
-        if(stateForm === ActionTable.Edit || stateForm === ActionTable.Replication){
-          this.RecordCode = null;
-        }
-        this.RecordEdit = response;
-        this.isShowModal.value = true;
-      },false );
+      try {
+        await this.apiService.callApi(this.api.getRecordApi, {recordId: recordId, stateForm: stateForm}, (response: any) => { 
+          if(stateForm === ActionTable.Edit || stateForm === ActionTable.Replication){
+            this.RecordCode = null;
+          }
+          this.RecordEdit = response;
+          this.isShowModal.value = true;
+        },false );
+      } catch (e) {
+        console.log(e);
+      }
     }
     else if(stateForm === ActionTable.Add){
       this.RecordEdit = null;
@@ -226,7 +275,7 @@ export class Grid extends Utils{
           return [...acc, cur.FieldSelect];
         }
       },[])
-      this.apiService.callApi(this.api.getExportExcel, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter }, (response: any) => { 
+      this.apiService.callApi(this.api.getExportExcel, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter, v_Offset: 0, v_Limit: 0 }, (response: any) => { 
         this.downloadFromUrl(environment.IMAGE_API + response);
       });
     }

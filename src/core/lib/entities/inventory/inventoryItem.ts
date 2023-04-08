@@ -1,4 +1,4 @@
-import type { Nature } from "@/core/public_api";
+import type { DepreciatedTax, Nature } from "@/core/public_api";
 import { BaseEntity } from "../base_entities";
 
 export class InventoryItem extends BaseEntity{
@@ -30,7 +30,7 @@ export class InventoryItem extends BaseEntity{
   public unitCalculationName: string = '' ;
   
   /**  Giảm thuế */
-  public depreciatedTax: string = ''  ;
+  public depreciatedTax?: DepreciatedTax;
   
   /**  Thời hạn bảo hành */
   public warrantyPeriod: string = ''  ;

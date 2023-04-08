@@ -36,6 +36,15 @@ const router: any = [
     component: () => import('../../views/main/not-found/NotFound.vue'),
     meta: { title: 'page.not_found' }
   },
+  {
+    /** 
+     * Trang không tồn tại 
+     * Khắc Tiềm - 08.03.2023
+     * */
+    path: '/feature-built',
+    component: () => import('../../views/main/Construction/ConstructionPage.vue'),
+    meta: { title: 'page.construction_page' }
+  },
 ]
 
 export default router;

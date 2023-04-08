@@ -7,7 +7,7 @@
     "cash_main": "Cash",
     "employee": "Employee",
     "inventory_main": "Inventory",
-    "inventory_item": "Inventory Item",
+    "inventory_item": "Inventory item",
     "dashboard": "Dashboard",
     "deposits": "Deposits",
     "purchase": "Purchase",
@@ -21,7 +21,14 @@
     "branch": "Branch",
     "depot": "Depot",
     "unitCalculation": "Unit calculation",
-    "commodityGroup": "Group of materials, goods and services"
+    "commodityGroup": "Group of materials, goods and services",
+    "construction_page": "Feature built"
+  },
+  "ui": {
+    "setting_display": "Setting display",
+    "line": "line",
+    "unlimited": "Unlimited",
+    "ques_setting_clamp": "How many lines will the information on the list display?"
   },
   "gender": {
     "male": "Male",
@@ -59,7 +66,9 @@
     "close": "Close",
     "function": "Function",
     "sum": "Sum",
-    "fixed_column": "Fixed column",
+    "fixed_column": "Pin",
+    "un_pin": "Un pin",
+    "fixed_col": "Fixed",
     "filter": "Filter",
     "un_filter": "Un filter",
     "enter_filter": "Enter filter",
@@ -118,7 +127,10 @@
     "remains": "Remains",
     "group": "Group",
     "inventory_status": "Inventory status",
-    "reload_total": "Reload aggregate data"
+    "reload_total": "Reload aggregate data",
+    "depreciatedTax": "Tax reduction under NQ43",
+    "depreciatedSearch": "Look up tax reduction",
+    "depreciatedTaxStatus": "Tax reduction search status according to resolution 43/2022/QH15"
   },
   "module": {
     "cash": {
@@ -137,6 +149,7 @@
       "bankAccount" : "Bank account",
       "nameBank" : "Name bank",
       "dayForIdentity" : "Day for identity",
+      "dateOfBirth" : "Date of birth",
       "dayForIdentity_small" : "Date Range",
       "grantAddressIdentity" : "Grant address identity",
       "grantAddressIdentity_small" : "Issued by",
@@ -166,12 +179,20 @@
       "materials": "Materials",
       "finished_product": "Finished Product",
       "tool_tools": "Tool Tools",
+      "goods_info": "Products you buy and resell to customers",
+      "service_info": "The service you provide to your customers",
+      "materials_info": "Input materials used for production, construction, and service provision",
+      "finished_product_info": "Is the output product of the production process",
+      "tool_tools_info": "Tools and equipment purchased for warehousing have not been put into use",
+      "change_nature": "Change nature",
+      "select_nature": "Select nature",
       "depot": "Depot",
       "depot_small": "depot",
-      "inventory_item": "Inventory Item",
-      "inventoryItem": "Inventory Item",
+      "inventory_item": "Inventory item",
+      "inventoryItem": "Inventory item",
+      "inventoryItem_small": "Inventory item",
       "unit": "Unit",
-      "inventory_business": "Nghiệp vụ kho",
+      "inventory_business": "Warehouse operations",
       "depotCode": "Depot code",
       "depotName": "Depot name",
       "search_depot_code_name": "Search by code, name",
@@ -183,6 +204,7 @@
       "unitCalculation": "Unit calculation",
       "unitCalculation_small": "unit calculation",
       "commodityGroup": "Group of materials, goods and services",
+      "commodityGroupCompact": "Group",
       "commodityGroup_small": "group of materials, goods and services",
       "commodityCode": "Group code of materials, goods and services",
       "commodityName": "Group name of materials, goods and services",
@@ -211,6 +233,7 @@
       "accountCost": "Expense account",
       "ratioDiscount": "Promotional discount rate",
       "vatTax": "V.a.t tax",
+      "vatTax_info": "VAT rate (%)",
       "vatImport": "Import Tax",
       "vatExport": "Export tax",
       "orderFix": "Fixed purchase order",
@@ -218,7 +241,9 @@
       "orderSell": "Unit price",
       "undefined": "Undefined",
       "no_tax_reduction": "No tax reduction",
-      "tax_reduction": "Tax reduction"
+      "tax_reduction": "Tax reduction",
+      "implicit_information": "Implicit information",
+      "depot_impact": "Depot implicit"
     }
   },
   "validate": {

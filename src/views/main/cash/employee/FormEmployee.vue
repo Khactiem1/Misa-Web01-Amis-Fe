@@ -1,6 +1,6 @@
 <template>
 	<div class="modal-body">
-    <div class="form">
+    <div class="form form_employee_in">
       <div class="form-header">
         <div class="modal-title">
           <h2>{{ Base.StateForm === ActionTable.Add ? $t('common.add_record', {module: $t(`module.cash.${ModuleName.Employee}_small`) }) 
@@ -28,9 +28,8 @@
           </div>
         </div>
         <div class="modal-close">
-          <a href="/" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
-          <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
-          ></div>
+          <a href="/feature-built" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
+          <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"></div>
         </div>
       </div>
       <div class="form-container">
@@ -304,7 +303,7 @@ async function handleSaveData(closeModal: any) {
     if (messValid.length > 0) {
       isValid.value = true;
       unListenEvent();
-      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError(), listenEvent() });
+      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError('form_employee_in'), listenEvent() });
     }
     else {
       if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication) {
@@ -445,7 +444,7 @@ const unListenEvent = () => {
 function handleKey(event: any){
   props.Base.handleEventFormCtrlShiftS(event, handleCloseModal, null, handleSaveData, false, handleSaveData, true)
 	props.Base.handleEventF1(event, () => {
-    window.open('/');
+    window.open('/feature-built');
   })
 }
 

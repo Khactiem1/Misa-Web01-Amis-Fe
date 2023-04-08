@@ -1,4 +1,4 @@
-import i18n from '@/locales/i18n';
+import { EntitySystem, StorageService, SystemConstants } from '@/core/public_api';
 const config = {
 	namespaced: true,
 	state: () => {
@@ -7,7 +7,14 @@ const config = {
 			 * Trạng thái mở rộng sidebar
 			 * Khắc Tiềm - 08.03.2023
 			 */
-			showSidebar: true,
+			showSidebar: JSON.parse(StorageService.getItemWithSystemConstants(EntitySystem.isShowSidebar)) === false ? false : true,
+
+			/**
+			 * Số dòng hiển thị trên table
+			 * Khắc Tiềm - 08.03.2023
+			 */
+			lineClamp: StorageService.getItemWithSystemConstants(EntitySystem.lineClamp) || StorageService.getItemWithSystemConstants(EntitySystem.lineClamp) === '' ? 
+			StorageService.getItemWithSystemConstants(EntitySystem.lineClamp) : SystemConstants.get(EntitySystem.lineClampDefault),
 
 			/**
 			 * Trạng thái show loader 
@@ -133,7 +140,7 @@ const config = {
 		 * Mở thông báo Question
 		 * Khắc Tiềm - 08.03.2023
 		 */
-			setToggleShowNotificationQuestionMutation(state: any, payload: any) {
+		setToggleShowNotificationQuestionMutation(state: any, payload: any) {
 			state.configNotificationQuestion.cancelAction.action = ()=> {
 				state.isShowNotificationQuestion = false;
 			}
@@ -148,6 +155,14 @@ const config = {
 			state.configNotificationQuestion.messageAction.display = payload.message;
 			state.configNotificationQuestion.cancelAction.callBack = payload.callBack;
 			state.isShowNotificationQuestion = true;
+		},
+
+		/**
+		 * Set số dòng hiển thị 
+		 * Khắc Tiềm - 08.03.2023
+		 * */
+		setLineClampMutation(state: any, payload: any){
+			state.lineClamp = payload;
 		},
 
 		/**
@@ -210,6 +225,14 @@ const config = {
 				 */
 			setToggleShowNotificationQuestionAction(context: any, payload: any) {
 			context.commit("setToggleShowNotificationQuestionMutation", payload);
+		},
+
+		/**
+		 * Set số dòng hiển thị 
+		 * Khắc Tiềm - 08.03.2023
+		 * */
+		setLineClampAction(context: any, payload: any){
+			context.commit("setLineClampMutation", payload);
 		},
 
 		/**

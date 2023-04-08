@@ -8,6 +8,13 @@
       <div class="header-icon_right"></div>
     </div>
     <div class="content-header_info">
+      <button class="header-bell_setting">
+        <ul>
+          <li @click="handleToggleSettingLineClamp()">
+            {{ $t('ui.setting_display') }}
+          </li>
+        </ul>
+      </button>
       <div class="header-bell_notification"></div>
       <div class="header-user">
         <div class="header-user_avatar"></div>
@@ -15,40 +22,57 @@
         <div class="header-user_icon"></div>
       </div>
     </div>
+    <teleport to="#app">
+      <base-modal-form v-if="isShowSettingLineClamp">
+        <the-setting-clamp :close="handleToggleSettingLineClamp">
+
+        </the-setting-clamp>
+      </base-modal-form>
+    </teleport>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import { TheSettingClamp } from '@/core/public_component';
+import { EntitySystem, StorageService } from "@/core/public_api";
 
-export default defineComponent({
-  setup() {
-    /**
-     * Biến store vuex
-     * Khắc Tiềm - 15.09.2022
-     */
-    const store: any = useStore();
+/**
+ * Biến store vuex
+ * Khắc Tiềm - 15.09.2022
+ */
+const store: any = useStore();
 
-    /**
-     * Lấy ra trạng thái show sidebar
-     * Khắc Tiềm - 15.09.2022
-     */
-    const showSidebar: any = computed(() => store.state.config.showSidebar);
-    
-    /**
-     * Hàm sử lý sự kiện toggle sidebar
-     * Khắc Tiềm - 15.09.2022
-     */
-    function handleToggleSidebar() {
-      store.dispatch("config/setToggleShowSidebarAction");
-    }
-    return {
-      showSidebar,
-      handleToggleSidebar,
-    };
-  },
-});
+/**
+ * Lấy ra trạng thái show sidebar
+ * Khắc Tiềm - 15.09.2022
+ */
+const isShowSettingLineClamp: any = ref(false);
+
+/**
+ * Lấy ra trạng thái show sidebar
+ * Khắc Tiềm - 15.09.2022
+ */
+ const showSidebar: any = computed(() => store.state.config.showSidebar);
+
+/**
+ * Hàm sử lý sự kiện toggle sidebar
+ * Khắc Tiềm - 15.09.2022
+ */
+async function handleToggleSidebar() {
+  await store.dispatch("config/setToggleShowSidebarAction");
+  StorageService.setItemWithSystemConstants(EntitySystem.isShowSidebar, showSidebar.value)
+}
+
+/**
+ * Hàm sử lý show hoặc đóng setting table
+ * Khắc Tiềm - 15.09.2022
+ */
+function handleToggleSettingLineClamp(){
+  isShowSettingLineClamp.value = !isShowSettingLineClamp.value;
+}
+
 </script>
 
 <style scoped>
@@ -120,5 +144,53 @@ export default defineComponent({
   height: 6px;
   cursor: pointer;
   margin-left: 6px;
+}
+.header-bell_setting{
+  position: relative;
+  background: var(--url__icon) no-repeat;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-right: 24px;
+  background-position: -675px -30px;
+  outline: none;
+  border: none;
+}
+.header-bell_setting ul{
+  background-color: var(--while__color);
+  width: 200px;
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  box-shadow: 0 3px 12px 0 rgba(0,0,0,.25);
+  transition: all ease-in-out .15s;    
+  padding: 3px 0;
+  color: var(--text__color);
+  font-family: "notosans-regular";
+  border-radius: 2px;
+  border: solid 1px var(--border__input);
+  opacity: 0;
+  visibility: hidden;
+}
+.header-bell_setting ul li{
+  list-style: none;    
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all ease 0.15s;
+  color: inherit;
+}
+.header-bell_setting ul li:hover{
+  background-color: #f5f5f5;
+  color: var(--primary__color);
+}
+.header-bell_setting:focus ul{
+  opacity: 1;
+  visibility: visible;
+  top: 38px;
 }
 </style>

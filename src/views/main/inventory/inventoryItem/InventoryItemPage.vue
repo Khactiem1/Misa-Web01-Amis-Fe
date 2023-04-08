@@ -22,41 +22,59 @@
       </div>
     </div>
 		<form-over-view :Base="Base" v-if="isShowOverview"></form-over-view>
-		<div class="table-content">
-			<div class="table-function sticky">
-				<div class="collapse-overview" @click="handleToggleShowOverView()" :class="{ 'mi-chevron-down--primary' : !isShowOverview }"></div>
-				<div class="form-fix">
-					<div class="mi-arrow-check-all"></div>
-          <button class="table-function_series toggle-list">
-            <span>{{ $t('common.batch_execution') }}</span>
-            <div class="table-function_series-icon"></div>
-            <div v-show="Base.checkShowActionSeries.length > 0" class="table-list_action">
-              <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
-            </div>
-          </button>
-					<div class="table-function_series not-css">
-						<form-inventory-item-search :optionCommodityGroup="optionCommodity" :Base="Base"></form-inventory-item-search>
-					</div>
-          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.InventoryItem"></base-form-key-search>
-        </div>
-				<div style="min-width: 350px;" class="table-function_search">
-          <div class="search-table">
-            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_inventory_code_name')"/>
-            <div class="icon-search"></div>
+    <div class="table-function sticky">
+      <div class="collapse-overview" @click="handleToggleShowOverView()" :class="{ 'mi-chevron-down--primary' : !isShowOverview }"></div>
+      <div class="form-fix">
+        <div class="mi-arrow-check-all"></div>
+        <button class="table-function_series toggle-list">
+          <span>{{ $t('common.batch_execution') }}</span>
+          <div class="table-function_series-icon"></div>
+          <div v-show="Base.checkShowActionSeries.length > 0" class="table-list_action">
+            <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
           </div>
-          <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
-          <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
-          <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
+        </button>
+        <div class="table-function_series not-css">
+          <form-inventory-item-search :Base="Base"></form-inventory-item-search>
         </div>
-			</div>
-			<!-- Table -->
-			<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
-			</base-table>
-			<!-- End Table -->
-		</div>
+        <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.InventoryItem"></base-form-key-search>
+      </div>
+      <div style="min-width: 350px;" class="table-function_search">
+        <div class="search-table">
+          <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_inventory_code_name')"/>
+          <div class="icon-search"></div>
+        </div>
+        <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
+        <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
+        <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
+      </div>
+    </div>
+		<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
+    </base-table>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
-        <form-inventory-item :Base="Base" :optionUnit="optionUnit" :optionDepot="optionDepot" :optionCommodity="optionCommodity"> </form-inventory-item>
+        <form-inventory-item 
+        :handleChangeNature="handleChangeNature"
+        :typeNature="typeNature" 
+        :Base="Base" 
+        :optionUnitIn="{
+          optionUnit,
+          addItem: (item: any)=> {
+            optionUnit = [item, ...optionUnit]
+          }
+        }" 
+        :optionDepotIn="{
+          optionDepot,
+          addItem: (item: any)=> {
+            optionDepot = [item, ...optionDepot]
+          }
+        }" 
+        :optionCommodityIn="{
+          optionCommodity,
+          addItem: (item: any)=> {
+            optionCommodity = [item, ...optionCommodity]
+          }
+        }"
+        ></form-inventory-item>
       </base-modal-form>
       <base-modal-form v-if="Base.isShowDialog">
         <base-import-excel :Base="Base"> </base-import-excel>
@@ -89,9 +107,6 @@ const { t } = useI18n();
  * Khắc Tiềm 13-03-2023
  */
 const api:inventoryItemApi = new inventoryItemApi();
-const apiDropdownUnit = new UnitCalculationApi().getDropdown;
-const apiDropdownDepot = new DepotApi().getDropdown;
-const apiDropdownCommodity = new CommodityGroupApi().getDropdown;
 
 /** Sử dụng base thư viện Grid đã viết */
 const Base:Grid = reactive(new Grid(ModuleName.InventoryItem, api));
@@ -105,14 +120,20 @@ const optionDepot: any = ref([]);
 /** Dữ liệu dropdown nhóm vật tư hàng hoá */
 const optionCommodity: any = ref([]);
 
+/** Lưu trạng thái vật tư hàng hoá */
+const typeNature = ref(null);
+function handleChangeNature(nature:any){
+  typeNature.value = nature;
+}
+
 /**
  * Hàm load dữ liệu đổ vào dropdowns combobox
  * NK Tiềm 08.03.2023
  */
-function loadDropDown(){
-  Base.apiService.callApi(apiDropdownUnit, null, async (response: any) => { optionUnit.value = response;});
-  Base.apiService.callApi(apiDropdownDepot, null, async (response: any) => { optionDepot.value = response;});
-  Base.apiService.callApi(apiDropdownCommodity, null, async (response: any) => { optionCommodity.value = Base.listToTree(response, 'commodityGroupID');});
+ function loadDropDown(){
+  Base.apiService.callApi(new UnitCalculationApi().getDropdown, null, async (response: any) => { optionUnit.value = response;});
+  Base.apiService.callApi(new DepotApi().getDropdown, null, async (response: any) => { optionDepot.value = response;});
+  Base.apiService.callApi(new CommodityGroupApi().getDropdown, null, async (response: any) => { optionCommodity.value = Base.listToTree(response, 'commodityGroupID');});
 }
 
 /**
@@ -126,7 +147,7 @@ onBeforeMount(() => {
 });
 
 /** Biến lưu trạng thái show overview */
-const isShowOverview = ref(StorageService.getItemWithSystemConstants(EntitySystem.IsShowOverview) === 'false' ? false : true);
+const isShowOverview = ref(JSON.parse(StorageService.getItemWithSystemConstants(EntitySystem.IsShowOverview)) === false ? false : true);
 
 /**
  * Hàm xử lý toggle show overview

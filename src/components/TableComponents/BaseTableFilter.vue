@@ -3,8 +3,8 @@
       top: setPositionFilter.top + 'px',
       left: setPositionFilter.left + 'px',
     }" class="condition-container">
-    <div class="lock">
-        {{ $t('common.fixed_column') }}
+    <div @click="handleFixColumn(dataFilter.columnSearch); handleShowFilter();" class="lock" :class="`${dataFilter.FixColumn === true ? 'fixing' : ''}`">
+        {{ dataFilter.FixColumn === true ? $t('common.un_pin') : $t('common.fixed_column') }}
     </div>
     <div class="filter-container">
         <div class="view-filter-text">
@@ -66,6 +66,14 @@ export default defineComponent({
      * Hàm xử lý đóng mở form filter
      */
     handleShowFilter: {
+      type: Function,
+      default: ()=> {}
+    },
+
+    /**
+     * Hàm xử lý fix column trên thanh header
+     */
+    handleFixColumn: {
       type: Function,
       default: ()=> {}
     },
@@ -284,7 +292,7 @@ export default defineComponent({
     }, 100)
     onMounted(() => {
       setTimeout(() => {
-        if(dataFilter.value.typeFilter === TypeFilter.Date && inputCalendarFocus.value.elementInput){
+        if(dataFilter.value.typeFilter === TypeFilter.Date && inputCalendarFocus.value){
           inputCalendarFocus.value.elementInput.focus();
         } 
       }, 150);
@@ -357,6 +365,9 @@ export default defineComponent({
   top: 0;
   left: 2px;
   background: transparent var(--url__icon) no-repeat -1726px -560px;
+}
+.condition-container .lock.fixing::before{
+  background-position: -1766px -560px;
 }
 .view-filter-text{
   width: 100%;

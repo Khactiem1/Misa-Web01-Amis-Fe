@@ -21,7 +21,14 @@
     "branch": "Đơn vị",
     "depot": "Nhà kho",
     "unitCalculation": "Đơn vị tính",
-    "commodityGroup": "Nhóm vật tư, hàng hoá, dịch vụ"
+    "commodityGroup": "Nhóm vật tư, hàng hoá, dịch vụ",
+    "construction_page": "Tính năng được xây dựng"
+  },
+  "ui": {
+    "setting_display": "Thiết lập hiển thị",
+    "line": "dòng",
+    "unlimited": "Không giới hạn",
+    "ques_setting_clamp": "Thông tin trên danh sách sẽ hiển thị tối đa bao nhiêu dòng?"
   },
   "gender": {
     "male": "Nam",
@@ -60,6 +67,8 @@
     "function": "Chức năng",
     "sum": "Tổng",
     "fixed_column": "Cố định cột này",
+    "un_pin": "Bỏ cố định cột này",
+    "fixed_col": "Cố định cột",
     "filter": "Lọc",
     "un_filter": "Bỏ lọc",
     "enter_filter": "Nhập giá trị lọc",
@@ -118,7 +127,10 @@
     "remains": "Còn tồn",
     "group": "Nhóm",
     "inventory_status": "Tình trạng tồn kho",
-    "reload_total": "Tải lại số liệu tổng hợp"
+    "reload_total": "Tải lại số liệu tổng hợp",
+    "depreciatedTax": "Giảm thuế theo NQ43",
+    "depreciatedSearch": "Tra cứu giảm thuế",
+    "depreciatedTaxStatus": "Trạng thái tra cứu giảm thuế theo nghị quyết 43/2022/QH15"
   },
   "module": {
     "cash": {
@@ -137,6 +149,7 @@
       "bankAccount" : "Số tài khoản",
       "nameBank" : "Tên ngân hàng",
       "dayForIdentity" : "Ngày cấp chứng minh",
+      "dateOfBirth" : "Ngày sinh",
       "dayForIdentity_small" : "Ngày cấp",
       "grantAddressIdentity" : "Nơi cấp chứng minh",
       "grantAddressIdentity_small" : "Nơi cấp",
@@ -166,10 +179,18 @@
       "materials": "Nguyên vật liệu",
       "finished_product": "Thành phẩm",
       "tool_tools": "Dụng cụ công cụ",
+      "goods_info": "Sản phẩm bạn mua và bán lại cho khách hàng",
+      "service_info": "Dịch vụ mà bạn cung cấp cho khách hàng",
+      "materials_info": "Nguyên liệu đầu vào dùng cho hoạt động sản xuất, xây dựng, cung cấp dịch vụ",
+      "finished_product_info": "Là sản phẩm đầu ra của quá trình sản xuất",
+      "tool_tools_info": "Công cụ dụng cụ mua về nhập kho chưa đưa vào sử dụng",
+      "change_nature": "Thay đổi tính chất",
+      "select_nature": "Chọn tính chất hàng hóa dịch vụ",
       "depot": "Kho",
       "depot_small": "kho",
       "inventory_item": "Vật tư hàng hoá",
       "inventoryItem": "Vật tư hàng hoá",
+      "inventoryItem_small": "vật tư hàng hoá",
       "unit": "Đơn vị tính",
       "inventory_business": "Nghiệp vụ kho",
       "depotCode": "Mã kho",
@@ -182,7 +203,8 @@
       "unitCalculationDetail": "Mô tả",
       "unitCalculation": "Đơn vị tính",
       "unitCalculation_small": "đơn vị tính",
-      "commodityGroup": "Nhóm vật tư, hàng hoá, dịch vụ",
+      "commodityGroup": "Nhóm vật tư, hàng hoá",
+      "commodityGroupCompact": "Nhóm VTHH",
       "commodityGroup_small": "nhóm vật tư, hàng hoá, dịch vụ",
       "commodityCode": "Mã nhóm vật tư, hàng hoá, dịch vụ",
       "commodityName": "Tên nhóm vật tư, hàng hoá, dịch vụ",
@@ -211,6 +233,7 @@
       "accountCost": "Tài khoản chi phí",
       "ratioDiscount": "Tỉ lệ chiết khấu khuyến mại",
       "vatTax": "Thuế giá trị gia tăng",
+      "vatTax_info": "Thuế suất GTGT (%)",
       "vatImport": "Thuế nhập khẩu",
       "vatExport": "Thuế xuất khẩu",
       "orderFix": "Đơn mua cố định",
@@ -218,7 +241,9 @@
       "orderSell": "Đơn giá bán",
       "undefined": "Chưa xác định",
       "no_tax_reduction": "Không giảm thuế",
-      "tax_reduction": "Có giảm thuế"
+      "tax_reduction": "Có giảm thuế",
+      "implicit_information": "Thông tin ngầm định",
+      "depot_impact": "Kho ngầm định"
     }
   },
   "validate": {

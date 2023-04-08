@@ -179,7 +179,7 @@ export class ComparisonType {
  * Khắc Tiềm - 08.03.2023
  */
 export class Header {
-  constructor(field: string = '',fieldSelect: string= '' , header: string = '', width: string = '100', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true){
+  constructor(field: string = '',fieldSelect: string= '' , header: string = '', width: string = '100', filter: FilterHeaderIn = new FilterHeaderIn(), typeFormat: TypeFormat = new TypeFormat(), isShow: boolean = true, fixColumn: boolean = false){
     this.Field = field;
     this.FieldSelect = fieldSelect;
     this.Header = header;
@@ -187,6 +187,7 @@ export class Header {
     this.Filter = filter;
     this.IsShow = isShow;
     this.TypeFormat = typeFormat;
+    this.FixColumn = fixColumn;
   }
 
   /** Tên field */
@@ -215,6 +216,9 @@ export class Header {
 
   /** Trường hiển thị người dùng tự setup */
   public HeaderCustom?: string = '';
+
+  /** Có fix cố định hay không */
+  public FixColumn: boolean = false;
 }
 
 export class TypeFormat {
@@ -232,6 +236,9 @@ export class TypeFormat {
 
   /** Kiểu dịch vụ */
   public IsNature?: boolean = false;
+
+  /** Kiểu dịch vụ */
+  public DepreciatedTax?: boolean = false;
 
   /** Là giới tính ? */
   public IsGender?: boolean = false;
@@ -283,6 +290,9 @@ export class FilterHeaderIn {
 
   /** Lọc kết hợp join bảng */
   public join?: Join;
+
+  /** Fix cột */
+  public FixColumn?: boolean;
 }
 
 /**

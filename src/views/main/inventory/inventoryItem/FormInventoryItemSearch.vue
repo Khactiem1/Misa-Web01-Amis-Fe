@@ -28,16 +28,17 @@
         ></base-combobox>
       </div>
       <div class="form-group">
-        <label>{{ $t('common.group') }}</label>
+        <label>{{ $t('module.inventory.depreciatedTax') }}</label>
         <base-combobox
-          :options="optionCommodityGroup"
-          widthOptionSelect="500px"
-          widthLabelCode="150px"
-          :value="'commodityGroupID'"
-          :header="'commodityName'"
-          :labelCode="$t('module.inventory.commodityCode_small')"
-          :labelName="$t('module.inventory.commodityName_small')"
-          :headerCode = "'commodityCode'"
+          :options="[
+            { value: '', header: 'common.all' },
+            { value: DepreciatedTax.undefined, header: 'module.inventory.undefined' },
+            { value: DepreciatedTax.no_tax_reduction, header: 'module.inventory.no_tax_reduction' },
+            { value: DepreciatedTax.tax_reduction, header: 'module.inventory.tax_reduction' },
+          ]"
+          :value="'value'"
+          :header="'header'"
+          :i18n="true"
           v-model="group.ValueSearch"
           v-model:textField="group.HeaderSearch"
         ></base-combobox>
@@ -94,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { ComparisonTypeSearch, Grid, TypeSearch, Nature, ComparisonType } from '@/core/public_api';
+import { ComparisonTypeSearch, Grid, TypeSearch, Nature, ComparisonType, DepreciatedTax } from '@/core/public_api';
 import { ref, onMounted, onUnmounted} from 'vue';
 /**
  * Props truyền vào với những Base từ bên component cha
@@ -102,7 +103,6 @@ import { ref, onMounted, onUnmounted} from 'vue';
  */
  const props = defineProps({
   Base: { type: Grid, required: true },
-  optionCommodityGroup: { type: Array, required: true },
 })
 
 /**
@@ -167,7 +167,7 @@ const nature: any = ref<ComparisonTypeSearch>({ TypeSearch: TypeSearch.Number, C
 /**
  * Nhóm vthh
  */
-const group: any = ref<ComparisonTypeSearch>({ TypeSearch: TypeSearch.Text, ColumnSearch: 'inventoryitem.CommodityGroupID', ValueSearch: '', HeaderSearch: '', LabelSearch: 'common.group', ComparisonType: ComparisonType.Contain});
+const group: any = ref<ComparisonTypeSearch>({ TypeSearch: TypeSearch.Text, ColumnSearch: 'inventoryitem.DepreciatedTax', ValueSearch: '', HeaderSearch: '', LabelSearch: 'module.inventory.depreciatedTax', ComparisonType: ComparisonType.Equal});
 /**
  * Tình trạng tồn kho
  */
@@ -209,7 +209,7 @@ function searchData(){
     QuantityTock.ValueSearch = "0";
     QuantityTock.ComparisonType = ComparisonType.LessOrEqual;
   }
-  props.Base.loadData({ resetPage:true, ['inventoryitem.Nature']:{...nature.value}, ['inventoryitem.QuantityTock']: {...QuantityTock}, ['inventoryitem.IsActive']:{...status.value} }); //['inventoryitem.CommodityGroupID']:{...group.value}
+  props.Base.loadData({ resetPage:true, ['inventoryitem.Nature']:{...nature.value}, ['inventoryitem.QuantityTock']: {...QuantityTock}, ['inventoryitem.IsActive']:{...status.value}, ['inventoryitem.DepreciatedTax']:{...group.value} });
   handleToggleSearchKey();
 }
 /**

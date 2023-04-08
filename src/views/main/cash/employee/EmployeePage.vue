@@ -21,33 +21,29 @@
         </div>
       </div>
     </div>
-		<div class="table-content">
-			<div class="table-function sticky">
-				<div class="form-fix">
-          <button class="table-function_series toggle-list">
-            <span>{{ $t('common.batch_execution') }}</span>
-            <div class="table-function_series-icon"></div>
-            <div v-show="Base.checkShowActionSeries.length > 0" class="table-list_action">
-              <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
-            </div>
-          </button>
-          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
-        </div>
-				<div style="min-width: 350px;" class="table-function_search">
-          <div class="search-table">
-            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.cash.search_employee_code_name')"/>
-            <div class="icon-search"></div>
+    <div class="table-function sticky">
+      <div class="form-fix">
+        <button class="table-function_series toggle-list">
+          <span>{{ $t('common.batch_execution') }}</span>
+          <div class="table-function_series-icon"></div>
+          <div v-show="Base.checkShowActionSeries.length > 0" class="table-list_action">
+            <div class="list_action-item" @click="handleQuestionDeleteAll()">{{ $t('common.delete') }}</div>
           </div>
-          <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
-          <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
-          <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
+        </button>
+        <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.Employee"></base-form-key-search>
+      </div>
+      <div style="min-width: 350px;" class="table-function_search">
+        <div class="search-table">
+          <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.cash.search_employee_code_name')"/>
+          <div class="icon-search"></div>
         </div>
-			</div>
-			<!-- Table -->
-			<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
-			</base-table>
-			<!-- End Table -->
-		</div>
+        <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
+        <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
+        <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
+      </div>
+    </div>
+    <base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
+    </base-table>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
         <form-employee  :Base="Base" :optionBranch="optionBranch"> </form-employee>

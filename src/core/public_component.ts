@@ -6,6 +6,7 @@ const BaseCheckbox = defineAsyncComponent(() => import('@/components/InputCompon
 const BaseCombobox = defineAsyncComponent(() => import('@/components/InputComponents/BaseCombobox.vue'))
 const BaseInput = defineAsyncComponent(() => import('@/components/InputComponents/BaseInput.vue'))
 const BaseRadio = defineAsyncComponent(() => import('@/components/InputComponents/BaseRadio.vue'))
+const BaseImage = defineAsyncComponent(() => import('@/components/InputComponents/BaseImage.vue'))
 
 /** Notification */
 const NotificationError = defineAsyncComponent(() => import('@/components/NotificationComponent/NotificationError.vue'))
@@ -34,10 +35,11 @@ const TheSidebar = defineAsyncComponent(() => import('@/components/TheSidebar.vu
 const TheTopMessage = defineAsyncComponent(() => import('@/components/TheTopMessage.vue'))
 const TheTopMessageList = defineAsyncComponent(() => import('@/components/TheTopMessageList.vue'))
 const TheChangeLanguage = defineAsyncComponent(() => import('@/components/TheChangeLanguage.vue'))
+const TheSettingClamp = defineAsyncComponent(() => import('@/components/TheSettingClamp.vue'))
 
 export {
-  BaseCalendar, BaseCheckbox, BaseCombobox, BaseInput, BaseRadio, BaseModalForm,
+  BaseCalendar, BaseCheckbox, BaseCombobox, BaseInput, BaseRadio, BaseModalForm, BaseImage,
   NotificationError, NotificationModal, NotificationQuestion, NotificationWanning, ListNotification,
-  TheFooter, TheHeader, TheLoader, TheSidebar, TheTopMessage, TheTopMessageList, TheChangeLanguage,
+  TheFooter, TheHeader, TheLoader, TheSidebar, TheTopMessage, TheTopMessageList, TheChangeLanguage, TheSettingClamp,
   BaseTableEmpty, BaseFormKeySearch, BasePaging, BaseSetting, BaseTable, BaseTableFilter, BaseTableListAction, BaseTableLoader,BaseImportExcel,BaseFormExcelResult,
 }

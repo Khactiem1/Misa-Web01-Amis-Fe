@@ -243,6 +243,9 @@ columns.forEach((item: Header, index)=> {
   else if(item.Field === 'nature'){
     columns[index].TypeFormat.IsNature = true;
   }
+  else if(item.Field === 'depreciatedTax'){
+    columns[index].TypeFormat.DepreciatedTax = true;
+  }
   else if(item.Field === 'minimumStock' || item.Field === 'quantityTock' || item.Field === 'ratioDiscount' || item.Field === 'vatTax' || item.Field === 'vatImport' || item.Field === 'vatExport' || item.Field === 'orderFix' || item.Field === 'orderNearest' || item.Field === 'orderSell'){
     columns[index].TypeFormat.FractionSize = true;
     columns[index].TypeFormat.TextAlign = 'right';

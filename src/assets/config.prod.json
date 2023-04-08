@@ -10,5 +10,8 @@
   "CURRENT_PAGE": "20",
   "IDB_DATA": "idb_data",
   "DATA_TABLE": "data_table",
-  "IS_SHOW_OVER_VIEW": "isShowOverview"
+  "IS_SHOW_OVER_VIEW": "isShowOverview",
+  "LINE_CLAMP": "lineClamp",
+  "LINE_CLAMP_DEFAULT": "",
+  "IS_SHOW_SIDEBAR": "isShowSidebar"
 }

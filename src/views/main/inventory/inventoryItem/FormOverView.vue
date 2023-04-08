@@ -111,6 +111,7 @@ async function reload(){
   justify-content: center;
   padding: 16px 0;
   position: relative;
+  border-radius: 5px;
 }
 .overview-item {
   display: flex;

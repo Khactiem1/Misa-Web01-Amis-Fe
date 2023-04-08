@@ -15,4 +15,7 @@ export class EntitySystem {
     public static IdbData: string = 'IDB_DATA';
     public static DataTable: string = 'DATA_TABLE';
     public static IsShowOverview: string = 'IS_SHOW_OVER_VIEW';
+    public static lineClamp: string = 'LINE_CLAMP';
+    public static lineClampDefault: string = 'LINE_CLAMP_DEFAULT';
+    public static isShowSidebar: string = 'IS_SHOW_SIDEBAR';
 }

@@ -42,6 +42,9 @@ export class UtilsComponents{
       if (getDate.length === 1) {
         getDate = `0${getDate}`;
       }
+      if(getDate === 'NaN' || getMonth === 'NaN'){
+        return date;
+      }
       return [getDate, getMonth, d.getFullYear()].join('/');
     }
   }

@@ -3,33 +3,29 @@
     <div class="form">
       <div class="form-container">
         <div class="container-table">
-          <div class="table-content">
-            <div class="table-function sticky">
-              <div class="modal-title">
-                <h2>{{ $t('common.import_result_from_file') }}</h2>
-              </div>
-              <div class="modal-close">
-                <base-combobox
-                  class="cbx"
-                  :options="[
-                    { value: 0, header: $t('common.all_record', {record: Base.resultExcel.listFail.length + Base.resultExcel.listPass.length}) },
-                    { value: 1, header: $t('common.illegal_record', {record: Base.resultExcel.listFail.length}) },
-                    { value: 2, header: $t('common.valid_record', {record: Base.resultExcel.listPass.length}) },
-                  ]"
-                  :disabled="true"
-                  :value="'value'"
-                  :header="'header'"
-                  v-model="filterRecord"
-                ></base-combobox>
-                <div @click="Base.closeResultExcel()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
-                ></div>
-              </div>
+          <div class="table-function sticky">
+            <div class="modal-title">
+              <h2>{{ $t('common.import_result_from_file') }}</h2>
             </div>
-            <!-- Table -->
-            <base-table :BaseComponent="BaseComponent">
-            </base-table>
-            <!-- End Table -->
+            <div class="modal-close">
+              <base-combobox
+                class="cbx"
+                :options="[
+                  { value: 0, header: $t('common.all_record', {record: Base.resultExcel.listFail.length + Base.resultExcel.listPass.length}) },
+                  { value: 1, header: $t('common.illegal_record', {record: Base.resultExcel.listFail.length}) },
+                  { value: 2, header: $t('common.valid_record', {record: Base.resultExcel.listPass.length}) },
+                ]"
+                :disabled="true"
+                :value="'value'"
+                :header="'header'"
+                v-model="filterRecord"
+              ></base-combobox>
+              <div @click="Base.closeResultExcel()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
+              ></div>
+            </div>
           </div>
+          <base-table :BaseComponent="BaseComponent">
+          </base-table>
         </div>
       </div>
     </div>
@@ -109,7 +105,15 @@ const BaseComponent = ref(
     actionTable: props.Base.actionTable,
     hideAction: true,
     hideFilter: true,
+    lineClamp: props.Base.lineClamp,
     formatServiceResponse: props.Base.formatServiceResponse,
+    columnFix: columns.map((item: Header, index: number) => {
+      if(index === 0){
+        return {
+          Width: 16,
+        };
+      }
+    })
   }
 );
 
@@ -179,6 +183,7 @@ h2{
 }
 .container-table{
   padding: 5px 5px 10px 5px !important;
+  overflow: unset !important;
 }
 .table-content{
   height: calc(100%);
@@ -191,11 +196,6 @@ h2{
 }
 .modal-icon{
   margin-left: 40px;
-}
-.modal-close {
-  display: flex;
-  align-items: center;
-  padding: 0px 24px 24px 12px !important;
 }
 .cbx{
   margin-top: 15px;

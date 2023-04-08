@@ -1,141 +1,162 @@
 <template>
-  <div class="table-scroll">
-    <div class="table-container">
-      <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th class="fix" style="width: 40px;" v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck">
-              <base-checkbox :checked="isShowCheckAllRecord" @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(true, listID)"></base-checkbox>
-            </th>
-            <draggable
-              :list="columnCustom"
-              :disabled="!true"
-              item-key="Field"
-              :tag="'div'"
-              class="drag"
-              ghost-class="ghost"
-              @start="dragging = true"
-              @end="dragging = false"
-            >
-            <template #item="{ element, index }">
-              <th :class="`${index === columnCustom.length - 1 ? 'header-content-end' : ''} ${element.TypeFormat.FixFirstColumn === true ? 'fix' : ''}`" :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, }">
-                <span style="display: flex;" :class="`${element.TypeFormat.TextAlign}`" @click="handleSetSortColumn(element.FieldSelect)">
-                  <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
-                  <div v-if="element.FieldSelect === sortBy.split(' ')[0] && BaseComponent.hideFilter !== true" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
-                </span>
-                <div v-if="element.Filter && element.Filter.columnSearch && element.Filter.columnSearch !== '' && BaseComponent.hideFilter !== true" @click="handleShowFilter($event, element.Filter)" class="mi-header-option"></div>
+  <div class="table-content">
+    <div class="table-scroll">
+      <div class="table-container">
+        <table class="table">
+          <thead class="thead-light">
+            <!-- Phần head table -->
+            <tr>
+              <!-- ô check box -->
+              <th class="fix" style="width: 40px;" v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck">
+                <base-checkbox :checked="isShowCheckAllRecord" @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(true, listID)"></base-checkbox>
               </th>
-            </template>
-            </draggable>
-            <th v-if="BaseComponent.hideAction !== true" style="width: 120px; min-width: 120px" class="text-center fix column-end">
-              {{ $t('common.function') }}
-            </th>
-          </tr>
-        </thead>
-        <base-table-loader v-if="BaseComponent.isShowLoaderTable" :columns="BaseComponent.columns" :lengthList="BaseComponent.recordList.length" ></base-table-loader>
-        <base-table-empty v-if="!BaseComponent.isShowLoaderTable && BaseComponent.recordList.length === 0" ></base-table-empty>
-        <tbody v-if="!BaseComponent.isShowLoaderTable">
-          <tr v-for="(row) in BaseComponent.recordList"
-            :class="{ active: BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false, parent: row.bindHTMLChild === '' && BaseComponent.tree}"
-            :key="row[BaseComponent.actionTable.fieldId]"
-          >
-            <td v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck" class="column-sticky">
-              <base-checkbox :checked="BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false"
-                @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
-              ></base-checkbox>
-            </td>
-            <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" :style="(index === 0 && !col.TypeFormat.FixFirstColumn) ? 'position: unset;' : ''" :class="`${index === columnCustom.length - 1 ? 'header-content-end':''} ${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''} ${col.TypeFormat.FixFirstColumn === true ? 'column-sticky': ''}`"
-               :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
-              <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
-                {{ formatData(col.TypeFormat, row[col.Field]) }}
-              <div v-if="col.TypeFormat.IsImage === true" class="image-table">
-                <img v-bind:src="row[col.Field] ? row[col.Field].includes('/Assets/Images/') ? environment.IMAGE_API + row[col.Field] : '' + row[col.Field] : ''" alt="">
-              </div>
-              <div v-if="col.TypeFormat.CheckBox === true" class="checkBox">
-                  <base-checkbox :checked="row[col.Field]" :lockCheckBox="col.TypeFormat.LockCheckBox"> </base-checkbox>
-              </div>
-            </td>
-            <td v-if="BaseComponent.hideAction !== true" class="text-center fix column-end">
-              <div class="action-colum_table">
-                <button @click=" handleCloseAction(); handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId]);"
-                  class="action-table action-table_left" >
-                  <div class="action-default">
-                    {{ $t(`common.${BaseComponent.actionTable.actionDefault}`) }}
-                  </div>
-                </button>
-                <button @click="handleShowAction($event, row)" class="action-table action-table_right" >
-                  <div class="border-icon_table">
-                    <div class="action-icon"></div>
-                  </div>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-        <thead v-if="BaseComponent.showTotalColumn && BaseComponent.recordList.length !== 0" class="thead-light table-footer">
-          <tr style="z-index: 1;">
-            <th class="fix" style="text-transform: none; border-right: none;" v-if="BaseComponent.checkShowActionSeries">
-              {{ $t('common.sum') }}
-            </th>
-            <th v-for="(item) in BaseComponent.columns" style="text-align: right; border-right: none;"
-              :style="{ 'min-width': `${item.Width}px`, width: `${item.Width}px`, }"
-              :key="item.Field"
+              <draggable
+                :list="columnCustom"
+                :disabled="!true"
+                item-key="Field"
+                :tag="'div'"
+                class="drag"
+                ghost-class="ghost"
+                @start="dragging = true"
+                @end="dragging = false"
+              >
+              <!-- Phần render các cột head -->
+              <template #item="{ element, index }">
+                <th :class="`${index === columnCustom.length - 1 ? 'header-content-end' : ''} ${element.TypeFormat.FixFirstColumn === true || (!BaseComponent.OptionCheck && index === 0) ? 'fix' : ''} ${BaseComponent.columnFix[index] ? `z3`: ``}`" 
+                :style="{ 'min-width': `${element.Width}px`, width: `${element.Width}px`, 'max-width': `${element.Width}px`, 'left': `${BaseComponent.columnFix[index] ? `${BaseComponent.columnFix[index].Width}px` : ''}`}">
+                  <span style="display: flex;" :class="`${element.TypeFormat.TextAlign}`" @click="handleSetSortColumn(element.FieldSelect)">
+                    <span style="flex: 1; display: inline-block;">{{ element.HeaderCustom && element.HeaderCustom.trim() !== '' ? element.HeaderCustom : $t(`${element.Header}`) }}</span>
+                    <div v-if="element.FieldSelect === sortBy.split(' ')[0] && BaseComponent.hideFilter !== true" class="sort" :class="{ 'sortASC': sortBy.split(' ')[1] === 'ASC' }"></div>
+                  </span>
+                  <div v-if="element.Filter && element.Filter.columnSearch && element.Filter.columnSearch !== '' && BaseComponent.hideFilter !== true" @click="handleShowFilter($event, {...element.Filter, FixColumn: element.FixColumn})" class="mi-header-option"></div>
+                </th>
+              </template>
+              </draggable>
+              <!-- Phần render các chức năng tác vụ -->
+              <th v-if="BaseComponent.hideAction !== true" style="width: 120px; min-width: 120px" class="text-center fix column-end">
+                {{ $t('common.function') }}
+              </th>
+            </tr>
+          </thead>
+          <!-- Phần render loader table khi tải dữ liệu -->
+          <base-table-loader v-if="BaseComponent.isShowLoaderTable" :columns="BaseComponent.columns" :lengthList="BaseComponent.recordList.length" ></base-table-loader>
+          <!-- Phần render báo table trống khi danh sách trống -->
+          <base-table-empty v-if="!BaseComponent.isShowLoaderTable && BaseComponent.recordList.length === 0" ></base-table-empty>
+          <tbody v-if="!BaseComponent.isShowLoaderTable">
+            <!-- Phần body table -->
+            <tr v-for="(row) in BaseComponent.recordList"
+              :class="{ active: BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false, parent: row.bindHTMLChild === '' && BaseComponent.tree}"
+              :key="row[BaseComponent.actionTable.fieldId]"
             >
-              {{ item.Data ?  Base.Comma(item.Data) : "" }}
-            </th>
-            <th style="width: 120px; min-width: 120px; border-right: none;" class="text-center fix">
-            </th>
-          </tr>
-        </thead>
-        <teleport to="#app">
-          <base-table-list-action
-            :actionTable="BaseComponent.actionTable"
-            :positionAction="positionAction"
-            :row="rowColumn"
-            :handleCloseAction="handleCloseAction"
-            :handleClickActionColumTable="handleClickActionColumTable"
-          ></base-table-list-action>
-          <base-table-filter :oldSearch="oldSearch" :handleShowFilter="handleShowFilter" :dataFilter="dataFilter" @handle-filter-data="handleFilterData" :setPositionFilter="setPositionFilter" v-if="isShowFilter">
-          </base-table-filter>
-        </teleport>
-      </table>
+              <!-- ô check box -->
+              <td v-if="BaseComponent.checkShowActionSeries && BaseComponent.OptionCheck" class="column-sticky">
+                <base-checkbox :checked="BaseComponent.checkShowActionSeries ? BaseComponent.checkShowActionSeries.includes(row[BaseComponent.actionTable.fieldId]) : false"
+                  @custom-handle-click-checkbox="BaseComponent.handleClickCheckbox(row[BaseComponent.actionTable.fieldId])"
+                ></base-checkbox>
+              </td>
+              <!-- Phần render các cột nội dung của table -->
+              <td v-for="(col, index) in columnCustom" :title="formatData(col.TypeFormat, row[col.Field])" 
+              :style="{ 'left': `${BaseComponent.columnFix[index] ? `${BaseComponent.columnFix[index].Width}px` : ''}`, 'position': `${BaseComponent.columnFix[index] ? `sticky` : 'unset'}`}" 
+              :class="`${BaseComponent.columnFix[index] ? `z3`: ``} ${index === columnCustom.length - 1 ? 'header-content-end':''} ${col.TypeFormat.TextAlign} ${row[col.Field] === 'common.valid' ? 'common-valid' : row[col.Field] === 'common.illegal' ? 'common-illegal' : ''} ${col.TypeFormat.FixFirstColumn === true ? 'column-sticky': ''}`"
+                :key="index" @dblclick=" handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId])">
+                <span class="data-table-bind" :class="`${BaseComponent.lineClamp}`">
+                  <span v-if="row[BaseComponent.actionTable.fieldCode] === row[col.Field] && row.bindHTMLChild" v-html="row.bindHTMLChild + row.bindHTMLChild"></span>
+                  {{ formatData(col.TypeFormat, row[col.Field]) }}
+                </span>
+                <div v-if="col.TypeFormat.IsImage === true" class="image-table">
+                  <img v-bind:src="row[col.Field] ? row[col.Field].includes('/Images/') ? environment.IMAGE_API + row[col.Field] : '' + row[col.Field] : ''" alt="">
+                </div>
+                <div v-if="col.TypeFormat.CheckBox === true" class="checkBox">
+                  <base-checkbox :checked="row[col.Field]" :lockCheckBox="col.TypeFormat.LockCheckBox"> </base-checkbox>
+                </div>
+              </td>
+              <!-- Phần render các chức năng tác vụ -->
+              <td v-if="BaseComponent.hideAction !== true" class="text-center fix column-end">
+                <div class="action-colum_table">
+                  <button @click=" handleCloseAction(); handleClickActionColumTable(BaseComponent.actionTable.actionDefault, row[BaseComponent.actionTable.fieldId]);"
+                    class="action-table action-table_left" >
+                    <div class="action-default">
+                      {{ $t(`common.${BaseComponent.actionTable.actionDefault}`) }}
+                    </div>
+                  </button>
+                  <button @click="handleShowAction($event, row)" class="action-table action-table_right" >
+                    <div class="border-icon_table">
+                      <div class="action-icon"></div>
+                    </div>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <!-- Render phần tính tổng -->
+          <thead v-if="BaseComponent.showTotalColumn && BaseComponent.recordList.length !== 0" class="thead-light table-footer">
+            <tr>
+              <th class="fix" style="text-transform: none; border-right: none;" v-if="BaseComponent.checkShowActionSeries">
+                {{ $t('common.sum') }}
+              </th>
+              <th v-for="(item, index) in BaseComponent.columns" style="text-align: right; border-right: none;"
+                :class="`${BaseComponent.columnFix[index] ? `z3`: ``}`"
+                :style="{ 'min-width': `${item.Width}px`, width: `${item.Width}px`, 'left': `${BaseComponent.columnFix[index] ? `${BaseComponent.columnFix[index].Width}px` : ''}`}"
+                :key="item.Field"
+              >
+                {{ item.Data ?  Base.Comma(item.Data) : "" }}
+              </th>
+              <th style="width: 120px; min-width: 120px; border-right: none;" class="text-center fix z3">
+              </th>
+            </tr>
+          </thead>
+          <!-- Phần render các chức năng tác vụ (khi click vào ô show tác vụ thì sẽ hiển thị)-->
+          <teleport to="#app">
+            <base-table-list-action
+              :actionTable="BaseComponent.actionTable"
+              :positionAction="positionAction"
+              :row="rowColumn"
+              :handleCloseAction="handleCloseAction"
+              :handleClickActionColumTable="handleClickActionColumTable"
+            ></base-table-list-action>
+            <base-table-filter :handleFixColumn="BaseComponent.handleFixColumn" :oldSearch="oldSearch" :handleShowFilter="handleShowFilter" :dataFilter="dataFilter" @handle-filter-data="handleFilterData" :setPositionFilter="setPositionFilter" v-if="isShowFilter">
+            </base-table-filter>
+          </teleport>
+        </table>
+      </div>
     </div>
-  </div>
-  <div v-if="BaseComponent.recordList.length !== 0 && BaseComponent.totalCount" class="paging-container sticky">
-    <div class="total-record">
-      {{ $t('common.total') }}: <strong>{{ BaseComponent.totalCount }}</strong> {{ $t('common.record') }}
-    </div>
-    <div class="paging">
-      <base-combobox
-        :options="[
-          { value: 10, header: 'common.paging' },
-          { value: 20, header: 'common.paging' },
-          { value: 30, header: 'common.paging' },
-          { value: 50, header: 'common.paging' },
-          { value: 100, header: 'common.paging' },
-        ]"
-        :i18n="true"
-        :disabled="true"
-        :value="'value'"
-        :header="'header'"
-        :noAnimation="true"
-        :autoPosition="true"
-        v-model="paseSize"
-      ></base-combobox>
-      <base-paging
-        :totalCount="BaseComponent.totalCount"
-        :countRecordPageRecord="BaseComponent.PageSize"
-        :value="BaseComponent.recordSelectPaging"
-        @custom-handle-select-paging="BaseComponent.selectPaging"
-        :key="BaseComponent.PageSize || BaseComponent.keyword"
-      ></base-paging>
+    <!-- Phần phân trang -->
+    <div v-if="BaseComponent.recordList.length !== 0 && BaseComponent.totalCount" class="paging-container sticky">
+      <div class="total-record">
+        {{ $t('common.total') }}: <strong>{{ BaseComponent.totalCount }}</strong> {{ $t('common.record') }}
+      </div>
+      <div class="paging">
+        <base-combobox
+          :options="[
+            { value: 10, header: 'common.paging' },
+            { value: 20, header: 'common.paging' },
+            { value: 30, header: 'common.paging' },
+            { value: 50, header: 'common.paging' },
+            { value: 100, header: 'common.paging' },
+          ]"
+          :i18n="true"
+          :disabled="true"
+          :value="'value'"
+          :header="'header'"
+          :noAnimation="true"
+          :autoPosition="true"
+          v-model="paseSize"
+        ></base-combobox>
+        <base-paging
+          :totalCount="BaseComponent.totalCount"
+          :countRecordPageRecord="BaseComponent.PageSize"
+          :value="BaseComponent.recordSelectPaging"
+          @custom-handle-select-paging="BaseComponent.selectPaging"
+          :key="BaseComponent.PageSize || BaseComponent.keyword"
+        ></base-paging>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { BaseTableEmpty, BaseTableLoader, BaseTableFilter, BaseTableListAction, BasePaging } from "@/core/public_component";
-import { UtilsComponents, Gender, TypeFormat, Nature } from "@/core/public_api";
+import { UtilsComponents, Gender, TypeFormat, Nature, DepreciatedTax } from "@/core/public_api";
 import { environment } from '@/environments/environment.prod';
 import { watch, ref, toRefs, computed, defineComponent, type PropType } from "vue";
 import { useStore } from "vuex";
@@ -178,6 +199,13 @@ export default defineComponent({
     /** Column lấy từ Base */
     const columnCustom: any = ref(JSON.parse(JSON.stringify(BaseComponent.value.columns)));
 
+    /** Kiểm tra sắp xếp lại cột khi kéo thả */
+    watch(dragging,(newVal)=> {
+      if(newVal === false && BaseComponent.value.setupColumns){
+        BaseComponent.value.setupColumns();
+      }
+    })
+
     /** Kiểm tra sự thay đổi từ Base, nếu thay đổi thì tiến hành update */
     const refColumn: any = computed(() => BaseComponent.value.columns);
     watch(refColumn, () => {
@@ -218,6 +246,8 @@ export default defineComponent({
       ? formatIsActive(data)
       : typeFormat.IsNature === true
       ? formatNature(data)
+      : typeFormat.DepreciatedTax === true
+      ? formatDepreciatedTax(data)
       : typeFormat.CheckBox === true
       ? ''
       : typeFormat.IsImage === true
@@ -331,7 +361,6 @@ export default defineComponent({
 
     /**
      * hàm xử lý hiển thị giới tính dựa trên enum
-     * @param {Giới tính} gender 
      * Khắc Tiềm - 15.09.2022
      */
     function formatGender(gender: any) {
@@ -342,8 +371,13 @@ export default defineComponent({
       } else if (Gender.Other == gender) {
         return t('gender.other');
       }
+      return gender;
     }
 
+    /**
+     * hàm xử lý hiển thị giới tính dựa trên enum
+     * Khắc Tiềm - 15.09.2022
+     */
     function formatNature(nature: any){
       if (nature == Nature.Goods) {
         return t('module.inventory.goods');
@@ -356,15 +390,36 @@ export default defineComponent({
       }else if (nature == Nature.ToolTools) {
         return t('module.inventory.tool_tools');
       }
+      return nature;
     }
 
+    /**
+     * hàm xử lý hiển thị giới tính dựa trên enum
+     * Khắc Tiềm - 15.09.2022
+     */
+    function formatDepreciatedTax(Depreciated: any){
+      if (Depreciated == DepreciatedTax.undefined) {
+        return t('module.inventory.undefined');
+      } else if (Depreciated == DepreciatedTax.no_tax_reduction) {
+        return t('module.inventory.no_tax_reduction');
+      } else if (Depreciated == DepreciatedTax.tax_reduction) {
+        return t('module.inventory.tax_reduction');
+      }
+      return Depreciated;
+    }
+
+    /**
+     * hàm xử lý hiển thị giới tính dựa trên enum
+     * Khắc Tiềm - 15.09.2022
+     */
     function formatIsActive(isActive: any){
-      if(isActive === true){
+      if(isActive == true || isActive == 'true'){
         return t('common.using');
       }
-      else if (isActive === false){
+      else if (isActive == false || isActive == 'false'){
         return t('common.stopUsing');
       }
+      return isActive;
     }
 
     /**
@@ -451,6 +506,36 @@ export default defineComponent({
 </script>
 
 <style scoped>
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #b0b0b0;
+}
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 0;
+  background: #808080;
+}
+::-webkit-scrollbar {
+  height: 10px; /* height of horizontal scrollbar ← You're missing this */
+  width: 8px;
+	background-color: var(--while__color);
+}
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  margin-bottom: 55px;
+  margin-top: 34px;
+  direction: rtl;
+  margin-left: 16px;
+  margin-right: 15px;
+}
+.table-content {
+  position: relative;
+  overflow: auto;
+  scroll-behavior: smooth;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--while__color);
+}
 table {
   border-spacing: 0;
   width: 100%;
@@ -462,13 +547,13 @@ table {
 .table .thead-light th {
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
-  min-height: 34px;
+  min-height: 33px;
   padding: 0 10px 0 10px;
   font-size: 12px;
   font-family: 'notosans-semibold';
   height: 34px;
   position: sticky;
-  top: 66px;
+  top: 0;
   background-color: #e5e8ec;
   text-transform: uppercase;
   vertical-align: middle;
@@ -509,6 +594,7 @@ thead tr th {
   border-right: none;
 }
 tbody tr:hover,
+tbody tr:hover .z3,
 .table tbody tr:hover th:last-child,
 .table tbody tr:hover th:first-child,
 .table tbody tr:hover td:last-child,
@@ -516,6 +602,7 @@ tbody tr:hover,
   background-color: #f2f9ff;
 }
 tbody tr.active,
+tbody tr.active .z3,
 .table tbody tr.active th:last-child,
 .table tbody tr.active th:first-child,
 .table tbody tr.active td:last-child,
@@ -530,10 +617,32 @@ tbody tr.active,
   border-right: 1px dotted #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
 }
+.table tbody td
+.table tbody td .data-table-bind{
+  white-space: pre-wrap; 
+}
+.table tbody td .data-table-bind.hidden-space_1{
+  overflow: hidden; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+}
+.table tbody td .data-table-bind.hidden-space_2{
+  overflow: hidden; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+}
+.table tbody td .data-table-bind.hidden-space_3{
+  overflow: hidden; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+}
 .table .thead-light th.fix:last-child,
 .table .thead-light th.fix:first-child {
-  background-color: #e5e8ec;
   z-index: 3;
+  background-color: #e5e8ec;
 }
 .table .thead-light th.fix:last-child,
 .table tbody th.fix:last-child,
@@ -708,11 +817,9 @@ tbody tr.active,
   background-color: var(--while__color);
   display: flex;
   align-items: flex-end;
-	z-index: 1;
+	z-index: 4;
   justify-content: space-between;
   margin-right: -1px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
 }
 .paging {
   display: flex;
@@ -727,11 +834,20 @@ tbody tr.active,
 }
 .column-end{
   border-left: 1px dotted #c7c7c7;
+  z-index: 4 !important;
 }
 thead .column-end{
+  z-index: 5 !important;
   border-left: 1px solid #c7c7c7;
 }
 .header-content-end{
   border-right: unset !important;
+}
+thead .z3{
+  z-index: 5 !important;
+}
+tbody .z3{
+  background-color: var(--while__color);
+  z-index: 3 !important;
 }
 </style>

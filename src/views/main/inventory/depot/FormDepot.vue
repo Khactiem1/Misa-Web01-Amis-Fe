@@ -1,6 +1,6 @@
 <template>
 	<div class="modal-body">
-    <div class="form">
+    <div class="form form_depot_in">
       <div class="form-header">
         <div class="modal-title">
           <h2>{{ Base.StateForm === ActionTable.Add ? $t('common.add_record', {module: $t(`module.inventory.${ModuleName.Depot}_small`) }) 
@@ -8,7 +8,7 @@
           : $t('common.edit_record', {module: $t(`module.inventory.${ModuleName.Depot}_small`) }) }}</h2>
         </div>
         <div class="modal-close">
-          <a href="/" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
+          <a href="/feature-built" target="_blank" class="modal-icon modal-icon_help" :content="$t('common.support') + ' F1'"></a>
           <div @click="handleCloseModal()" class="modal-icon modal-icon_close" :content="$t('common.close') + ' ESC'"
           ></div>
         </div>
@@ -84,6 +84,7 @@ const { t } = useI18n();
  */
 const props = defineProps({
   Base: { type: Grid, required: true },
+  AddItem: { type: Function, default: () => {} },
 })
 
 /**
@@ -126,7 +127,7 @@ async function handleSaveData(closeModal: any) {
     if (messValid.length > 0) {
       isValid.value = true;
       unListenEvent();
-      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError(), listenEvent() });
+      props.Base.showNotificationError(messValid, ()=> { props.Base.focusInputError('form_depot_in'), listenEvent() });
     }
     else {
       if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication) {
@@ -164,6 +165,7 @@ const callApiForm = async (api: any, stateForm: string = '') => {
   await props.Base.apiService.callApi(api, depot.value ,async (response: any) => { 
     if (props.Base.StateForm === ActionTable.Add || props.Base.StateForm === ActionTable.Replication){
       props.Base.store.dispatch(`${props.Base.Module}/addRecordAction`, { ...depot.value, depotID: response });
+      props.AddItem({ ...depot.value, depotID: response });
     }
     else{
       props.Base.store.dispatch(`${props.Base.Module}/editRecordAction`, { ...depot.value, depotID: response });
@@ -247,7 +249,7 @@ const unListenEvent = () => {
 function handleKey(event: any){
   props.Base.handleEventFormCtrlShiftS(event, handleCloseModal, null, handleSaveData, false, handleSaveData, true)
 	props.Base.handleEventF1(event, () => {
-    window.open('/');
+    window.open('/feature-built');
   })
 }
 

@@ -142,7 +142,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { TheChangeLanguage } from '@/core/public_component'
-import { SystemConstants, EntitySystem } from '@/core/public_api';
+import { SystemConstants, EntitySystem, StorageService } from '@/core/public_api';
 import i18n from '@/locales/i18n';
 
 /** Lấy ra ngôn ngữ đang sử dụng */
@@ -158,14 +158,15 @@ const store: any = useStore();
  * Lấy ra trạng thái show sidebar
  * Khắc Tiềm - 15.09.2022
  */
-let showSidebar: any = computed(() => store.state.config.showSidebar);
+const showSidebar: any = computed(() => store.state.config.showSidebar);
 
 /**
  * Hàm sử lý sự kiện toggle sidebar
  * Khắc Tiềm - 15.09.2022
  */
-function handleToggleSidebar(){
-  store.dispatch("config/setToggleShowSidebarAction");
+async function handleToggleSidebar(){
+  await store.dispatch("config/setToggleShowSidebarAction");
+  StorageService.setItemWithSystemConstants(EntitySystem.isShowSidebar, showSidebar.value)
 }
 </script>
 

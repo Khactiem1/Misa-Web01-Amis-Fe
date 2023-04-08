@@ -167,7 +167,6 @@ export default defineComponent({
 
     /**
      * Hàm cập nhật giá trị
-     * @param {H} value 
      * Khắc Tiềm - 15.09.2022
      */
     function updateValue(value:any){

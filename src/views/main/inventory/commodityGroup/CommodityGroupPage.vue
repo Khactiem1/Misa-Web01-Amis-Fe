@@ -21,26 +21,22 @@
         </div>
       </div>
     </div>
-		<div class="table-content">
-			<div class="table-function sticky">
-				<div class="form-fix">
-          <div class="search-table">
-            <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_commodityGroup_code_name')"/>
-            <div class="icon-search"></div>
-          </div>
-          <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.CommodityGroup"></base-form-key-search>
+    <div class="table-function sticky">
+      <div class="form-fix">
+        <div class="search-table">
+          <input @input="Base.handleSearchData" class="input input-table_search" type="text" :placeholder="$t('module.inventory.search_commodityGroup_code_name')"/>
+          <div class="icon-search"></div>
         </div>
-				<div style="min-width: 350px;" class="table-function_search">
-          <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
-          <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
-          <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
-        </div>
-			</div>
-			<!-- Table -->
-			<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
-			</base-table>
-			<!-- End Table -->
-		</div>
+        <base-form-key-search :loadData="Base.loadData" :moduleFilter="ModuleName.CommodityGroup"></base-form-key-search>
+      </div>
+      <div style="min-width: 350px;" class="table-function_search">
+        <div @click="Base.loadData()" class="action-render_table reload-table" :content="$t('common.load_data')"></div>
+        <div @click="Base.exportToExcel()" class="action-render_table export-data" :content="$t('common.export_excel')"></div>
+        <div @click="Base.handleShowSettingTable()" class="action-render_table setting-table" :content="$t('common.customize_interface')"></div>
+      </div>
+    </div>
+		<base-table :BaseComponent="Base" :handleClickActionColumTable="handleClickActionColumTable">
+    </base-table>
 		<teleport to="#app">
       <base-modal-form v-if="Base.isShowModal">
         <form-commodity-group :Base="Base" :optionCommodityGroup="optionCommodityGroup">

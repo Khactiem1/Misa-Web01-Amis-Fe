@@ -22,8 +22,9 @@
               ></base-checkbox>
             </div>
             <div style="padding-left: 19px;" class="info-setting">{{ $t('common.name_column') }}</div>
-            <div style="padding-left: 30px;" class="info-setting">{{ $t('common.name_column_custom') }}</div>
-            <div style="padding-left: 105px;" class="info-setting">{{ $t('common.width') }}</div>
+            <div class="info-setting name-custom">{{ $t('common.name_column_custom') }}</div>
+            <div style="padding-left: 45px;" >{{ $t('common.width') }}</div>
+            <div style="padding-left: 45px;" >{{ $t('common.fixed_col') }}</div>
           </div>
           <draggable
             :list="columnCustom"
@@ -45,6 +46,11 @@
                 <div class="info-setting">{{ $t(element.Header) }}</div>
                 <input v-model="element.HeaderCustom" class="input input-setting" type="text" />
                 <input @keypress="isInputNumber($event, element.Width)" v-model="element.Width" class="input input-setting_width" type="text" />
+                <base-checkbox class="fix-column"
+                  v-model="element.FixColumn"
+                  :trueValue="true"
+                  :falseValue="false"
+                ></base-checkbox>
               </div>
             </template>
           </draggable>
@@ -52,7 +58,7 @@
         <div class="setting-footer">
           <button @click="handleShowSettingTable()" class="btn">{{ $t('common.close') }}</button>
           <button @click="closeDone()" class="btn btn-success">
-            {{ $t('common.done') }}
+            {{ $t('common.add_form') }}
           </button>
         </div>
       </div>
@@ -131,10 +137,11 @@ export default defineComponent({
     /** Hàm đóng và lưu dữ liệu 
      * Khắc Tiềm - 15.09.2022
     */
-    function closeDone(){
+    async function closeDone(){
       columnCustom.forEach((item: Header, index: any) => {
         columnCustom[index].Filter.headerCustom = columnCustom[index].HeaderCustom;
       })
+      await columnCustom.sort((a: Header, b: Header) => (a.FixColumn === b.FixColumn) ? 0 : a.FixColumn ? -1 : 1);
       handleShowSettingTable.value(columnCustom);
     }
 
@@ -278,7 +285,14 @@ export default defineComponent({
 }
 .info-setting {
   padding-left: 20px;
+  max-width: 260px;
+  min-width: 260px;
   width: 260px;
+}
+.info-setting.name-custom{
+  max-width: 210px;
+  min-width: 210px;
+  width: 210px;
 }
 .setting-header_name .info-setting {
   padding-left: 0;
@@ -292,12 +306,12 @@ export default defineComponent({
   border-top: 4px solid #f4f5f8;
 }
 .input-setting{
-  width: 250px;
+  width: 200px;
   height: 26px;
 }
 .input-setting_width{
   height: 26px;
-  width: 100px;
+  width: 60px;
   margin-left: 55px;
 }
 .icon-drag-grid{
@@ -314,7 +328,9 @@ export default defineComponent({
   -webkit-user-select: none;
   -ms-user-select: none;
 }
-
+.fix-column{
+  margin-left: 65px;
+}
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;

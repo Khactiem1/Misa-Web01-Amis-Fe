@@ -120,9 +120,6 @@ a {
   display: block;
   border: none;
 }
-.table-content{
-  border-radius: 5px;
-}
 .i{
   display: block !important;
   background: var(--url__icon) no-repeat !important;

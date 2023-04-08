@@ -1,7 +1,7 @@
 import { UtilsComponents } from './utils_components';
-import { ENotificationType, EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
+import { EntitySystem, KeyCode, StorageService, SystemConstants } from "@/core/public_api";
 import { useStore } from "vuex";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 /**
  * Chứa các hàm base đã xây dựng
@@ -64,6 +64,9 @@ export class Utils extends UtilsComponents{
 
   /**Chia cây */
   public showTotalColumn: boolean = false;
+
+  /** chế độ ẩn dòng khi xuống dòng của table */
+  public lineClamp:any = computed(() => this.store.state.config.lineClamp);
 
   /** Kết quả nhập tệp */
   public resultExcel: any = ref({
@@ -221,6 +224,7 @@ export class Utils extends UtilsComponents{
     if (event.keyCode === KeyCode.Esc) {
       event.preventDefault(); 
       handleEsc(dataEsc);
+      event.preventDefault(); 
     } 
     else if ( event.keyCode === KeyCode.Ctrl || event.keyCode === KeyCode.Shift || event.keyCode === KeyCode.S ) {
       if (!this.EventCtrlShiftS.includes(event.keyCode)) {
@@ -297,9 +301,9 @@ export class Utils extends UtilsComponents{
    * Hàm xử lý focus vào ô đầu tiên nếu ô đó có lỗi
    * NK Tiềm 08.03.2023
    */
-  public focusInputError = () => {
+  public focusInputError = (tag: any) => {
     setTimeout(() => {
-      const elm: any = document.querySelector('.form-group .is-valid .input');
+      const elm: any = document.querySelector(`.${tag} .form-group .is-valid .input`);
       if(elm){
         elm.focus();
       }
