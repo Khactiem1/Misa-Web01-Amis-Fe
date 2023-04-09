@@ -274,7 +274,7 @@ export default defineComponent({
      * biến lưu dữ liệu value khi được click
      * Khắc Tiềm - 15.09.2022
      */
-    const valueClick: any = ref(null);
+    const valueClick: any = ref(undefined);
 
     /**
      * Set vị trí list select hiển thị
@@ -536,7 +536,7 @@ export default defineComponent({
       if(optionValue.value.length > 0){
         if(event.target.value.trim() === ''){
             inputEnter.value = null;
-            valueClick.value = null;
+            valueClick.value = undefined;
           }
           else if(event.data != ' '){
             let searchForName = {...optionValue.value.find((item: any) => item[header.value].toLowerCase().trim().includes(event.target.value.toLowerCase().trim()))};
