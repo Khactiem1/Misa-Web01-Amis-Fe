@@ -36,6 +36,7 @@
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
 import { Grid } from '@/core/public_api';
+import inventoryItemApi from '@/api/module/inventoryItem';
 
 /**
  * Props truyền vào với những Base từ bên component cha
@@ -62,7 +63,7 @@ const loading = ref(false);
  */
 onBeforeMount(async ()=> {
   loading.value = true;
-  await props.Base.apiService.callApi(props.Base.api.GetInventoryStatus, null, (response: any) => { outOfStockSoon.value = response.outOfStockSoon; outOfStock.value = response.outOfStock });
+  await props.Base.apiService.callApi(new inventoryItemApi().GetInventoryStatus, null, (response: any) => { outOfStockSoon.value = response.outOfStockSoon; outOfStock.value = response.outOfStock });
   loading.value = false;
 })
 
@@ -71,7 +72,7 @@ onBeforeMount(async ()=> {
  */
 async function reload(){
   loading.value = true;
-  await props.Base.apiService.callApi(props.Base.api.GetInventoryStatus, null, (response: any) => { outOfStockSoon.value = response.outOfStockSoon; outOfStock.value = response.outOfStock });
+  await props.Base.apiService.callApi(new inventoryItemApi().GetInventoryStatus, null, (response: any) => { outOfStockSoon.value = response.outOfStockSoon; outOfStock.value = response.outOfStock });
   loading.value = false;
 }
 

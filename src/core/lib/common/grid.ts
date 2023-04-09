@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { environment } from '@/environments/environment.prod';
 import { ENotificationType, ApiService, InfoTable, StorageService, EntitySystem, IdbDataTable, ActionTable, Header, ServiceResponse } from '@/core/public_api';
 import i18n from '@/locales/i18n';
+import type BaseApi from '@/api/base_api';
 
 /** 
  * Chứa toàn bộ các base thêm sửa xoá được xây dựng
@@ -10,12 +11,12 @@ import i18n from '@/locales/i18n';
  */
 export class Grid extends Utils{
   /** Api được truyền vào từ lớp khởi tạo */
-  public api: any;
+  public api: BaseApi;
 
   /** Key word tìm kiếm mặc định */
   public keyword:string = '';
 
-  constructor(module: string, api: any){
+  constructor(module: string, api: BaseApi){
     super(module);
     this.api = api;
   }

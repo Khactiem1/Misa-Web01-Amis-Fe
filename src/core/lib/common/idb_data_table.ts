@@ -8,20 +8,32 @@ import { SystemConstants } from './system.constants';
  * Khắc Tiềm - 08.03.2023
  */
 export class IdbDataTable {
-  /** Tên database */
+  /** 
+   * Tên database 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public DatabaseName: string = SystemConstants.get(EntitySystem.IdbData);
 
-  /** Tên Store */
+  /** 
+   * Tên Store 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public StoreName: string = SystemConstants.get(EntitySystem.DataTable);
 
-  /** Tên bảng */
+  /** 
+   * Tên bảng 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public TableName: string;
 
   constructor(table: string){
     this.TableName = table;
   }
 
-  /** Khai váo db */
+  /** 
+   * Khai váo db 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public dbPromise: any = openDB(this.DatabaseName, 1, {
     upgrade: (db) => {
       if (!db.objectStoreNames.contains(this.StoreName)) {
@@ -30,32 +42,50 @@ export class IdbDataTable {
     },
   });
 
-  /** Lấy ra table */
+  /** 
+   * Lấy ra table
+   * Khắc Tiềm - 08.03.2023
+   * */
   public async get() {
     return (await this.dbPromise).get(this.StoreName, this.TableName);
   }
 
-  /** Set table */
+  /**
+   * Set table 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public async set(data: any){
     return (await this.dbPromise).put(this.StoreName, data, this.TableName);
   }
 
-  /** Xoá table */
+  /** 
+   * Xoá table 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public async delete(){
     return (await this.dbPromise).delete(this.StoreName, this.TableName);
   }
 
-  /** Clear table */
+  /** 
+   * Clear table 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public async clear(){
     return (await this.dbPromise).clear(this.StoreName);
   }
 
-  /** Lấy ra tên table */
+  /** 
+   * Lấy ra tên table
+   * Khắc Tiềm - 08.03.2023
+   * */
   public async keys(){
     return (await this.dbPromise).getAllKeys(this.StoreName);
   }
 
-  /** Kiểm tra dữ liệu column đã được lưu ở indexedDB trước đó chưa */
+  /** 
+   * Kiểm tra dữ liệu column đã được lưu ở indexedDB trước đó chưa 
+   * Khắc Tiềm - 08.03.2023
+   * */
   public checkAndSetColumns = async (columns: Header []): Promise<Header []> => {
     await this.get().then((data: Header []) => {
       if(data){
