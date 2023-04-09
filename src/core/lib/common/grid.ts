@@ -203,9 +203,10 @@ export class Grid extends Utils{
    * Khắc Tiềm - 08.03.2023
    */
   public deleteAll = () => {
+    const count = this.checkShowActionSeries.value.length;
     this.apiService.callApi(this.api.deleteMultipleApi, this.checkShowActionSeries.value, async () => { 
       await this.store.dispatch(`${this.Module}/setEmptyCheckBoxRecordAction`);
-      await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success'));
+      await this.addNotification(ENotificationType.Success, i18n.global.t('message.crud.delete_success_all', { count: count }));
       if(this.recordList.value.length === 0){
         this.recordSelectPaging.value = 0; 
         this.loadData({ v_Offset: 0, v_Limit: this.PageSize, v_Where: this.keyword });

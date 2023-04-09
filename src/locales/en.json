@@ -300,6 +300,7 @@
     "crud": {
       "wanning_delete_all": "Do you really want to delete the entire selected record?",
       "delete_success": "Record has been deleted.",
+      "delete_success_all": "{count} record has been deleted.",
       "statue_of_liberty": "Statue of Liberty",
       "question_wanning_delete": "Do you really want to remove {module} <{code}>?"
     }
