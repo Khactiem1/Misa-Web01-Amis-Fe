@@ -146,6 +146,7 @@
       "branchName" : "Branch name",
       "branchCode" : "Branch code",
       "branch" : "Branch",
+      "branchID" : "Branch",
       "bankAccount" : "Bank account",
       "nameBank" : "Name bank",
       "dayForIdentity" : "Day for identity",

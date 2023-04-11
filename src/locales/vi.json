@@ -146,6 +146,7 @@
       "branchName" : "Tên đơn vị",
       "branchCode" : "Mã đơn vị",
       "branch" : "Đơn vị",
+      "branchID" : "Đơn vị",
       "bankAccount" : "Số tài khoản",
       "nameBank" : "Tên ngân hàng",
       "dayForIdentity" : "Ngày cấp chứng minh",

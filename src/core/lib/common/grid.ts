@@ -279,7 +279,7 @@ export class Grid extends Utils{
       },[])
       this.apiService.callApi(this.api.getExportExcel, { v_Select: columnSelect, ...this.store.state[`${this.Module}`].filter, v_Offset: 0, v_Limit: 0 }, (response: any) => { 
         this.downloadFromUrl(environment.IMAGE_API + response);
-      });
+      }, false);
     }
     catch(e){
       console.log(e);
