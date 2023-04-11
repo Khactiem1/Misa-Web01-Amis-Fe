@@ -35,7 +35,7 @@ export default defineComponent({
 <style>
 /* modal */
 .modal-body{
-  border-radius: 5px;
+  border-radius: 4px;
 }
 .form-header {
   display: flex;
