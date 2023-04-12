@@ -75,7 +75,6 @@ const { t } = useI18n();
  * Khắc Tiềm 13-03-2023
  */
 const api:EmployeeApi = new EmployeeApi();
-const apiDropdown = new BranchApi().getDropdown;
 
 /** Sử dụng base thư viện Grid đã viết */
 const Base:Grid = reactive(new Grid(ModuleName.Employee, api));
@@ -88,7 +87,7 @@ const optionBranch: any = ref([]);
  * NK Tiềm 08.03.2023
  */
 function loadDropDown(){
-  Base.apiService.callApi(apiDropdown, null, async (response: any) => { optionBranch.value = response;});
+  Base.apiService.callApi(new BranchApi().getDropdown, null, async (response: any) => { optionBranch.value = response;});
 }
 
 /**
